@@ -7,6 +7,8 @@ import { MyContext } from "../../hooks/MyContext";
 import { itemType } from "../../common/types/Album";
 import axios from "axios";
 import nProgress from "nprogress";
+import HashLoader from "react-spinners/HashLoader";
+import ProgressPercentage from "../../components/ProgressPercentage";
 const Event = () => {
   const data = useContext(MyContext);
   const [user, setUser] = useState<any>({
@@ -16,6 +18,8 @@ const Event = () => {
     id_user: "",
   });
   const [zipFilePath, setZipFilePath] = useState("");
+  const [isTriggerZip, setIsTriggerZip] = useState(false);
+  const [isCopy, setIsCopy] = useState(false);
   const { id } = useParams();
   let listTemp: itemType[] = [];
   let id_user = 0;
@@ -84,12 +88,20 @@ const Event = () => {
         },
       }
     );
-    setInterval(() => {
-      setZipFilePath(zipResponse.data);
-    }, 10000);
+    setIsTriggerZip(true);
+    setZipFilePath(zipResponse.data);
     nProgress.done();
   };
 
+  const handleButtonClose = () => {
+    setIsTriggerZip(false);
+    setZipFilePath("");
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(zipFilePath);
+    setIsCopy(true);
+  };
   return (
     <>
       <div className="mx-auto">
@@ -132,16 +144,6 @@ const Event = () => {
             <br />
             <span className="italic text-[10px]">{time}</span>
           </div>
-        </div>
-        <div>
-          <Button
-            variant={"cus3"}
-            className="w-[150px] h-[50px] ml-5 md:ml-5"
-            onClick={handleExportFileZip}
-          >
-            Export file zip
-          </Button>
-          {zipFilePath ? <p>{zipFilePath}</p> : <></>}
         </div>
         <div className="md:h-[350px] h-[250px] flex justify-between items-center md:px-[100px]">
           <div className="md:h-[250px] md:w-[250px] overflow-hidden ">
@@ -348,6 +350,132 @@ const Event = () => {
               );
             })}
           </div>
+        </div>
+        <div className="flex flex-row justify-around mt-5">
+          <Button
+            variant={"cus3"}
+            className="md:w-[430px] h-[50px] ml-4 md:flex"
+          >
+            See more result
+          </Button>
+          <Button
+            variant={"cus3"}
+            className="md:w-[430px] h-[50px] ml-4 md:flex"
+          >
+            Make a video
+          </Button>
+        </div>
+        <div className="flex flex-row justify-around ">
+          <Button
+            variant={"cus2"}
+            className="relative"
+            onClick={handleExportFileZip}
+          >
+            <div className="absolute left-3">
+              <svg
+                width="23"
+                height="22"
+                viewBox="0 0 23 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.38354 1L21.3835 21"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.84473 4.84615L12.0976 2.59312C14.2218 0.46896 17.6657 0.46896 19.79 2.59312C21.9141 4.7173 21.9141 8.16125 19.79 10.2854L17.537 12.5384"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12.9218 17.1537L10.669 19.4068C8.54481 21.5309 5.10085 21.5309 2.97667 19.4068C0.852502 17.2826 0.852504 13.8386 2.97667 11.7144L5.22953 9.46143"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div className="absolute right-11 underline italic text-base font-bold">
+              Download here
+            </div>
+          </Button>
+          {isTriggerZip ? (
+            <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center bg-black/50 ">
+              <div className="relative bg-white shadow-lg rounded p-6 flex flex-col items-center md:translate-y-[-30%] w-[58%] h-[40%] rounded-[49px] border-solid border-[rgba(0,157,196,0.5)] border-4">
+                <button
+                  className="absolute top-[3%] right-[2%] text-white"
+                  onClick={handleButtonClose}
+                >
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M24 8L8 24"
+                      stroke="#222222"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M8 8L24 24"
+                      stroke="#222222"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+                <span className="flex justify-between text-[13px] bg-[#D9D9D9] w-[100%] p-3 rounded-[20px] text-black mt-10">
+                  <div>
+                    <svg
+                      width="22"
+                      height="20"
+                      viewBox="0 0 22 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1.61133 1.93347L20.8617 18.2084"
+                        stroke="black"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M9.75537 5.06326L11.9238 3.22987C13.9683 1.50134 17.2831 1.50134 19.3278 3.22987C21.3724 4.95842 21.3724 7.76092 19.3278 9.48946L17.1594 11.3228"
+                        stroke="black"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M12.7171 15.0786L10.5487 16.912C8.50417 18.6405 5.1893 18.6405 3.14474 16.912C1.10019 15.1835 1.10019 12.3809 3.14474 10.6524L5.31316 8.81897"
+                        stroke="black"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <div>{zipFilePath}</div>
+                </span>
+                <Button variant={"cus3"} className="mt-8" onClick={handleCopy}>
+                  {isCopy ? <>Copied</> : <>Copy link</>}
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>
