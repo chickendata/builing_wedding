@@ -5,7 +5,6 @@ import { listItemType } from "./common/types/Album";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useToast } from "./components/ui/use-toast";
-import { string } from "joi";
 function App() {
   const [data, setData] = useState<listItemType[]>([]);
   useEffect(() => {

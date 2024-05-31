@@ -7,7 +7,6 @@ import { MyContext } from "../../hooks/MyContext";
 import { itemType } from "../../common/types/Album";
 import axios from "axios";
 import nProgress from "nprogress";
-import HashLoader from "react-spinners/HashLoader";
 import ProgressPercentage from "../../components/ProgressPercentage";
 const Event = () => {
   const data = useContext(MyContext);

@@ -7,9 +7,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../components/ui/carousel";
-import JSZip from "jszip";
-import { saveAs } from "file-saver";
-import nProgress from "nprogress";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { albumType } from "../../common/types/Album";
