@@ -20,6 +20,9 @@ const Event = () => {
   const [zipFilePath, setZipFilePath] = useState("");
   const [isTriggerZip, setIsTriggerZip] = useState(false);
   const [isCopy, setIsCopy] = useState(false);
+  const [isMakeVideo, setIsMakeVideo] = useState(false);
+  const [pathVideo, setPathVideo] = useState("");
+  const [isComplete, setIsComplete] = useState(false);
   const { id } = useParams();
   let listTemp: itemType[] = [];
   let id_user = 0;
@@ -95,13 +98,65 @@ const Event = () => {
 
   const handleButtonClose = () => {
     setIsTriggerZip(false);
+    setIsComplete(false);
+    setPathVideo("");
     setZipFilePath("");
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(zipFilePath);
+  const handleCopy = (value: string) => {
+    if (value === "zip") {
+      navigator.clipboard.writeText(zipFilePath);
+    }
+    if (value === "video") {
+      navigator.clipboard.writeText(pathVideo);
+    }
     setIsCopy(true);
   };
+
+  const handleMakeVideo = async () => {
+    setIsMakeVideo(true);
+    nProgress.start();
+    const response = await axios.get(
+      "https://databaseswap.mangasocial.online/get/list_2_image/id_image_swap_all_id_sk",
+      {
+        params: {
+          id_user: user.id_user,
+          id_sk: id,
+        },
+      }
+    );
+    const link: string = response.data.id_su_kien_swap_image[0].link_da_swap;
+    const folderLuu: string = link.replace(
+      "https://photo.fakewedding.online",
+      "/var/www/build_futurelove"
+    );
+    const partPaths: string[] = folderLuu.split("/");
+    partPaths.pop();
+    const newFolder: string = partPaths.join("/");
+    const videoResponse = await axios.get(
+      "https://thinkdiff.us/getdata/makevideofromfolder",
+      {
+        headers: {
+          Authorization:
+            "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTg0MjEyMDMsInVzZXJuYW1lIjoiY2hlZmh1b25nMTk4OUBnbWFpbC5jb20ifQ.Z5FKdfia5BT_tGUm4zMZhrH62gO05_5JiBjn3WPeS0k",
+        },
+        params: {
+          device_them_su_kien: user.device_register,
+          ip_them_su_kien: user.ip_register,
+          id_user: user.id_user,
+          folderLuu: newFolder,
+        },
+      }
+    );
+    const linkDataVideo: string = videoResponse.data.replace(
+      "/var/www/build_futurelove",
+      "photo.fakewedding.online"
+    );
+    setPathVideo(linkDataVideo);
+    nProgress.done();
+  };
+  console.log(isMakeVideo);
+
   return (
     <>
       <div className="mx-auto">
@@ -361,9 +416,99 @@ const Event = () => {
           <Button
             variant={"cus3"}
             className="md:w-[430px] h-[50px] ml-4 md:flex"
+            onClick={handleMakeVideo}
           >
             Make a video
           </Button>
+          {isMakeVideo && (
+            <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center bg-black/50">
+              <div className="relative bg-white shadow-lg rounded p-6 flex flex-col items-center md:translate-y-[-20%] w-[58%] h-[58%] rounded-[49px] border-solid border-[rgba(0,157,196,0.5)] border-4">
+                <div className="md:py-[30px]">
+                  <svg
+                    width="77"
+                    height="70"
+                    viewBox="0 0 77 70"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="animate-bounce mx-auto md:mb-11 mb-2"
+                  >
+                    <path
+                      d="M73 35C73 39.071 72.1076 43.1021 70.3738 46.8632C68.6401 50.6243 66.0988 54.0417 62.8952 56.9203C59.6916 59.7989 55.8883 62.0824 51.7026 63.6403C47.5168 65.1982 43.0306 66 38.5 66C33.9694 66 29.4832 65.1982 25.2974 63.6403C21.1117 62.0824 17.3084 59.7989 14.1048 56.9203C10.9012 54.0417 8.35994 50.6243 6.62616 46.8632C4.89237 43.1021 4 39.071 4 35C4 30.929 4.89237 26.8979 6.62616 23.1368C8.35995 19.3757 10.9012 15.9583 14.1048 13.0797C17.3084 10.2011 21.1117 7.91763 25.2974 6.35973C29.4832 4.80184 33.9694 4 38.5 4C43.0306 4 47.5169 4.80184 51.7026 6.35974C55.8883 7.91763 59.6916 10.2011 62.8952 13.0797C66.0988 15.9583 68.6401 19.3757 70.3738 23.1368C72.1076 26.8979 73 30.929 73 35L73 35Z"
+                      stroke="url(#paint0_angular_216_1969)"
+                      stroke-width="8"
+                      stroke-linecap="round"
+                    />
+                    <defs>
+                      <radialGradient
+                        id="paint0_angular_216_1969"
+                        cx="0"
+                        cy="0"
+                        r="1"
+                        gradientUnits="userSpaceOnUse"
+                        gradientTransform="translate(38.5 35) rotate(90) scale(31 34.5)"
+                      >
+                        <stop stop-color="white" />
+                        <stop offset="1" stop-color="#2D2D2D" />
+                      </radialGradient>
+                    </defs>
+                  </svg>
+                  <div className="text-center">
+                    <ProgressPercentage
+                      onComplete={() => {
+                        setIsMakeVideo(false);
+                        setIsComplete(true);
+                      }}
+                    />{" "}
+                    <br />
+                  </div>
+                  <span className="md:text-xl text-[10px] font-bold text-[#409afa]">
+                    Please wait some seconds...
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+          {isComplete && (
+            <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center bg-black/50">
+              <div className="relative bg-white shadow-lg rounded p-6 flex flex-col items-center md:translate-y-[-30%] w-[58%] h-[40%] rounded-[49px] border-solid border-[rgba(0,157,196,0.5)] border-4">
+                <button
+                  className="absolute top-[3%] right-[2%] text-white"
+                  onClick={handleButtonClose}
+                >
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M24 8L8 24"
+                      stroke="#222222"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M8 8L24 24"
+                      stroke="#222222"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+                <span className="flex justify-between text-[13px] bg-[#D9D9D9] w-[100%] p-3 rounded-[20px] text-black mt-10">
+                  <div>{pathVideo}</div>
+                </span>
+                <Button
+                  variant={"cus3"}
+                  className="mt-8"
+                  onClick={() => handleCopy("video")}
+                >
+                  {isCopy ? <>Copied</> : <>Copy link</>}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
         <div className="flex flex-row justify-around ">
           <Button
@@ -407,7 +552,7 @@ const Event = () => {
             </div>
           </Button>
           {isTriggerZip ? (
-            <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center bg-black/50 ">
+            <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center bg-black/50">
               <div className="relative bg-white shadow-lg rounded p-6 flex flex-col items-center md:translate-y-[-30%] w-[58%] h-[40%] rounded-[49px] border-solid border-[rgba(0,157,196,0.5)] border-4">
                 <button
                   className="absolute top-[3%] right-[2%] text-white"
@@ -468,7 +613,11 @@ const Event = () => {
                   </div>
                   <div>{zipFilePath}</div>
                 </span>
-                <Button variant={"cus3"} className="mt-8" onClick={handleCopy}>
+                <Button
+                  variant={"cus3"}
+                  className="mt-8"
+                  onClick={() => handleCopy("zip")}
+                >
                   {isCopy ? <>Copied</> : <>Copy link</>}
                 </Button>
               </div>
