@@ -42,6 +42,7 @@ const NewUpload = () => {
         setUploadedImage(res.data.image_links_video);
       });
   }, []);
+
   const On_Uploader_1_Drop = useCallback((acceptedFiles: File[]) => {
     const reader = new FileReader();
     reader.onload = (event) => {
