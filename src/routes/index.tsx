@@ -24,6 +24,7 @@ import EventVideo from "../features/_funnyvideo/Event";
 import Policy from "../pages/Policy";
 import AboutUs from "../pages/AboutUs";
 import Invitation from "../pages/client/Invitation";
+import CardWedding from "../pages/client/CardWedding";
 const Routers = () => {
   // const [, setPrivateId] = useState('')
   // const handleSetId = (id:string) => setPrivateId(id)
@@ -88,6 +89,7 @@ const Routers = () => {
           <Route path="event/:id" element={<Event />} />
         </Route>
         <Route path="invitation/:id" element={<Invitation />} />
+        <Route path="invitation/:id/cardwedding" element={<CardWedding />} />
         <Route path="funnyvideo" element={<FunnyVideo />}></Route>
         <Route
           path="uploadvideo/:id"

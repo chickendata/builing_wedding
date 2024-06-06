@@ -13,6 +13,8 @@ import { useDropzone } from "react-dropzone";
 import { Button } from "../../components/ui/button";
 import { useToast } from "../../components/ui/use-toast";
 import { ToastAction } from "../../components/ui/toast";
+import HashLoader from "react-spinners/HashLoader";
+import ProgressPercentage from "../../components/ProgressPercentage";
 
 function Invitation() {
   const { id } = useParams();
@@ -24,6 +26,11 @@ function Invitation() {
   const [chosenImage2, setChosenImage2] = useState("");
   const [checkChosen2, setCheckChosen2] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<string[] | []>([]);
+  const [linkLocation, setLinkLocation] = useState("");
+  const [location, setLocation] = useState("");
+  const [status, setStatus] = useState("");
+  const [groom, setGroom] = useState("");
+  const [bride, setBride] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const navi = useNavigate();
@@ -63,7 +70,7 @@ function Invitation() {
       //@ts-ignore
       image.src = event.target!.result;
       image.onload = () => {
-        setOriginalImage1(acceptedFiles[0]);
+        setOriginalImage2(acceptedFiles[0]);
       };
     };
     reader.readAsDataURL(acceptedFiles[0]);
@@ -89,7 +96,7 @@ function Invitation() {
     open: openUploader2,
     isDragActive: isUploader2DragActive,
   } = useDropzone({
-    onDrop: On_Uploader_1_Drop,
+    onDrop: On_Uploader_2_Drop,
     accept: {
       "image/*": [],
     },
@@ -109,10 +116,8 @@ function Invitation() {
     setCurrentDay(formattedDate);
   }, []);
 
-  console.log(currentDay);
-
   const handleDateChange = (e: any) => {
-    console.log(e.target.value);
+    setCurrentDay(e.target.value);
   };
 
   const handleChoose1 = (src: string) => {
@@ -134,6 +139,7 @@ function Invitation() {
 
   const { toast } = useToast();
   const handleCreate = async () => {
+    setIsLoading(true);
     if (!original_Image_1 && !chosenImage1) {
       toast({
         variant: "destructive",
@@ -203,16 +209,59 @@ function Invitation() {
       req_post_img_1,
       req_post_img_2,
     ]);
+    console.log(req_post_img_1, req_post_img_2);
+
     if (src_res_1 !== null && src_res_2 !== null) {
       try {
-        const data = {};
-        navi("/thiepcuoi", { state: { data } });
-      } catch (err) {}
+        const response = await axios.get(
+          "https://thinkdiff.us/getdata/save_thiep_cuoi",
+          {
+            params: {
+              name1: groom,
+              name2: bride,
+              date: currentDay,
+              location: location,
+              link_location: linkLocation,
+              status: status,
+              id_user: id,
+            },
+            headers: {
+              link1: src_res_1,
+              link2: src_res_2,
+              Authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
+        let data;
+        if (response) {
+          data = response.data;
+        }
+        setIsLoading(false);
+        navi(`/invitation/${id}/cardwedding`, { state: { data } });
+      } catch (err) {
+        console.log(err);
+        setIsLoading(false);
+        alert("Sorry!:< an error occur!!!Please go back and try again.");
+        navi(-1);
+      }
     }
   };
 
   return (
-    <div className="bg-[#F2FDFF] h-[800px]">
+    <div className="bg-[#F2FDFF] h-[900px] flex flex-col">
+      {isLoading && (
+        <div className="fixed inset-0 z-50 bg-black/50">
+          <div className="absolute top-[50%] left-[50%] z-50 w-[30%] md:w-[20%] translate-x-[-50%] translate-y-[-50%] gap-4 border md:p-6 p-2 shadow-lg rounded-2xl items-center justify-center text-center bg-white opacity-100">
+            <div className="md:py-[30px]">
+              <HashLoader color="#16b6d4" className="mx-auto md:mb-11 mb-2" />
+              <ProgressPercentage /> <br />
+              <span className="md:text-xl text-[10px] font-bold text-[#409afa]">
+                Please wait some minutes...
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
       <div id="header">
         <Header />
       </div>
@@ -228,19 +277,41 @@ function Invitation() {
             <input
               type="text"
               className="px-4 py-2 border rounded-md flex-1"
-              placeholder="Mời nhập tên cô dâu..."
+              placeholder="Mời nhập tên chú rể..."
+              onChange={(e) => setGroom(e.target.value)}
             />
             <input
               type="text"
               className="px-4 py-2 border rounded-md flex-1"
-              placeholder="Mời nhập tên chú rể..."
+              placeholder="Mời nhập tên cô dâu..."
+              onChange={(e) => setBride(e.target.value)}
             />
           </div>
           <input
             type="text"
             className="px-4 py-2 border mb-3 rounded-md flex-1 w-full"
             placeholder="Mời nhập địa chỉ..."
+            onChange={(e) => setLocation(e.target.value)}
           />
+          <br />
+          <input
+            type="text"
+            className="px-4 py-2 border mb-3 rounded-md flex-1 w-full"
+            placeholder="Mời nhập link tổ chức..."
+            onChange={(e) => setLinkLocation(e.target.value)}
+          />
+          <select
+            className="px-4 py-2 border mb-3 rounded-md flex-1 w-full"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="">Select an option</option>
+            <option value="going">Đi dự</option>
+            <option value="don't go and deposit">Không đi và gửi tiền</option>
+            <option value="don't go and don't deposit">
+              Không đi và không gửi tiền
+            </option>
+          </select>
           <br />
           <label htmlFor="date-day text-left">Chọn ngày cưới:</label>
           <input
@@ -254,7 +325,7 @@ function Invitation() {
       </div>
       <div
         id="input-with-img"
-        className="md:flex grid grid-cols-2 gap-6 text-center items-center justify-center md:ml-0 ml-7"
+        className="md:flex grid grid-cols-2 gap-6 text-center items-center justify-center mt-20 md:ml-0 ml-7"
       >
         <div className="text-center items-center justify-center">
           {/* {Image uploader 1} */}
