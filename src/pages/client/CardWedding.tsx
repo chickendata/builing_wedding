@@ -3,7 +3,6 @@ import Header from "../../components/Header";
 import { Button } from "../../components/ui/button";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { alt } from "joi";
 
 function CardWedding() {
   const locate = useLocation();
