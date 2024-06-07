@@ -198,9 +198,11 @@ function Invitation() {
             },
           }
         )
-        .then((res) => res.data);
+        .then((res) => {
+          return res.data;
+        });
     } else if (chosenImage2) {
-      req_post_img_2 = `/var/www/build-futurelove/${chosenImage2.replace(
+      req_post_img_2 = `/var/www/build_futurelove/${chosenImage2.replace(
         "https://futurelove.online/",
         ""
       )}`;
@@ -236,8 +238,11 @@ function Invitation() {
         if (response) {
           data = response.data;
         }
+        console.log(data);
         setIsLoading(false);
-        navi(`/invitation/${id}/cardwedding`, { state: { data } });
+        localStorage.setItem("invitation", JSON.stringify(data));
+        navi(`/invitation/${id}/cardwedding`);
+        window.location.reload();
       } catch (err) {
         console.log(err);
         setIsLoading(false);
@@ -600,11 +605,11 @@ function Invitation() {
                 />
               </svg>
             </DialogTrigger>
-            <DialogContent className="md:w-[818px] w-[360px] overflow-scroll h-[70%] md:h-[100%] md:overflow-auto">
-              <h3 className="font-[700] text-[24px] leading-[20px] mt-[20px] text-center">
+            <DialogContent className="md:w-[818px] w-[360px] h-[70%] md:h-[100%] overflow-scroll md:overflow-auto">
+              <h3 className="font-[700] text-[24px] leading-[20x] mt-[10px] text-center">
                 Upload woman's face
               </h3>
-              <div className="flex items center mt-8">
+              <div className="flex items-center mt-1">
                 <svg
                   width="12"
                   height="12"
@@ -630,7 +635,7 @@ function Invitation() {
                   <circle cx="6" cy="6" r="6" fill="#D9D9D9" />
                 </svg>
                 <span className="font-[600] md:text-[20px] text-[14px] leading-[20px] ml-2">
-                  Make sure you are in the bright environment.
+                  Make sure you are in bright environment
                 </span>
               </div>
               <DialogClose
@@ -638,7 +643,7 @@ function Invitation() {
                   openUploader2();
                   setCheckChosen2(false);
                 }}
-                className="text-[#fff]  bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mt-4 mx-auto md:w-[736px] w-[320px]"
+                className="text-[#fff] bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mt-4 mx-auto md:w-[736px] w-[320px] "
               >
                 Upload photo
                 <svg
@@ -665,35 +670,33 @@ function Invitation() {
                   />
                 </svg>
               </DialogClose>
-              <h3 className="font-[600] text-[24px] leading-[20px] mt-8">
+              <h3 className="font-[600] text-[24px] leading-[10px] mt-2">
                 Uploaded
               </h3>
-              {
-                <ScrollArea className="md:w-[729px] whitespace-nowrap rounded-md border mt-[100px] md:mt-0">
-                  <div className="flex w-max space-x-4 p-4">
-                    {uploadedImage.map((img, index) => (
-                      <div className="shrink-0" key={index}>
-                        <DialogClose
-                          className="overflow-hidden rounded-md"
-                          onClick={() => handleChoose2(img)}
-                        >
-                          <img
-                            src={`${img}`}
-                            className="object-cover w-[160px] h-[160px]"
-                            alt={`Image ${index}`}
-                          />
-                        </DialogClose>
-                      </div>
-                    ))}
-                  </div>
-                  <ScrollBar orientation="horizontal" />
-                </ScrollArea>
-              }
-              <div></div>
-              <p className="font-[400] md:text-[20px] text-[14px] leading-[20px] md:mt-8 ml-2 mt-[100px]">
+              <ScrollArea className="md:[729px] whitespace-nowrap rounded-md border mt-[100px] md:mt-0">
+                <div className="flex w-max space-x-4 p-4">
+                  {uploadedImage.map((img, index) => (
+                    <div key={index} className="shrink-0">
+                      <DialogClose
+                        className="overflow-hidden rounded-md"
+                        onClick={() => handleChoose2(img)}
+                      >
+                        <img
+                          src={`${img}`}
+                          className="object-cover w-[160px] h-[160px]"
+                          alt={`Image ${index}`}
+                        />
+                      </DialogClose>
+                    </div>
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+              <p className="font-[400] md:text-[20px] text-[14px] leading-[20px] md:mt-8 mt-[100px] ml-2">
                 We value your privacy. Rest assured, we handle your data with
                 utmost care.
               </p>
+
               <DialogClose
                 asChild
                 className="text-[#fff] bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mx-auto mt-6 md:w-[736px] w-[320px]"

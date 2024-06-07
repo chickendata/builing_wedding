@@ -11,7 +11,7 @@ const ProgressPercentage = ({ onComplete }: any) => {
         }
         return prevFilledWidth + 1;
       });
-    }, 800);
+    }, 1500);
 
     return () => {
       clearInterval(interval);

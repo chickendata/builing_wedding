@@ -15,7 +15,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <header className="bg-white md:w-[1440px]">
+      <header className="bg-white md:w-[100%]">
         <div className="mx-auto">
           <div className="flex h-16 items-center justify-between">
             <div className="md:flex md:items-center md:gap-4">

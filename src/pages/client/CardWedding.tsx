@@ -1,18 +1,35 @@
-import { useLocation } from "react-router-dom";
 import Header from "../../components/Header";
 import { Button } from "../../components/ui/button";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+interface IInvitation {
+  id: number;
+  groom_name: string;
+  bride_name: string;
+  wedding_date: string;
+  wedding_image: string;
+  wedding_location: string;
+  google_maps_link: string;
+  qr_code_image: string;
+  attendance_status: string;
+  id_user: number;
+  groom_image: string;
+  bride_image: string;
+}
 function CardWedding() {
-  const locate = useLocation();
-  const { data } = locate.state || {};
-  console.log(data);
+  const [data] = useState<IInvitation>(() => {
+    // Lấy dữ liệu từ LocalStorage khi component được render lần đầu
+    const storedWeddingDate = localStorage.getItem("invitation");
+    return storedWeddingDate ? JSON.parse(storedWeddingDate) : null;
+  });
   const [currentDate] = useState(new Date(data.wedding_date));
+  console.log(currentDate);
   const [daysInMonth, setDaysInMonth] = useState(0);
   const [firstDayOfWeek, setFirstDayOfWeek] = useState(0);
   const [activeButton, setActiveButton] = useState(data.attendance_status);
   const [listImage, setListImage] = useState([]);
+
   useEffect(() => {
     // Tính toán số ngày trong tháng và ngày đầu tiên của tháng
     const year = currentDate.getFullYear();
@@ -53,10 +70,10 @@ function CardWedding() {
 
   console.log(listImage[0]);
 
-  const time: string = data.wedding_date.split("-");
-  const year = time[0];
-  const month = time[1];
-  const day = time[2];
+  const time: string[] = data.wedding_date.split("-");
+  const year = parseInt(time[0]);
+  const month = parseInt(time[1]);
+  const day = parseInt(time[2]);
 
   const handleActive = (value: string) => {
     setActiveButton(value);
@@ -66,18 +83,69 @@ function CardWedding() {
     window.open(data.google_maps_link, "_blank");
   };
 
+  // Tính lịch âm
+
+  function convertSolarToLunar(
+    year: number,
+    month: number,
+    day: number
+  ): { year: number; month: number; day: number } {
+    const solarDays = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+    const lunarMonths = [
+      [0, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29], // Năm thường
+      [0, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30], // Năm nhuận
+    ];
+
+    let lunarYear = year;
+    let lunarMonth = 1;
+    let lunarDay = 1;
+
+    const totalDays =
+      solarDays[month - 1] + day + (month > 2 && isLeapYear(year) ? 1 : 0);
+    let leapMonth = 0;
+    let daysInMonth = 0;
+
+    while (totalDays > daysInMonth) {
+      if (leapMonth === 0 && isLeapYear(lunarYear) && lunarMonth === 13) {
+        leapMonth = lunarMonth;
+        lunarMonth = 1;
+        lunarYear++;
+      } else {
+        daysInMonth += lunarMonths[isLeapYear(lunarYear) ? 1 : 0][lunarMonth];
+        lunarMonth++;
+        if (lunarMonth > 12) {
+          lunarMonth = 1;
+          lunarYear++;
+        }
+      }
+    }
+
+    lunarDay =
+      totalDays -
+      daysInMonth +
+      lunarMonths[isLeapYear(lunarYear) ? 1 : 0][lunarMonth - 1];
+
+    return { year: lunarYear, month: lunarMonth - 2, day: lunarDay };
+  }
+
+  function isLeapYear(year: number): boolean {
+    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  }
+
+  const lunarDate = convertSolarToLunar(year, month, day);
+
   return (
-    <div className="bg-[#F2FDFF] h-[4600px] w-[100%]">
+    <div className="bg-[#F2FDFF] h-[4220px] w-[100%]">
       <Header />
-      <div className="flex flex-col px-4 sm:px-16 lg:px-40 h-full w-full">
+      <div className="flex flex-col px-4 sm:px-16 lg:px-40 h-[90%] w-full">
         <div className="font-[700] text-3xl text-[#009DC4] mb-[1.6rem] pointer-events-none">
           <p>The</p>
           <p>Wedding</p>
           <p>Of</p>
         </div>
-        <div className="w-[950px] h-[600px] relative">
+        <div className={`w-[950px] h-[300px] relative`}>
           <img
-            className="w-full absolute object-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="w-full h-full object-cover "
             src="https://s3-alpha-sig.figma.com/img/0667/e746/074021786539143cdab7dcbb1ddefea9?Expires=1718582400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DZTsyCaiUnNpSEhO8FyJelq3kMcTvWLj4I6MtoOh7yCfHMPGzOXytkvSpdr5cDlw1cxP3zob8w2yU-C8wggD95NFES5A28LK8AJ57vy5j2QbJMRyKPz8KOQ7fHdPX-CJ8kzfjUU-5de1kYwuJncEWAZooco380nmAJ5E7Ocri0SDeTNJPaSLzX8GoIBt1EsT61aFDu1eIugRpYoQ4FKoYn29t2hTS8lx~yhcE0ThZjqkxhJDuLmglNKLgHja~lxMl71PUgg2q-9mol1HQ~DW-e8SH0Yd7x-GD8zFEKv80~6ppHY2GjWu09K-W0f0HhNvLkBCvCc11d531F2lXqZMWA__"
             alt="anh_nen_cuoi"
           />
@@ -462,7 +530,7 @@ function CardWedding() {
               {data.wedding_date}
             </span>
           </div>
-          <span className="mt-3 pointer-events-none">(Ngày tháng âm lịch)</span>
+          <span className="mt-3 pointer-events-none font-[500]">{`Tức ngày ${lunarDate.day} tháng ${lunarDate.month} ${lunarDate.year} âm lịch`}</span>
           <span className="font-[200] text-lg mt-4 pointer-events-none">
             Sự hiện diện của bạn
           </span>
@@ -613,7 +681,8 @@ function CardWedding() {
             </div>
           </div>
         </div>
-        <div className="relative w-full h-[25rem] mt-8">
+        <br />
+        <div className="relative w-full h-[25rem] mt-20">
           <img
             className="w-full h-full object-cover"
             src={listImage[18]}
@@ -626,13 +695,13 @@ function CardWedding() {
             đến đám cưới của chúng tôi
           </span>
           <input
-            className="absolute top-[25%] w-[500px] left-[50%] -translate-x-1/2 border-[1.5px] border-[#009DC4] rounded focus:outline-none"
+            className="absolute top-[25%] w-[500px] placeholder-[#009DC4] left-[50%] -translate-x-1/2 border-[1.5px] border-[#009DC4] rounded focus:outline-none"
             type="text"
             placeholder="Nhập họ và tên khách mời"
           />
           <textarea
             placeholder="Viết lời chúc của bạn"
-            className="absolute top-[35%] w-[500px] h-[200px] left-[50%] -translate-x-1/2 border-[1.5px] border-[#009DC4] rounded focus:border-[#009DC4] focus:outline-none"
+            className="absolute top-[35%] w-[500px] h-[200px] left-[50%] placeholder-[#009DC4] -translate-x-1/2 border-[1.5px] border-[#009DC4] rounded focus:border-[#009DC4] focus:outline-none"
           ></textarea>
           <Button
             variant={"cus3"}
