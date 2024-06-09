@@ -57,8 +57,37 @@ const HomePage = () => {
             </button>
           </Link>
           <Link to={`/invitation/${user.id_user}`}>
-            <button className="text-[#fff] bg-[#33C5E9] w-[280px] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
+            <button className="text-[#fff] bg-[#33C5E9] w-[290px] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
               <span className="mx-auto">Wedding invitation</span>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="ml-1"
+              >
+                <path
+                  d="M10.6926 2.29004L18.4024 9.99989L10.6926 17.7097"
+                  stroke="white"
+                  stroke-width="3.08394"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M18.4022 10L2 10"
+                  stroke="white"
+                  stroke-width="3.08394"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </Link>
+          <Link to={`/expand/${user.id_user}`}>
+            {" "}
+            <button className="text-[#fff] bg-[#33C5E9] w-[320px] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
+              <span className="mx-auto">Expand for you</span>
               <svg
                 width="20"
                 height="20"

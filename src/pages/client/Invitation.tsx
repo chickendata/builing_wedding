@@ -28,7 +28,6 @@ function Invitation() {
   const [uploadedImage, setUploadedImage] = useState<string[] | []>([]);
   const [linkLocation, setLinkLocation] = useState("");
   const [location, setLocation] = useState("");
-  const [status, setStatus] = useState("");
   const [groom, setGroom] = useState("");
   const [bride, setBride] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -215,6 +214,7 @@ function Invitation() {
 
     if (src_res_1 !== null && src_res_2 !== null) {
       try {
+        const status = "going";
         const response = await axios.get(
           "https://thinkdiff.us/getdata/save_thiep_cuoi",
           {
@@ -238,7 +238,6 @@ function Invitation() {
         if (response) {
           data = response.data;
         }
-        console.log(data);
         setIsLoading(false);
         localStorage.setItem("invitation", JSON.stringify(data));
         navi(`/invitation/${id}/cardwedding`);
@@ -252,6 +251,14 @@ function Invitation() {
     }
   };
 
+  // Lấy link google maps
+  const handleMapLink = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLinkLocation(
+        `https://www.google.com/maps/search/?api=1&query=${position.coords.latitude},${position.coords.longitude}`
+      );
+    });
+  };
   return (
     <div className="bg-[#F2FDFF] h-[900px] flex flex-col">
       {isLoading && (
@@ -301,22 +308,18 @@ function Invitation() {
           <br />
           <input
             type="text"
-            className="px-4 py-2 border mb-3 rounded-md flex-1 w-full"
+            className="flex-grow px-4 py-2 w-[60%] border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Mời nhập link tổ chức..."
+            value={linkLocation}
             onChange={(e) => setLinkLocation(e.target.value)}
           />
-          <select
-            className="px-4 py-2 border mb-3 rounded-md flex-1 w-full"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
+          <Button
+            variant={"cus3"}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r-md"
+            onClick={handleMapLink}
           >
-            <option value="">Select an option</option>
-            <option value="going">Đi dự</option>
-            <option value="don't go and deposit">Không đi và gửi tiền</option>
-            <option value="don't go and don't deposit">
-              Không đi và không gửi tiền
-            </option>
-          </select>
+            Lấy link vị trí của bạn
+          </Button>
           <br />
           <label htmlFor="date-day text-left">Chọn ngày cưới:</label>
           <input
