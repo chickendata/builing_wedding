@@ -23,8 +23,6 @@ function BabyImage() {
       "https://photo.fakewedding.online"
     );
   });
-  console.log(babyImage);
-
   return (
     <div>
       <Header />
@@ -62,6 +60,7 @@ function BabyImage() {
         </span>
         <div className="relative w-full h-[2%] mt-2">
           <img
+            loading="lazy"
             className="absolute top-0 right-[50%] w-[220px] h-[120px] rounded-md object-cover"
             src={husband_image}
             alt="husband"
@@ -81,6 +80,7 @@ function BabyImage() {
             />
           </svg>
           <img
+            loading="lazy"
             className="absolute top-[48%] right-[34%] w-[220px] h-[120px] rounded-md object-cover"
             src={wife_image}
             alt="wife"
@@ -90,11 +90,13 @@ function BabyImage() {
           <div className="w-[70%] h-[10%] flex justify-around">
             <div className="w-[46%] h-full flex flex-col justify-between">
               <img
+                loading="lazy"
                 className="w-full h-[56%] object-cover rounded-md"
                 src={babyImage[0]}
                 alt="baby0"
               />
               <img
+                loading="lazy"
                 className="w-full h-[40%] object-cover rounded-md"
                 src={babyImage[1]}
                 alt="baby1"
@@ -102,11 +104,13 @@ function BabyImage() {
             </div>
             <div className="w-[46%] h-full flex flex-col justify-between">
               <img
+                loading="lazy"
                 className="w-full h-[36%] object-cover rounded-md"
                 src={babyImage[2]}
                 alt="baby2"
               />
               <img
+                loading="lazy"
                 className="w-full h-[60%] object-cover rounded-md"
                 src={babyImage[3]}
                 alt="baby3"
@@ -115,16 +119,19 @@ function BabyImage() {
           </div>
           <div className="w-[70%] h-[4%] flex justify-around">
             <img
+              loading="lazy"
               className="h-full w-[30%] object-cover rounded-md"
               src={babyImage[4]}
               alt="baby4"
             />
             <img
+              loading="lazy"
               className="h-full w-[30%] object-cover rounded-md"
               src={babyImage[5]}
               alt="baby5"
             />
             <img
+              loading="lazy"
               className="h-full w-[30%] object-cover rounded-md"
               src={babyImage[6]}
               alt="baby6"
@@ -132,27 +139,32 @@ function BabyImage() {
           </div>
           <div className="w-[70%] h-[10%] flex justify-around">
             <img
+              loading="lazy"
               className="w-[35%] h-full object-cover rounded"
               src={babyImage[7]}
               alt="baby7"
             />
             <img
+              loading="lazy"
               className="w-[35%] h-full object-cover rounded"
               src={babyImage[8]}
               alt="baby8"
             />
             <div className="w-[25%] h-full flex flex-col justify-between">
               <img
+                loading="lazy"
                 className="w-full h-[30%] object-cover rounded-md"
                 src={babyImage[9]}
                 alt="baby9"
               />
               <img
+                loading="lazy"
                 className="w-full h-[30%] object-cover rounded-md"
                 src={babyImage[10]}
                 alt="baby10"
               />
               <img
+                loading="lazy"
                 className="w-full h-[30%] object-cover rounded-md"
                 src={babyImage[11]}
                 alt="baby11"
@@ -162,38 +174,45 @@ function BabyImage() {
           <div className="w-[70%] h-[10%] flex justify-between">
             <div className="h-full w-[20%] flex flex-col justify-between">
               <img
+                loading="lazy"
                 className="w-full h-[30%] rounded-md object-cover"
                 src={babyImage[12]}
                 alt="baby12"
               />
               <img
+                loading="lazy"
                 className="w-full h-[30%] rounded-md object-cover"
                 src={babyImage[13]}
                 alt="baby13"
               />
               <img
+                loading="lazy"
                 className="w-full h-[30%] rounded-md object-cover"
                 src={babyImage[14]}
                 alt="baby14"
               />
             </div>
             <img
+              loading="lazy"
               className="h-full w-[40%] rounded-md object-cover"
               src={babyImage[15]}
               alt="baby15"
             />
             <div className="h-full w-[20%] flex flex-col justify-between">
               <img
+                loading="lazy"
                 className="w-full h-[30%] rounded-md object-cover"
                 src={babyImage[16]}
                 alt="baby16"
               />
               <img
+                loading="lazy"
                 className="w-full h-[30%] rounded-md object-cover"
                 src={babyImage[17]}
                 alt="baby17"
               />
               <img
+                loading="lazy"
                 className="w-full h-[30%] rounded-md object-cover"
                 src={babyImage[18]}
                 alt="baby18"
@@ -202,34 +221,40 @@ function BabyImage() {
           </div>
           <div className="w-[70%] h-[6%] flex justify-between">
             <img
+              loading="lazy"
               className="h-full w-[67%] rounded-md object-cover"
               src={babyImage[19]}
               alt="19"
             />
             <img
+              loading="lazy"
               className="h-full w-[27%] rounded-md object-cover"
               src={babyImage[20]}
               alt="20"
             />
           </div>
           <img
+            loading="lazy"
             className="w-[70%] h-[7%] rounded-md object-cover"
             src={babyImage[22]}
             alt="baby22"
           />
           <div className="w-[70%] h-[6%] flex justify-between">
             <img
+              loading="lazy"
               className="h-full w-[48%] rounded-md object-cover"
               src={babyImage[23]}
               alt="baby23"
             />
             <div className="h-full w-[48%] flex flex-col justify-between">
               <img
+                loading="lazy"
                 className="w-full h-[48%] rounded-md object-cover"
                 src={babyImage[25]}
                 alt="baby25"
               />
               <img
+                loading="lazy"
                 className="w-full h-[48%] rounded-md object-cover"
                 src={babyImage[24]}
                 alt="baby24"
@@ -238,17 +263,20 @@ function BabyImage() {
           </div>
           <div className="w-[70%] h-[4%] flex justify-between">
             <img
+              loading="lazy"
               className="h-full w-[30%] rounded-md object-cover"
               src={babyImage[26]}
               alt="baby26"
             />
             <div className="h-full w-[30%] flex flex-col justify-between">
               <img
+                loading="lazy"
                 className="w-full h-[48%] rounded-md object-cover"
                 src={babyImage[27]}
                 alt="baby27"
               />
               <img
+                loading="lazy"
                 className="w-full h-[48%] rounded-md object-cover"
                 src={babyImage[28]}
                 alt="baby28"
@@ -256,11 +284,13 @@ function BabyImage() {
             </div>
             <div className="h-full w-[30%] flex flex-col justify-between">
               <img
+                loading="lazy"
                 className="w-full h-[48%] rounded-md object-cover"
                 src={babyImage[29]}
                 alt="baby29"
               />
               <img
+                loading="lazy"
                 className="w-full h-[48%] rounded-md object-cover"
                 src={babyImage[30]}
                 alt="baby30"
@@ -269,11 +299,13 @@ function BabyImage() {
           </div>
           <div className="w-[70%] h-[6%] flex justify-between">
             <img
+              loading="lazy"
               className="h-full w-[35%] rounded-md object-cover"
               src={babyImage[31]}
               alt="baby31"
             />
             <img
+              loading="lazy"
               className="h-full w-[60%] rounded-md object-cover"
               src={babyImage[32]}
               alt="baby32"
@@ -281,16 +313,19 @@ function BabyImage() {
           </div>
           <div className="w-[70%] h-[6%] flex justify-between">
             <img
+              loading="lazy"
               className="h-full w-[30%] rounded-md object-cover"
               src={babyImage[33]}
               alt="baby33"
             />
             <img
+              loading="lazy"
               className="h-full w-[30%] rounded-md object-cover"
               src={babyImage[34]}
               alt="baby34"
             />
             <img
+              loading="lazy"
               className="h-full w-[30%] rounded-md object-cover"
               src={babyImage[35]}
               alt="baby35"
@@ -299,11 +334,13 @@ function BabyImage() {
           <div className="w-[70%] h-[6%] flex justify-between">
             <div className="h-full w-[20%] flex flex-col justify-between">
               <img
+                loading="lazy"
                 className="w-full h-[46%] rounded-md object-cover"
                 src={babyImage[37]}
                 alt="baby37"
               />
               <img
+                loading="lazy"
                 className="w-full h-[46%] rounded-md object-cover"
                 src={babyImage[38]}
                 alt="baby38"
@@ -311,22 +348,26 @@ function BabyImage() {
             </div>
             <div className="h-full w-[20%] flex flex-col justify-between">
               <img
+                loading="lazy"
                 className="w-full h-[46%] rounded-md object-cover"
                 src={babyImage[39]}
                 alt="baby39"
               />
               <img
+                loading="lazy"
                 className="w-full h-[46%] rounded-md object-cover"
                 src={babyImage[40]}
                 alt="baby40"
               />
             </div>
             <img
+              loading="lazy"
               className="h-full w-[20%] rounded-md object-cover"
               src={babyImage[41]}
               alt="baby41"
             />
             <img
+              loading="lazy"
               className="h-full w-[20%] rounded-md object-cover"
               src={babyImage[42]}
               alt="baby42"
@@ -334,21 +375,25 @@ function BabyImage() {
           </div>
           <div className="w-[70%] h-[3%] flex justify-between">
             <img
+              loading="lazy"
               className="h-full w-[15%] rounded-md object-cover"
               src={babyImage[43]}
               alt="baby43"
             />
             <img
+              loading="lazy"
               className="h-full w-[15%] rounded-md object-cover"
               src={babyImage[44]}
               alt="baby44"
             />
             <img
+              loading="lazy"
               className="h-full w-[15%] rounded-md object-cover"
               src={babyImage[45]}
               alt="baby45"
             />
             <img
+              loading="lazy"
               className="h-full w-[15%] rounded-md object-cover"
               src={babyImage[46]}
               alt="baby46"
@@ -356,17 +401,20 @@ function BabyImage() {
           </div>
           <div className="w-[70%] h-[8%] flex justify-between">
             <img
+              loading="lazy"
               className="h-full w-[46%] rounded-md object-cover"
               src={babyImage[47]}
               alt="baby47"
             />
             <img
+              loading="lazy"
               className="h-full w-[46%] rounded-md object-cover"
               src={babyImage[48]}
               alt="baby48"
             />
           </div>
           <img
+            loading="lazy"
             className="w-[70%] h-[12%] rounded-md object-cover"
             src={babyImage[49]}
             alt="baby49"

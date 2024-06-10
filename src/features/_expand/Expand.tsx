@@ -24,6 +24,7 @@ function Expand() {
   return (
     <div className="bg-[#C2E9F0] w-full md:h-[588px] flex justify-center relative">
       <div className="absolute left-[23%] top-[50%] -translate-y-[50%] mr-8 h-[60px] w-[60px] text-center my-[auto] bg-[#fff] rounded-full flex justify-center items-center hover:cursor-pointer hover:w-[70px] hover:h-[70px]">
+        {/* left arrow */}
         <svg
           width="18"
           height="60"
@@ -40,6 +41,7 @@ function Expand() {
         </svg>
       </div>
       <div className="text-center bg-[#fff] w-[40%] rounded-[40px] my-8 relative flex flex-col justify-center items-center">
+        {/* arrow parents to baby */}
         <svg
           width="152"
           height="202"
@@ -89,6 +91,7 @@ function Expand() {
           onClick={() => handleRedirect("baby")}
         >
           <span className="mr-2">Khám phá ngay</span>
+          {/* arrow go next */}
           <svg
             width="72"
             height="72"
@@ -108,9 +111,11 @@ function Expand() {
             />
           </svg>
         </Button>
+        {/* button close */}
         <button
           type="button"
           className="absolute top-2 right-[8%] bg-[#9F9F9F] w-[30px] h-[30px] rounded-full p-2 inline-flex items-center justify-center text-gray-400"
+          onClick={() => navi("/")}
         >
           <svg
             className="h-6 w-6 text-[#fff]"

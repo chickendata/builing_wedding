@@ -227,7 +227,8 @@ function CreateBabyImage() {
         </svg>
         <div className="w-[50%] h-[98%] bg-[#fff] absolute top-[50%] -translate-y-[50%] left-[50%] -translate-x-[50%] flex flex-col justify-around">
           <div className="w-full h-[8%] flex justify-around">
-            <button className="w-[10%] h-full">
+            <button className="w-[10%] h-full" onClick={() => navi(-1)}>
+              {/* button back */}
               <svg
                 width="10"
                 height="18"
@@ -242,7 +243,7 @@ function CreateBabyImage() {
             <div className="w-[80%] h-full font-[700] mt-[0.2rem] text-2xl  ">
               Add Parents’ Photo
             </div>
-            <button className="w-[10%] h-full">
+            <button className="w-[10%] h-full" onClick={() => navi("/")}>
               <svg
                 width="47"
                 height="47"
