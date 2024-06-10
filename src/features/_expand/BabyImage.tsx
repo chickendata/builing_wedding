@@ -1,11 +1,12 @@
 import { useLocation } from "react-router-dom";
-import Header from "../../components/Header";
 import { useState } from "react";
 import { Button } from "../../components/ui/button";
+import Header from "../../components/Header";
 
 function BabyImage() {
   const locate = useLocation();
   const { data } = locate.state || {};
+  const [dataBaby] = useState(data.link_anh_swap);
   const husband_image = data.sukien_2_image.link_src_goc.replace(
     "/var/www/build_futurelove",
     "https://photo.fakewedding.online"
@@ -14,9 +15,6 @@ function BabyImage() {
     "/var/www/build_futurelove",
     "https://photo.fakewedding.online"
   );
-  console.log(data.link_anh_swap);
-
-  const dataBaby: [] = data.link_anh_swap;
   const babyImage = dataBaby.map((data: string) => {
     return data.replace(
       "https://futurelove.online",
@@ -29,12 +27,12 @@ function BabyImage() {
       <div className="h-[6100px] w-[100%] bg-gradient-to-b from-[#fff] to-[#C2E9F0] relative flex flex-col items-center">
         {/* {wave} */}
         <svg
-          width="100%"
-          height="20%"
-          viewBox="0 0 1000 323"
+          width="1302px"
+          height="300px"
+          viewBox="0 0 1500 123"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute top-[-10%]"
+          className="absolute left-[-3%]"
         >
           <path
             d="M941.122 322.288C1243.21 319.407 1413.1 250.722 1462.63 209.907L1530.51 12.6868V-178.182C1314.88 -195.588 804.38 -230.401 487.431 -230.401C92.5176 -230.401 -182.457 -98.0077 -273.119 -54.3566L-273.99 -53.9372C-363.75 -10.7216 -273.152 291.132 -140.896 226.964C58.7524 130.099 563.507 325.89 941.122 322.288Z"
@@ -61,7 +59,7 @@ function BabyImage() {
         <div className="relative w-full h-[2%] mt-2">
           <img
             loading="lazy"
-            className="absolute top-0 right-[50%] w-[220px] h-[120px] rounded-md object-cover"
+            className="absolute top-0 right-[50%] w-[220px] h-[180px] rounded-md object-cover"
             src={husband_image}
             alt="husband"
           />
@@ -71,7 +69,7 @@ function BabyImage() {
             viewBox="0 0 125 121"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="absolute right-[48%] top-[24%] z-10"
+            className="absolute right-[48%] top-[60%] z-10"
           >
             <rect width="125" height="121" rx="60.5" fill="white" />
             <path
@@ -81,7 +79,7 @@ function BabyImage() {
           </svg>
           <img
             loading="lazy"
-            className="absolute top-[48%] right-[34%] w-[220px] h-[120px] rounded-md object-cover"
+            className="absolute top-[48%] right-[34%] w-[220px] h-[180px] rounded-md object-cover"
             src={wife_image}
             alt="wife"
           />

@@ -1,15 +1,6 @@
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTrigger,
-} from "../../components/ui/dialog";
-import { ScrollArea, ScrollBar } from "../../components/ui/scroll-area";
 import { useDropzone } from "react-dropzone";
-import HashLoader from "react-spinners/HashLoader";
-import ProgressPercentage from "../../components/ProgressPercentage";
 import { useToast } from "../../components/ui/use-toast";
 import { useCallback, useState } from "react";
 import { ToastAction } from "../../components/ui/toast";
@@ -156,9 +147,6 @@ function CreateBabyImage() {
       req_post_img_1,
       req_post_img_2,
     ]);
-    console.log(src_res_1, src_res_2);
-    console.log(userData);
-
     if (src_res_1 !== null && src_res_2 !== null) {
       try {
         setIsLoading(true);
