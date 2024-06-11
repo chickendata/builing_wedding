@@ -1,11 +1,8 @@
 import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import Header from "../components/Header";
-import { useContext } from "react";
-import { LanguageContext } from "../hooks/languageContext";
 
 const Policy = () => {
-  const valueLocation = useContext(LanguageContext);
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     section?.scrollIntoView({ behavior: "smooth" });

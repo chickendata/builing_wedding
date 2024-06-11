@@ -13,11 +13,10 @@ function CreateBabyImage() {
   const valueLocation = useContext(LanguageContext);
   const [original_Image_1, setOriginalImage1] = useState<File | null>(null);
   const [original_Image_2, setOriginalImage2] = useState<File | null>(null);
-  const [chosenImage1, setChosenImage1] = useState("");
-  const [checkChosen1, setCheckChosen1] = useState(false);
-  const [chosenImage2, setChosenImage2] = useState("");
-  const [checkChosen2, setCheckChosen2] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<string[] | []>([]);
+  const [chosenImage1] = useState("");
+  const [checkChosen1] = useState(false);
+  const [chosenImage2] = useState("");
+  const [checkChosen2] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const navi = useNavigate();

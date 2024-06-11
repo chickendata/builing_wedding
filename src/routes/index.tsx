@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import React, { Suspense } from "react";
 import HomePage from "../pages/HomePage";
 import Signin from "../pages/auth/Signin";
 import Signup from "../pages/auth/Signup";
@@ -29,7 +28,6 @@ import CardWedding from "../pages/client/CardWedding";
 import Expand from "../features/_expand/Expand";
 import CreateBabyImage from "../features/_expand/CreateBabyImage";
 import BabyImage from "../features/_expand/BabyImage";
-const BabyImageLazy = React.lazy(() => import("../features/_expand/BabyImage"));
 const Routers = () => {
   // const [, setPrivateId] = useState('')
   // const handleSetId = (id:string) => setPrivateId(id)
