@@ -1,19 +1,43 @@
 import "./App.css";
 import Routers from "./routes";
 import { MyContext } from "./hooks/MyContext";
-import { listItemType } from "./common/types/Album";
+import { LanguageContext } from "./hooks/languageContext";
+import { languageType, listItemType } from "./common/types/Album";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useToast } from "./components/ui/use-toast";
 function App() {
   const [data, setData] = useState<listItemType[]>([]);
+  const [geoplugin_city, setGeoplugin_city] = useState("");
   useEffect(() => {
     axios
       .get(
         `https://databaseswap.mangasocial.online/get/list_image/all_wedding_time`
       )
-      .then((res) => setData(res.data));
+      .then((res) => {
+        setData(res.data);
+      });
   }, []);
+
+  useEffect(() => {
+    const storeData = localStorage.getItem("user");
+    if (storeData) {
+      const user = JSON.parse(storeData);
+      if (user) {
+        axios
+          .get(`http://www.geoplugin.net/json.gp?ip=${user.ip_register}`)
+          .then((res) => setGeoplugin_city(res.data.geoplugin_city));
+      }
+    }
+  }, []);
+  const updateGeoplugin_city = (newLocation: string) => {
+    setGeoplugin_city(newLocation);
+  };
+  const valueLocation: languageType = {
+    geoplugin_city,
+    updateGeoplugin_city,
+  };
+
   const { toast } = useToast();
   const curent_date = new Date();
   const today = curent_date.toLocaleDateString("vi-VN", {
@@ -42,9 +66,11 @@ function App() {
 
   return (
     <>
-      <MyContext.Provider value={data}>
-        <Routers />
-      </MyContext.Provider>
+      <LanguageContext.Provider value={valueLocation}>
+        <MyContext.Provider value={data}>
+          <Routers />
+        </MyContext.Provider>
+      </LanguageContext.Provider>
     </>
   );
 }

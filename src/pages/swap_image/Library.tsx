@@ -8,14 +8,14 @@ import {
   CarouselPrevious,
 } from "../../components/ui/carousel";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { albumType } from "../../common/types/Album";
 import { ScrollBar, ScrollArea } from "../../components/ui/scroll-area";
 import clipboardCopy from "clipboard-copy";
 import { useToast } from "../../components/ui/use-toast";
+import { LanguageContext } from "../../hooks/languageContext";
 const Preview = () => {
-  // const locate = useLocation();
-  // const { data } = locate.state || {};
+  const valueLocation = useContext(LanguageContext);
   const [album, setAlbum] = useState<albumType[]>([]);
   const [currentAlbum, setCurrentAlbum] = useState(0);
   const { id, user } = useParams();
@@ -89,21 +89,27 @@ const Preview = () => {
               variant={"cus3"}
               className="w-[150px] h-[50px] ml-5 md:ml-0"
             >
-              Check Timeline
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Xem dòng thời gian"
+                : "Check Timeline"}
             </Button>
             <Button
               variant={"cus1"}
               onClick={() => handleSaveLink()}
               className="w-[150px] h-[50px] ml-5 md:ml-5"
             >
-              Share Library
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Chia sẻ thư viện"
+                : "Share library"}
             </Button>
             <Link to={`/listcategories`}>
               <Button
                 variant={"cus3"}
                 className="md:w-[295px] h-[50px] ml-4 md:flex"
               >
-                Create New Album
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Tạo album mới"
+                  : "Create new album"}
                 <svg
                   width="21"
                   className="ml-2"

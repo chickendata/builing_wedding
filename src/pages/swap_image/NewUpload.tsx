@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Button } from "../../components/ui/button";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import {
   Dialog,
@@ -15,7 +15,9 @@ import { useToast } from "../../components/ui/use-toast";
 import { ToastAction } from "../../components/ui/toast";
 import ProgressPercentage from "../../components/ProgressPercentage";
 import Header from "../../components/Header";
+import { LanguageContext } from "../../hooks/languageContext";
 const NewUpload = () => {
+  const valueLocation = useContext(LanguageContext);
   const { id } = useParams();
   const [original_Image_1, setOriginalImage1] = useState<File | null>(null);
   const [original_Image_2, setOriginalImage2] = useState<File | null>(null);
@@ -107,7 +109,11 @@ const NewUpload = () => {
       toast({
         variant: "destructive",
         description: `Image 1 must not be empty!`,
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
       });
       return;
     }
@@ -115,7 +121,11 @@ const NewUpload = () => {
       toast({
         variant: "destructive",
         description: `Image 2 must not be empty!`,
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
       });
       return;
     }
@@ -231,7 +241,9 @@ const NewUpload = () => {
         <Header />
         <div className="pb-[70px] pt-[40px] md:w-[1440px] w-[390px]  justify-center items-center mx-auto">
           <h1 className="font-[700] md:text-[24px] text-[20px] leading-[20px] mb-[40px] mt-[60px] text-center items-center justify-center">
-            Make Your Dream Wedding
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Tạo đám cưới trong mơ của bạn"
+              : "Make your dream wedding"}
           </h1>
           <div className="md:flex grid grid-cols-2 gap-6 text-center items-center justify-center md:ml-0 ml-7">
             <div className="text-center items-center justify-center">
@@ -246,7 +258,11 @@ const NewUpload = () => {
                     className="w-full h-full"
                   />
                   {isUploader1DragActive ? (
-                    <p className="text-red-500">Thả ảnh tại đây.</p>
+                    <p className="text-red-500">
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Thả ảnh tại đây"
+                        : "Drop your picture"}
+                    </p>
                   ) : (
                     <div className="flex gap-1">
                       {/* after upload an image if ok ưill display the image else will display default svg icon */}
@@ -287,7 +303,9 @@ const NewUpload = () => {
               {/* onclick will trigger open upload file*/}
               <Dialog>
                 <DialogTrigger className="flex items-center w-[140px] md:w-[256px] mt-6 text-[#fff] bg-[#16B6D4] my-auto rounded-3xl md:px-[15px] px-[10px] md:py-[10px] py-[10px] text-center font-[700] md:text-[14px] text-[10px] justify-center">
-                  Upload man's face
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "Tải ảnh nam"
+                    : "Upload man's face"}
                   <svg
                     width="21"
                     className="ml-2"
@@ -314,7 +332,9 @@ const NewUpload = () => {
                 </DialogTrigger>
                 <DialogContent className="md:w-[818px] w-[360px] h-[70%] md:h-[100%] overflow-scroll md:overflow-auto">
                   <h3 className="font-[700] text-[24px] leading-[20px] mt-[20px] text-center">
-                    Upload man's face
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Tải ảnh nam"
+                      : "Upload man's face"}
                   </h3>
                   <div className="flex items-center mt-8">
                     <svg
@@ -327,8 +347,9 @@ const NewUpload = () => {
                       <circle cx="6" cy="6" r="6" fill="#D9D9D9" />
                     </svg>
                     <span className="font-[600] md:text-[20px] text-[14px] leading-[20px] ml-2">
-                      Your image need to move closer or away from the camera to
-                      complete
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Ảnh của bạn cần xa hơn hoặc gần camera hơn"
+                        : "Your image need to move closer or away from the camera to complete"}
                     </span>
                   </div>
                   <div className="flex items-center mt-3">
@@ -342,7 +363,9 @@ const NewUpload = () => {
                       <circle cx="6" cy="6" r="6" fill="#D9D9D9" />
                     </svg>
                     <span className="font-[600] md:text-[20px] text-[14px] leading-[20px] ml-2">
-                      Make sure you are in the bright environment.
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Đảm bảo bạn đang ở trong môi trường sáng sủa"
+                        : "Make sure you are in bright environment"}
                     </span>
                   </div>
                   <DialogClose
@@ -352,7 +375,9 @@ const NewUpload = () => {
                     }}
                     className="text-[#fff]  bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mt-4 mx-auto md:w-[736px] w-[320px]"
                   >
-                    Upload photo
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Tải ảnh lên"
+                      : "Upload photo"}
                     <svg
                       width="21"
                       className="ml-2"
@@ -379,7 +404,9 @@ const NewUpload = () => {
                   </DialogClose>
 
                   <h3 className="font-[600] text-[24px] leading-[20px] mt-8">
-                    Uploaded
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Đảm bảo bạn đang ở trong môi trường sáng sủa"
+                      : "Make sure you are in bright environment"}
                   </h3>
 
                   <ScrollArea className="md:w-[729px] whitespace-nowrap rounded-md border mt-[100px] md:mt-0">
@@ -402,15 +429,18 @@ const NewUpload = () => {
                     <ScrollBar orientation="horizontal" />
                   </ScrollArea>
                   <p className="font-[400] md:text-[20px] text-[14px] leading-[20px] md:mt-8 mt-[100px] ml-2">
-                    We value your privacy. Rest assured, we handle your data
-                    with utmost care.
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Chúng tôi tôn trọng sự riêng tư của bạn. Hãy yên tâm, chúng tôi xử lý dữ liệu của bạn với sự quan tâm tối đa."
+                      : "We value your privacy. Rest assured, we handle your data with utmost care."}
                   </p>
 
                   <DialogClose
                     asChild
                     className="text-[#fff] bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mx-auto mt-6 md:w-[736px] w-[320px]"
                   >
-                    Save changes
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Lưu thay đổi"
+                      : "Save changes"}
                   </DialogClose>
                 </DialogContent>
               </Dialog>
@@ -445,7 +475,11 @@ const NewUpload = () => {
                     className="w-full h-full"
                   />
                   {isUploader2DragActive ? (
-                    <p className="text-red-500">Thả ảnh tại đây.</p>
+                    <p className="text-red-500">
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Thả ảnh tại đây"
+                        : "Drop your picture"}
+                    </p>
                   ) : (
                     <div className="flex gap-1">
                       {/* after upload an image if ok ưill display the image else will display default svg icon */}
@@ -526,8 +560,9 @@ const NewUpload = () => {
                       <circle cx="6" cy="6" r="6" fill="#D9D9D9" />
                     </svg>
                     <span className="font-[600] md:text-[20px] text-[14px] leading-[20px] ml-2">
-                      Your image need to move closer or away from the camera to
-                      complete
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Ảnh của bạn cần xa hơn hoặc gần camera hơn"
+                        : "Your image need to move closer or away from the camera to complete"}
                     </span>
                   </div>
                   <div className="flex items-center mt-3">
@@ -541,7 +576,9 @@ const NewUpload = () => {
                       <circle cx="6" cy="6" r="6" fill="#D9D9D9" />
                     </svg>
                     <span className="font-[600] md:text-[20px] text-[14px] leading-[20px] ml-2">
-                      Make sure you are in the bright environment.
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Đảm bảo bạn đang ở trong môi trường sáng sủa"
+                        : "Make sure you are in bright environment"}
                     </span>
                   </div>
                   <DialogClose
@@ -551,7 +588,9 @@ const NewUpload = () => {
                     }}
                     className="text-[#fff]  bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mt-4 mx-auto md:w-[736px] w-[320px]"
                   >
-                    Upload photo
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Tải ảnh lên"
+                      : "Make sure you are in bright environment"}
                     <svg
                       width="21"
                       className="ml-2"
@@ -577,7 +616,9 @@ const NewUpload = () => {
                     </svg>
                   </DialogClose>
                   <h3 className="font-[600] text-[24px] leading-[20px] mt-8">
-                    Uploaded
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Ảnh đã tải"
+                      : "Uploaded"}
                   </h3>
                   {
                     <ScrollArea className="md:w-[729px] whitespace-nowrap rounded-md border mt-[100px] md:mt-0">
@@ -602,15 +643,18 @@ const NewUpload = () => {
                   }
                   <div className=""></div>
                   <p className="font-[400] md:text-[20px] text-[14px] leading-[20px] md:mt-8 ml-2 mt-[100px]">
-                    We value your privacy. Rest assured, we handle your data
-                    with utmost care.
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Chúng tôi tôn trọng sự riêng tư của bạn. Hãy yên tâm, chúng tôi xử lý dữ liệu của bạn với sự quan tâm tối đa."
+                      : "We value your privacy. Rest assured, we handle your data with utmost care."}
                   </p>
 
                   <DialogClose
                     asChild
                     className="text-[#fff] bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mx-auto mt-6 md:w-[736px] w-[320px]"
                   >
-                    Save changes
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Lưu thay đổi"
+                      : "Save changes"}
                   </DialogClose>
                 </DialogContent>
               </Dialog>
@@ -621,7 +665,7 @@ const NewUpload = () => {
             className="flex items-center mt-8 mx-auto md:w-[725px] w-[330px]"
             onClick={handleGenerate}
           >
-            GENERATE
+            {valueLocation.geoplugin_city === "Hanoi" ? "Tiếp tục" : "Generate"}
             <svg
               width="21"
               className="ml-2"

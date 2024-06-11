@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { LanguageContext } from "../../hooks/languageContext";
 
 function Expand() {
+  const valueLocation = useContext(LanguageContext);
   const [user, setUser] = useState({
     id_user: "",
   });
@@ -73,7 +75,9 @@ function Expand() {
         />
 
         <span className="text-[500] text-[#009DC4] text-lg text-center">
-          Khám phá xem con của bạn trong tương lai trông như thế nào?
+          {valueLocation.geoplugin_city === "Hanoi"
+            ? "Khám phá xem con của bạn trong tương lai trông như thế nào?"
+            : "Discover what your child will look like in the future?"}
         </span>
         <img
           className="absolute top-8 w-[100px] rounded-[100%] h-[100px] object-cover left-[18%]"
@@ -90,7 +94,11 @@ function Expand() {
           className="absolute bottom-8 w-[200px]"
           onClick={() => handleRedirect("baby")}
         >
-          <span className="mr-2">Khám phá ngay</span>
+          <span className="mr-2">
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Khám phá ngay"
+              : "Discover now"}
+          </span>
           {/* arrow go next */}
           <svg
             width="72"

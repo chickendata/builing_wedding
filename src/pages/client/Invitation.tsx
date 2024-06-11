@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/Header";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -15,8 +15,10 @@ import { useToast } from "../../components/ui/use-toast";
 import { ToastAction } from "../../components/ui/toast";
 import HashLoader from "react-spinners/HashLoader";
 import ProgressPercentage from "../../components/ProgressPercentage";
+import { LanguageContext } from "../../hooks/languageContext";
 
 function Invitation() {
+  const valueLocation = useContext(LanguageContext);
   const { id } = useParams();
   const [currentDay, setCurrentDay] = useState("");
   const [original_Image_1, setOriginalImage1] = useState<File | null>(null);
@@ -143,7 +145,11 @@ function Invitation() {
       toast({
         variant: "destructive",
         description: `Image 1 must not be empty!`,
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
       });
       return;
     }
@@ -151,7 +157,11 @@ function Invitation() {
       toast({
         variant: "destructive",
         description: `Image 2 must not be empty`,
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
       });
       return;
     }
@@ -283,7 +293,9 @@ function Invitation() {
       >
         <div className="text-center h-[100%]">
           <h2 className="text-2xl font-bold mt-3 mb-6">
-            Make Your Dream Wedding
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Tạo lên đám cưới giấc mơ của bạn"
+              : "Make your dream wedding"}
           </h2>
           <div className="flex space-x-4 mb-6">
             <input
@@ -318,10 +330,16 @@ function Invitation() {
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-r-md"
             onClick={handleMapLink}
           >
-            Lấy link vị trí của bạn
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Lấy link vị trí của bạn"
+              : "Get link your location"}
           </Button>
           <br />
-          <label htmlFor="date-day text-left">Chọn ngày cưới:</label>
+          <label htmlFor="date-day text-left">
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Chọn ngày cưới:"
+              : "Choose day:"}
+          </label>
           <input
             id="date-day"
             type="date"
@@ -347,7 +365,11 @@ function Invitation() {
                 className="h-full w-full"
               />
               {isUploader1DragActive ? (
-                <p className="text-red-500">Thả ảnh tại đây</p>
+                <p className="text-red-500">
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "Thả ảnh tại đây"
+                    : "Drop your picture"}
+                </p>
               ) : (
                 <div className="flex gap-1">
                   {!checkChosen1 ? (
@@ -387,7 +409,9 @@ function Invitation() {
           {/* {onClick will trigger open upload file} */}
           <Dialog>
             <DialogTrigger className="flex items-center w-[140px] md:w-[256px] mt-6 text-[#fff] bg-[#16B6D4] my-auto rounded-3xl md:px-[15px] px-[10px] md:py-[10px] py-[10px] text-center font-[700] md:text-[14px] text-[10px] justify-center">
-              Upload man's face
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Tải ảnh nam"
+                : "Upload man's face"}
               <svg
                 width="21"
                 className="ml-2"
@@ -414,7 +438,9 @@ function Invitation() {
             </DialogTrigger>
             <DialogContent className="md:w-[818px] w-[360px] h-[70%] md:h-[100%] overflow-scroll md:overflow-auto">
               <h3 className="font-[700] text-[24px] leading-[20x] mt-[10px] text-center">
-                Upload man's face
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Tải ảnh nam"
+                  : "Upload man's face"}
               </h3>
               <div className="flex items-center mt-1">
                 <svg
@@ -427,8 +453,9 @@ function Invitation() {
                   <circle cx="6" cy="6" r="6" fill="#D9D9D9" />
                 </svg>
                 <span className="font-[600] md:text-[20px] text-[14px] leading-[20px] ml-2">
-                  Your image need to move closer or away from the camera to
-                  complete
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "Ảnh của bạn cần xa hơn hoặc gần camera hơn"
+                    : "Your image need to move closer or away from the camera to complete"}
                 </span>
               </div>
               <div className="flex items-center mt-3">
@@ -442,7 +469,9 @@ function Invitation() {
                   <circle cx="6" cy="6" r="6" fill="#D9D9D9" />
                 </svg>
                 <span className="font-[600] md:text-[20px] text-[14px] leading-[20px] ml-2">
-                  Make sure you are in bright environment
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "Đảm bảo bạn đang ở trong môi trường sáng sủa"
+                    : "Make sure you are in bright environment"}
                 </span>
               </div>
               <DialogClose
@@ -452,7 +481,9 @@ function Invitation() {
                 }}
                 className="text-[#fff] bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mt-4 mx-auto md:w-[736px] w-[320px] "
               >
-                Upload photo
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Các bức ảnh đã tải lên"
+                  : "Upload photos"}
                 <svg
                   width="21"
                   className="ml-2"
@@ -478,7 +509,9 @@ function Invitation() {
                 </svg>
               </DialogClose>
               <h3 className="font-[600] text-[24px] leading-[10px] mt-2">
-                Uploaded
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Đã tải"
+                  : "Uploaded"}
               </h3>
               <ScrollArea className="md:[729px] whitespace-nowrap rounded-md border mt-[100px] md:mt-0">
                 <div className="flex w-max space-x-4 p-4">
@@ -500,15 +533,17 @@ function Invitation() {
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
               <p className="font-[400] md:text-[20px] text-[14px] leading-[20px] md:mt-8 mt-[100px] ml-2">
-                We value your privacy. Rest assured, we handle your data with
-                utmost care.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Chúng tôi tôn trọng sự riêng tư của bạn. Hãy yên tâm, chúng tôi xử lý dữ liệu của bạn với sự quan tâm tối đa."
+                  : "We value your privacy. Rest assured, we handle your data with utmost care."}
               </p>
-
               <DialogClose
                 asChild
                 className="text-[#fff] bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mx-auto mt-6 md:w-[736px] w-[320px]"
               >
-                Save changes
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Lưu thay đổi"
+                  : "Save changes"}
               </DialogClose>
             </DialogContent>
           </Dialog>
@@ -543,7 +578,11 @@ function Invitation() {
                 className="w-full h-full"
               />
               {isUploader2DragActive ? (
-                <p className="text-red-500">Thả ảnh tại đây</p>
+                <p className="text-red-500">
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "Thả ảnh tại đây"
+                    : "Drop your picture"}
+                </p>
               ) : (
                 <div className="flex gap-1">
                   {!checkChosen2 ? (
@@ -583,7 +622,9 @@ function Invitation() {
           {/* {onclick will trigger open upload file} */}
           <Dialog>
             <DialogTrigger className="flex items-center w-[140px] md:w-[256px] mt-6 text-[#fff] bg-[#16B6D4] my-auto rounded-3xl md:px-[15px] px-[10px] md:py-[10px] py-[10px] text-center font-[700] md:text-[14px] text-[10px] justify-center">
-              Upload woman's face
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Tải Ảnh nữ"
+                : "Upload woman's face"}
               <svg
                 width="21"
                 className="ml-2"
@@ -610,7 +651,9 @@ function Invitation() {
             </DialogTrigger>
             <DialogContent className="md:w-[818px] w-[360px] h-[70%] md:h-[100%] overflow-scroll md:overflow-auto">
               <h3 className="font-[700] text-[24px] leading-[20x] mt-[10px] text-center">
-                Upload woman's face
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Ảnh nữ"
+                  : "Upload woman's face"}
               </h3>
               <div className="flex items-center mt-1">
                 <svg
@@ -623,8 +666,9 @@ function Invitation() {
                   <circle cx="6" cy="6" r="6" fill="#D9D9D9" />
                 </svg>
                 <span className="font-[600] md:text-[20px] text-[14px] leading-[20px] ml-2">
-                  Your image need to move closer or away from the camera to
-                  complete
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "Ảnh của bạn cần xa hơn hoặc gần camera hơn"
+                    : "Your image need to move closer or away from the camera to complete"}
                 </span>
               </div>
               <div className="flex items-center mt-3">
@@ -638,7 +682,9 @@ function Invitation() {
                   <circle cx="6" cy="6" r="6" fill="#D9D9D9" />
                 </svg>
                 <span className="font-[600] md:text-[20px] text-[14px] leading-[20px] ml-2">
-                  Make sure you are in bright environment
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "Đảm bảo bạn đang ở trong môi trường sáng sủa"
+                    : "Make sure you are in bright environment"}
                 </span>
               </div>
               <DialogClose
@@ -648,7 +694,9 @@ function Invitation() {
                 }}
                 className="text-[#fff] bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mt-4 mx-auto md:w-[736px] w-[320px] "
               >
-                Upload photo
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Các bức ảnh đã tải lên"
+                  : "Upload photos"}
                 <svg
                   width="21"
                   className="ml-2"
@@ -674,7 +722,9 @@ function Invitation() {
                 </svg>
               </DialogClose>
               <h3 className="font-[600] text-[24px] leading-[10px] mt-2">
-                Uploaded
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Đã tải"
+                  : "Uploaded"}
               </h3>
               <ScrollArea className="md:[729px] whitespace-nowrap rounded-md border mt-[100px] md:mt-0">
                 <div className="flex w-max space-x-4 p-4">
@@ -696,15 +746,18 @@ function Invitation() {
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
               <p className="font-[400] md:text-[20px] text-[14px] leading-[20px] md:mt-8 mt-[100px] ml-2">
-                We value your privacy. Rest assured, we handle your data with
-                utmost care.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Chúng tôi tôn trọng sự riêng tư của bạn. Hãy yên tâm, chúng tôi xử lý dữ liệu của bạn với sự quan tâm tối đa."
+                  : "We value your privacy. Rest assured, we handle your data with utmost care."}
               </p>
 
               <DialogClose
                 asChild
                 className="text-[#fff] bg-[#16B6D4] h-[60px] my-auto rounded-3xl px-[20px] py-[15px] text-center font-[700] md:text-[14px] text-[10px] flex items-center mx-auto mt-6 md:w-[736px] w-[320px]"
               >
-                Save changes
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Lưu thay đổi"
+                  : "Save changes"}
               </DialogClose>
             </DialogContent>
           </Dialog>
@@ -715,7 +768,7 @@ function Invitation() {
         className="flex items-center mt-8 mx-auto md:w-[50%] w-[330px]"
         onClick={handleCreate}
       >
-        Create
+        {valueLocation.geoplugin_city === "Hanoi" ? "Tạo thiệp cưới" : "Create"}
         <svg
           width="21"
           className="ml-2"

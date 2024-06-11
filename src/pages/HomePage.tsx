@@ -9,9 +9,11 @@ import {
 } from "../components/ui/carousel";
 
 import Header from "../components/Header";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { LanguageContext } from "../hooks/languageContext";
 
 const HomePage = () => {
+  const valueLocation = useContext(LanguageContext);
   const [user, setUser] = useState({ id_user: "" });
   useEffect(() => {
     const data = JSON.parse(String(localStorage.getItem("user")));
@@ -30,18 +32,27 @@ const HomePage = () => {
         </div>
         <div className="absolute md:w-[623px] text-left md:top-[240px] md:left-[200px] md:ml-0 ml-[40px] md:mt-0 mx-auto items-center justify-center">
           <h1 className="text-[#009DC4] md:font-[900] md:text-[56px] md:leading-[68px] font-black text-[28px]">
-            AI Face Swap Online
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Hoán đổi mặt bằng AI"
+              : "AI Face Swap Online"}
           </h1>
           <h2 className="text-[#009DC4] md:font-[700] md:text-[40px] md:leading-[40px] md:my-3 font-extrabold text-[20px]">
-            Make Your Dream Wedding
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Đám cưới trong mơ của bạn"
+              : "Make Your Dream Wedding"}
           </h2>
           <p className="text-[#000] md:font-[500] md:text-[24px] md:leading-[24px] md:w-[500px] font-semibold text-[16px] w-[300px]">
-            Upload your photos to swap the face with AI. Experience powerful
-            realistic face swapping effects. Create gorgeous wedding photos!
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Tải ảnh của bạn lên để hoán đổi khuôn mặt với AI. Trải nghiệm hiệu ứng hoán đổi khuôn mặt thực tế mạnh mẽ. Tạo những bức ảnh cưới tuyệt đẹp!"
+              : "Upload your photos to swap the face with AI. Experience powerful realistic face swapping effects. Create gorgeous wedding photos!"}
           </p>
           <Link to={`/listcategories`}>
             <button className="text-[#fff] bg-[#33C5E9] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
-              <span>Start face swapping</span>
+              <span>
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Bắt đầu hoán đổi"
+                  : "Start face swapping"}
+              </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -57,8 +68,12 @@ const HomePage = () => {
             </button>
           </Link>
           <Link to={`/invitation/${user.id_user}`}>
-            <button className="text-[#fff] bg-[#33C5E9] w-[290px] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
-              <span className="mx-auto">Wedding invitation</span>
+            <button className="text-[#fff] bg-[#33C5E9] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
+              <span className="mx-auto">
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Tạo thiệp mời cưới"
+                  : "Wedding invitation"}
+              </span>
               <svg
                 width="20"
                 height="20"
@@ -86,8 +101,12 @@ const HomePage = () => {
           </Link>
           <Link to={`/expand/${user.id_user}`}>
             {" "}
-            <button className="text-[#fff] bg-[#33C5E9] w-[320px] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
-              <span className="mx-auto">Expand for you</span>
+            <button className="text-[#fff] bg-[#33C5E9] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
+              <span className="mx-auto">
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Nhiều chức năng khác"
+                  : "Expand for you"}
+              </span>
               <svg
                 width="20"
                 height="20"
@@ -117,7 +136,9 @@ const HomePage = () => {
       </div>
       <div className="bg-[#FFF] md:w-[1440px] md:mx-auto md:mb-[100px] mt-5 md:mt-0 mx-auto justify-center">
         <h1 className="md:font-[800] md:text-[48px] md:leading-[58px] text-black text-center md:mt-[100px] md:mb-[50px] text-[24px] font-extrabold mx-auto justify-center">
-          How to Swap a Face Online
+          {valueLocation.geoplugin_city === "Hanoi"
+            ? "Làm thế nào để thay đổi khuân mặt"
+            : "How to Swap a Face Online"}
         </h1>
         <div className="md:grid md:grid-cols-2 md:px-[100px] md:gap-8 mt-10 mx-auto">
           <div className="">
@@ -130,12 +151,14 @@ const HomePage = () => {
                     </strong>
                     <div className="mt-[10px] text-xs font-medium text-gray-300">
                       <h5 className="font-[600] text-black text-[24px] leading-[30px] text-left group-hover:text-[#33C5E9]">
-                        Upload an Image
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Tải một bức ảnh lên"
+                          : "Upload an Image"}
                       </h5>
                       <p className="mt-3 font-[500] text-black text-[16px] leading-[20px] text-left">
-                        Simply click 'Upload an Image' and select 2 photos you
-                        want to use as the source image. Ensure only one face in
-                        the photo is of good quality.
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Đơn thuần nhấn 'Tải một bức ảnh lên' và chọn 2 bức ảnh bạn muốn thay đổi tương tự với source ảnh. Hãy chắc chắn chỉ có một khuôn mặt và chất lượng ảnh tốt."
+                          : "Simply click 'Upload an Image' and select 2 photos you want to use as the source image. Ensure only one face in the photo is of good quality."}
                       </p>
                     </div>
                   </div>
@@ -149,13 +172,14 @@ const HomePage = () => {
                     </strong>
                     <div className="mt-[10px] text-xs font-medium text-gray-300">
                       <h5 className="font-[600] text-black text-[24px] leading-[30px] text-left group-hover:text-[#33C5E9]">
-                        Swap Face with AI
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Thay đổi khuân mặt với AI"
+                          : "Swap Face with AI"}
                       </h5>
                       <p className="mt-3 font-[500] text-black text-[16px] leading-[20px] text-left">
-                        Click the 'Swap Face Now' button to show AI its magic.
-                        Faceswapper will finish face swapping in a few seconds.
-                        Our AI does the job automatically while guaranteeing the
-                        best output.
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Nhấn nút 'Thay đổi khuân mặt' sẽ xuất hiện những bức ảnh AI. Hoán đổi khuân mặt sẽ hoàn thiện trong vài giây. AI của chúng tôi làm việc này tự động hoàn toàn sẽ cho ra thành quả tốt nhất"
+                          : "Click the 'Swap Face Now' button to show AI its magic. Faceswapper will finish face swapping in a few seconds. Our AI does the job automatically while guaranteeing the best output."}
                       </p>
                     </div>
                   </div>
@@ -169,13 +193,14 @@ const HomePage = () => {
                     </strong>
                     <div className="mt-[10px] text-xs font-medium text-gray-300">
                       <h5 className="font-[600] text-black text-[24px] leading-[30px] text-left group-hover:text-[#33C5E9]">
-                        Preview and Download
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Xem thành quả và tải xuống"
+                          : "Preview and download"}
                       </h5>
                       <p className="mt-3 font-[500] text-black text-[16px] leading-[20px] text-left">
-                        Bingo! Your face is swapped to who you like! Preview the
-                        final result on the same page. Click 'Download' to save
-                        the watermark-free picture to your device. Share it for
-                        fun!
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Khuôn mặt của bạn được hoán đổi thành người bạn thích! Xem trước kết quả cuối cùng trên cùng một trang. Nhấp vào 'Tải xuống' để lưu hình ảnh không có hình mờ vào thiết bị của bạn. Chia sẻ nó cho vui!"
+                          : "Bingo! Your face is swapped to who you like! Preview the final result on the same page. Click 'Download' to save the watermark-free picture to your device. Share it for fun!"}
                       </p>
                     </div>
                   </div>
@@ -202,12 +227,14 @@ const HomePage = () => {
                     </strong>
                     <div className="mt-[10px] text-xs font-medium text-gray-300">
                       <h5 className="font-[600] text-black text-[24px] leading-[30px] text-left group-hover:text-[#33C5E9]">
-                        Upload an Image
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Tải một bức ảnh lên"
+                          : "Upload an Image"}
                       </h5>
                       <p className="mt-3 font-[500] text-black text-[16px] leading-[20px] text-left">
-                        Simply click 'Upload an Image' and select 2 photos you
-                        want to use as the source image. Ensure only one face in
-                        the photo is of good quality.
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Đơn thuần nhấn 'Tải một bức ảnh lên' và chọn 2 bức ảnh bạn muốn thay đổi tương tự với source ảnh. Hãy chắc chắn chỉ có một khuôn mặt và chất lượng ảnh tốt."
+                          : "Simply click 'Upload an Image' and select 2 photos you want to use as the source image. Ensure only one face in the photo is of good quality."}
                       </p>
                     </div>
                   </div>
@@ -223,13 +250,14 @@ const HomePage = () => {
                     </strong>
                     <div className="mt-[10px] text-xs font-medium text-gray-300">
                       <h5 className="font-[600] text-black text-[24px] leading-[30px] text-left group-hover:text-[#33C5E9]">
-                        Swap Face with AI
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Thay đổi khuân mặt với AI"
+                          : "Swap Face with AI"}
                       </h5>
                       <p className="mt-3 font-[500] text-black text-[16px] leading-[20px] text-left">
-                        Click the 'Swap Face Now' button to show AI its magic.
-                        Faceswapper will finish face swapping in a few seconds.
-                        Our AI does the job automatically while guaranteeing the
-                        best output.
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Nhấn nút 'Thay đổi khuân mặt' sẽ xuất hiện những bức ảnh AI. Hoán đổi khuân mặt sẽ hoàn thiện trong vài giây. AI của chúng tôi làm việc này tự động hoàn toàn sẽ cho ra thành quả tốt nhất"
+                          : "Click the 'Swap Face Now' button to show AI its magic. Faceswapper will finish face swapping in a few seconds. Our AI does the job automatically while guaranteeing the best output."}
                       </p>
                     </div>
                   </div>
@@ -245,13 +273,14 @@ const HomePage = () => {
                     </strong>
                     <div className="mt-[10px] text-xs font-medium text-gray-300">
                       <h5 className="font-[600] text-black text-[24px] leading-[30px] text-left group-hover:text-[#33C5E9]">
-                        Preview and Download
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Xem thành quả và tải xuống"
+                          : "Preview and download"}
                       </h5>
                       <p className="mt-3 font-[500] text-black text-[16px] leading-[20px] text-left">
-                        Bingo! Your face is swapped to who you like! Preview the
-                        final result on the same page. Click 'Download' to save
-                        the watermark-free picture to your device. Share it for
-                        fun!
+                        {valueLocation.geoplugin_city === "Hanoi"
+                          ? "Khuôn mặt của bạn được hoán đổi thành người bạn thích! Xem trước kết quả cuối cùng trên cùng một trang. Nhấp vào 'Tải xuống' để lưu hình ảnh không có hình mờ vào thiết bị của bạn. Chia sẻ nó cho vui!"
+                          : "Bingo! Your face is swapped to who you like! Preview the final result on the same page. Click 'Download' to save the watermark-free picture to your device. Share it for fun!"}
                       </p>
                     </div>
                   </div>
@@ -263,38 +292,54 @@ const HomePage = () => {
       </div>
       <div className="bg-[#F2FDFF] md:h-[707px] md:py-[95px] py-11">
         <h1 className="md:w-[1064px] w-[310px] md:font-[800] md:text-[48px] md:leading-[58px] text-black text-center mx-auto text-[24px] font-extrabold">
-          Your Ultimate AI Maker to Generate Wedding Photos for Free
+          {valueLocation.geoplugin_city === "Hanoi"
+            ? "Trình tạo AI tối ưu của bạn để tạo ảnh cưới miễn phí"
+            : "Your Ultimate AI Maker to Generate Wedding Photos for Free"}
         </h1>
         <div className="md:grid md:grid-cols-3 md:gap-[48px] md:mx-[100px] md:my-auto md:mt-[45px] mt-5 w-[352px] md:w-auto mx-auto">
           <div className="w-[352px] p-[32px] block rounded-xl border bg-white border-gray-100 shadow-xl hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring">
             <img src="img\easy-to-use 2.png" alt="" />
             <div className="mt-[10px] text-left">
-              <h5 className="font-[700] text-[24px]">Easy to use</h5>
+              <h5 className="font-[700] text-[24px]">
+                {" "}
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Dễ dàng sử dụng"
+                  : "Easy to use"}
+              </h5>
               <p className="mt-[10px] font-[500] text-[16px] leading-[19px]">
-                All you need to do is upload 2 excellent face portrait. AI will
-                swap faces smoothly without requiring manual editing.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Tất cả những gì bạn cần làm là tải lên 2 bức chân dung khuôn mặt xuất sắc. AI sẽ hoán đổi khuôn mặt một cách mượt mà mà không cần chỉnh sửa thủ công."
+                  : "All you need to do is upload 2 excellent face portrait. AI will swap faces smoothly without requiring manual editing."}
               </p>
             </div>
           </div>
           <div className="w-[352px] p-[32px] block rounded-xl border bg-white border-gray-100 shadow-xl hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring mt-7 md:mt-0">
             <img src="img\light.png" alt="" />
             <div className="mt-[10px] text-left">
-              <h5 className="font-[700] text-[24px]">Privacy Protection</h5>
+              <h5 className="font-[700] text-[24px]">
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Bảo vệ quyền riêng tư"
+                  : "Privacy Protection"}
+              </h5>
               <p className="mt-[10px] font-[500] text-[16px] leading-[19px]">
-                We promise that all your uploaded images and other data will be
-                protected well. No one will see these things except yourself. We
-                make sure the face swapping procedure is highly private.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Chúng tôi hứa rằng tất cả hình ảnh bạn tải lên và dữ liệu khác sẽ được bảo vệ tốt. Sẽ không ai nhìn thấy những điều này ngoại trừ chính bạn. Chúng tôi đảm bảo quy trình hoán đổi khuôn mặt có tính riêng tư cao."
+                  : "We promise that all your uploaded images and other data will be protected well. No one will see these things except yourself. We make sure the face swapping procedure is highly private."}
               </p>
             </div>
           </div>
           <div className="w-[352px] p-[32px] block rounded-xl border bg-white border-gray-100 shadow-xl hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring mt-7 md:mt-0">
             <img src="img\lights.png" alt="" />
             <div className="mt-[10px] text-left">
-              <h5 className="font-[700] text-[24px]">One-sec Face Swap</h5>
+              <h5 className="font-[700] text-[24px]">
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Nhanh chóng hoán đổi"
+                  : "One-sec Face Swap"}
+              </h5>
               <p className="mt-[10px] font-[500] text-[16px] leading-[19px]">
-                This online AI face swap app can switch to the faces of anyone
-                online. No installation, no ads, and no watermarks! Create your
-                face magic in fantastic style and without too much effort!
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Ứng dụng hoán đổi khuôn mặt AI trực tuyến này có thể chuyển sang khuôn mặt của bất kỳ ai trực tuyến. Không cần cài đặt, không có quảng cáo và không có hình mờ! Tạo khuôn mặt kỳ diệu của bạn theo phong cách tuyệt vời và không cần quá nhiều nỗ lực!"
+                  : "This online AI face swap app can switch to the faces of anyone online. No installation, no ads, and no watermarks! Create your face magic in fantastic style and without too much effort!"}
               </p>
             </div>
           </div>
@@ -302,7 +347,9 @@ const HomePage = () => {
       </div>
       <div className="bg-[#FFF] md:py-[95px] py-11">
         <h1 className="md:w-[1064px] w-[300px] md:font-[800] md:text-[48px] md:leading-[58px] text-black text-center mx-auto text-[24px] font-extrabold">
-          Jump Start Your Creation with 50+ Wedding Photos Template
+          {valueLocation.geoplugin_city === "Hanoi"
+            ? "Bắt đầu sáng tạo của bạn với hơn 50 mẫu ảnh cưới"
+            : "Jump Start Your Creation with 50+ Wedding Photos Template"}
         </h1>
         <div className="md:grid grid-cols-3 gap-6 mx-[125px] mt-[50px] hidden">
           <div className=" w-[355px] h-[254px] rounded-xl overflow-hidden">
@@ -444,12 +491,16 @@ const HomePage = () => {
       </div>
       <div className="bg-[#F2FDFF] md:h-[1061px] md:py-[110px] py-11 ">
         <h1 className="md:w-[1064px] w-[300px] md:font-[800] md:text-[48px] md:leading-[58px] text-black text-center mx-auto text-[24px] font-extrabold">
-          Say Goodbye to Photographer, Studios, Expense and More
+          {valueLocation.geoplugin_city === "Hanoi"
+            ? "Nói tạm biệt với chụp ảnh, studio, chi phí và hơn thế nữa"
+            : "Say Goodbye to Photographer, Studios, Expense and More"}
         </h1>
         <div className="md:grid grid-cols-2 md:px-[120px] mt-10 w-[352px] md:w-auto mx-auto">
           <div className="md:w-[544px] w-[352px] md:p-[32px] p-8 block rounded-xl border bg-white border-gray-100 shadow-xl hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring">
             <h5 className="font-[700] text-[24px] leading-[30px] text-black text-center mx-auto">
-              Traditional Wedding Photo
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Ảnh cưới truyền thống"
+                : "Traditional Wedding Photo"}
             </h5>
             <div className="h-[354px]">
               <img
@@ -473,7 +524,9 @@ const HomePage = () => {
                     fill="#FF6A55"
                   />
                 </svg>
-                High cost of cameras, studios, sound stage, etc.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Chi phí cao cho máy ảnh, studio, sân khấu âm thanh, v.v."
+                  : "High cost of cameras, studios, sound stage, etc."}
               </li>
               <li className="flex font-[500] text-[16px] leading-[19px] mt-3">
                 <svg
@@ -489,7 +542,9 @@ const HomePage = () => {
                     fill="#FF6A55"
                   />
                 </svg>
-                Long time in preparing, shooting, and editing.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Mất nhiều thời gian để chuẩn bị, chụp và chỉnh sửa."
+                  : "Long time in preparing, shooting, and editing."}
               </li>
               <li className="flex font-[500] text-[16px] leading-[19px] mt-3">
                 <svg
@@ -505,7 +560,9 @@ const HomePage = () => {
                     fill="#FF6A55"
                   />
                 </svg>
-                Complex manual processes through all stages.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Quy trình thủ công phức tạp qua tất cả các giai đoạn."
+                  : "Complex manual processes through all stages."}
               </li>
               <li className="flex font-[500] text-[16px] leading-[19px] mt-3">
                 <svg
@@ -521,13 +578,17 @@ const HomePage = () => {
                     fill="#FF6A55"
                   />
                 </svg>
-                Hard to update the photos after done
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Khó cập nhật ảnh sau khi thực hiện"
+                  : "Hard to update the photos after done"}
               </li>
             </div>
           </div>
           <div className="md:w-[544px] w-[352px] md:p-[32px] p-8 block rounded-xl border bg-white border-gray-100 shadow-xl hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring mt-9 md:mt-0">
             <h5 className="font-[700] text-[24px] leading-[30px] text-black text-center mx-auto">
-              AI Wedding Photo
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Ảnh đám cưới AI"
+                : "AI Ưedding Photo"}
             </h5>
             <div className="h-[354px]">
               <img
@@ -553,7 +614,9 @@ const HomePage = () => {
                     fill="#61DE35"
                   />
                 </svg>
-                No camera, no studios, no more specific environment
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Không máy ảnh, không studio, không môi trường cụ thể hơn"
+                  : "No camera, no studios, no more specific environment"}
               </li>
               <li className="flex font-[500] text-[16px] leading-[19px] mt-1">
                 <svg
@@ -571,7 +634,9 @@ const HomePage = () => {
                     fill="#61DE35"
                   />
                 </svg>
-                Choose from 50+ AI frames, without hiring studios.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Chọn từ hơn 50 khung hình AI mà không cần thuê studio."
+                  : "Choose from 50+ AI frames, without hiring studios."}
               </li>
               <li className="flex font-[500] text-[16px] leading-[19px] mt-1">
                 <svg
@@ -589,7 +654,9 @@ const HomePage = () => {
                     fill="#61DE35"
                   />
                 </svg>
-                Generate AI photos within several minutes
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Tạo ảnh AI trong vòng vài phút"
+                  : "Generate AI photos within several minutes"}
               </li>
               <li className="flex font-[500] text-[16px] leading-[19px] mt-1">
                 <svg
@@ -607,7 +674,9 @@ const HomePage = () => {
                     fill="#61DE35"
                   />
                 </svg>
-                Intuitive & easy processes powered by AI tech.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Các quy trình trực quan và dễ dàng được hỗ trợ bởi công nghệ AI."
+                  : "Intuitive & easy processes powered by AI tech."}
               </li>
             </div>
           </div>
@@ -616,7 +685,9 @@ const HomePage = () => {
       <div className="bg-[#FFF] md:h-[876px] md:py-[110px] py-11 flex gap-2">
         <div className="md:w-[1200px] w-[360px] items-center mx-auto justify-center">
           <h1 className="md:w-[1064px] w-[360px] md:font-[800] md:text-[48px] leading-[58px] text-black text-center mx-auto text-[24px] font-extrabold">
-            Trusted by Millions of Creators and Companies Worldwide
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Được hàng triệu người sáng tạo và công ty trên toàn thế giới tin cậy."
+              : "Trusted by Millions of Creators and Companies Worldwide"}
           </h1>
           <div className="md:w-[1200px] w-[360px] md:mt-[40px] mx-auto items-center justify-center text-center mt-5">
             <Carousel
@@ -629,10 +700,9 @@ const HomePage = () => {
                   <div className="w-[352px] p-[32px] block rounded-xl border bg-white border-gray-100 shadow-xl hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring">
                     <img src="img\cdl1.png" alt="" />
                     <p className="text-left mt-4 font-[500] text-[16px] leading-[20px]">
-                      Due to post-covid 19, we have a very difficult economy, we
-                      used this software to create wedding photos to keep as
-                      memories, it's amazing, this is a great artificial
-                      intelligence product, it helps us. I got a souvenir photo
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Do hậu Covid 19 nên kinh tế nước ta rất khó khăn nên chúng tôi dùng phần mềm này chụp ảnh cưới để lưu giữ làm kỷ niệm, thật tuyệt vời, đây là sản phẩm trí tuệ nhân tạo tuyệt vời, nó giúp ích cho chúng tôi rất nhiều. Tôi có một bức ảnh lưu niệm"
+                        : "Due to post-covid 19, we have a very difficult economy, we used this software to create wedding photos to keep as memories, it's amazing, this is a great artificial intelligence product, it helps us. I got a souvenir photo"}
                     </p>
                   </div>
                 </CarouselItem>
@@ -640,9 +710,9 @@ const HomePage = () => {
                   <div className="w-[352px] p-[32px] block rounded-xl border bg-white border-gray-100 shadow-xl hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring">
                     <img src="img\cdl2.png" alt="" />
                     <p className="text-left mt-4 font-[500] text-[16px] leading-[20px]">
-                      We use artificial intelligence to create great wedding
-                      photos, you don't need to spend money on wedding
-                      photography, use our products
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Chúng tôi sử dụng trí tuệ nhân tạo để tạo ra những bức ảnh cưới tuyệt vời, bạn không cần tốn tiền chụp ảnh cưới, hãy sử dụng sản phẩm của chúng tôi"
+                        : "We use artificial intelligence to create great wedding photos, you don't need to spend money on wedding photography, use our products"}
                     </p>
                   </div>
                 </CarouselItem>
@@ -650,12 +720,9 @@ const HomePage = () => {
                   <div className="w-[352px] p-[32px] block rounded-xl border bg-white border-gray-100 shadow-xl hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring">
                     <img src="img\cdl3.png" alt="" />
                     <p className="text-left mt-4 font-[500] text-[16px] leading-[20px]">
-                      I was introduced to the fake wedding product by my lover.
-                      It gave me many ideas for wedding photography. We created
-                      an AI event to take wedding photos, then asked the wedding
-                      photographer to take photos that look like wedding
-                      products. It's amazing. , it suits our faces very well, it
-                      helps me easily imagine how to take suitable photos.
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Tôi được người yêu giới thiệu sản phẩm cưới giả. Nó đã cho tôi nhiều ý tưởng để chụp ảnh cưới. Chúng tôi tạo ra một sự kiện AI để chụp ảnh cưới, sau đó yêu cầu nhiếp ảnh gia đám cưới chụp những bức ảnh trông giống như sản phẩm đám cưới. Ngạc nhiên. , nó rất hợp với khuôn mặt của chúng ta, nó giúp tôi dễ dàng hình dung ra cách chụp những bức ảnh phù hợp."
+                        : "I was introduced to the fake wedding product by my lover. It gave me many ideas for wedding photography. We created an AI event to take wedding photos, then asked the wedding photographer to take photos that look like wedding products. It's amazing. , it suits our faces very well, it helps me easily imagine how to take suitable photos."}
                     </p>
                   </div>
                 </CarouselItem>
@@ -663,10 +730,9 @@ const HomePage = () => {
                   <div className="w-[352px] p-[32px] block rounded-xl border bg-white border-gray-100 shadow-xl hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring">
                     <img src="img\cdl2.png" alt="" />
                     <p className="text-left mt-4 font-[500] text-[16px] leading-[20px]">
-                      Due to post-covid 19, we have a very difficult economy, we
-                      used this software to create wedding photos to keep as
-                      memories, it's amazing, this is a great artificial
-                      intelligence product, it helps us. I got a souvenir photo
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Do hậu Covid 19 nên kinh tế nước ta rất khó khăn nên chúng tôi dùng phần mềm này chụp ảnh cưới để lưu giữ làm kỷ niệm, thật tuyệt vời, đây là sản phẩm trí tuệ nhân tạo tuyệt vời, nó giúp ích cho chúng tôi rất nhiều. Tôi có một bức ảnh lưu niệm"
+                        : "Due to post-covid 19, we have a very difficult economy, we used this software to create wedding photos to keep as memories, it's amazing, this is a great artificial intelligence product, it helps us. I got a souvenir photo"}
                     </p>
                   </div>
                 </CarouselItem>
@@ -679,17 +745,24 @@ const HomePage = () => {
       </div>
       <div className="bg-white md:h-[400px] pb-3">
         <h2 className="md:w-[1064px] w-[300px] md:font-[800] md:text-[48px] md:leading-[58px] text-black text-center mx-auto text-[24px] font-extrabold">
-          Make Wedding Photo Easy for All!
+          {valueLocation.geoplugin_city === "Hanoi"
+            ? "Làm cho ảnh cưới trở nên dễ dàng cho tất cả mọi người!"
+            : "Make Wedding Photo Easy for All!"}
         </h2>
         <h5 className="font-[500] text-[24px] md:leading-[30px] mt-10 md:w-[1120px] w-[300px] px-[5px] mx-auto">
-          Use the power of AI to create professional wedding photos faster, with
-          less effort and cost. Create your dream wedding . Get started with
-          Wedding AI!
+          {valueLocation.geoplugin_city === "Hanoi"
+            ? "Sử dụng sức mạnh của AI để tạo ra những bức ảnh cưới chuyên nghiệp nhanh hơn, tốn ít công sức và chi phí hơn. Tạo đám cưới trong mơ của bạn. Bắt đầu với AI đám cưới!"
+            : "Use the power of AI to create professional wedding photos faster, with less effort and cost. Create your dream wedding . Get started with Wedding AI!"}
         </h5>
         <Link to={`/listcategories`}>
           <button className="text-[#fff] w-[340px] bg-[#009DC4] mt-11 rounded-3xl px-[20px] py-[10px] text-center font-[700] text-[16px] leading-[20px] flex mx-auto items-center">
             <div className="mx-auto flex">
-              <span className="">Create Free Wedding Photo</span>
+              <span className="">
+                {" "}
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Tạo ảnh cưới miễn phí"
+                  : "Create Free Wedding Photo"}
+              </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

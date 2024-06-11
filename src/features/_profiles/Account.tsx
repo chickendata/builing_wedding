@@ -14,9 +14,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "../../components/ui/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
 import { changePassSchema } from "../../common/schemas/formSchema";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { LanguageContext } from "../../hooks/languageContext";
 
 const Account = () => {
+  const valueLocation = useContext(LanguageContext);
   const [errors, setErrors] = useState({
     old_password: "",
     new_password: "",
@@ -89,7 +91,13 @@ const Account = () => {
         toast({
           variant: "destructive",
           description: `${response.data.detail}`,
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
+          action: (
+            <ToastAction altText="Try again">
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Thử lại"
+                : "Try again"}
+            </ToastAction>
+          ),
         });
         return;
       }
@@ -97,7 +105,9 @@ const Account = () => {
   };
   return (
     <div className="w-full p-[30px] md:p-0">
-      <h3 className="font-[600] text-[24px] leading-[20px] mt-3">Account</h3>
+      <h3 className="font-[600] text-[24px] leading-[20px] mt-3">
+        {valueLocation.geoplugin_city === "Hanoi" ? "Tài khoản" : "Account"}
+      </h3>
       <Form {...form}>
         <form onSubmit={handleSubmit}>
           <FormField
@@ -106,7 +116,9 @@ const Account = () => {
             render={({ field }) => (
               <FormItem className="mt-8 gap-8 relative">
                 <FormLabel className="flex font-[600] text-[14px] items-center">
-                  Old password
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "Mật khẩu cũ"
+                    : "Old password"}
                   <svg
                     width="14"
                     className="ml-2"
@@ -183,7 +195,9 @@ const Account = () => {
               render={({ field }) => (
                 <FormItem className="mt-8 gap-8 relative">
                   <FormLabel className="flex font-[600] text-[14px] items-center">
-                    New password
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Mật khẩu mới"
+                      : "New password"}
                     <svg
                       width="14"
                       className="ml-2"
@@ -262,7 +276,9 @@ const Account = () => {
               render={({ field }) => (
                 <FormItem className="mt-8 gap-8 relative">
                   <FormLabel className="flex font-[600] text-[14px] items-center">
-                    Confirm new password
+                    {valueLocation.geoplugin_city === "Hanoi"
+                      ? "Xác nhận mật khẩu"
+                      : "Confirm password"}
                     <svg
                       width="14"
                       className="ml-2"
@@ -337,7 +353,9 @@ const Account = () => {
             />
           </div>
           <Button type="submit" variant={"cus2"} className="">
-            Update password
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Cập nhập mật khẩu"
+              : "Update password"}
           </Button>
         </form>
       </Form>
@@ -346,7 +364,9 @@ const Account = () => {
         variant={"cus1"}
         className="mt-8 w-[180px]"
       >
-        Back to profile
+        {valueLocation.geoplugin_city === "Hanoi"
+          ? "Quay về hồ sơ"
+          : "Back to profile"}
       </Button>
     </div>
   );

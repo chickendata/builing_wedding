@@ -1,18 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { LanguageContext } from "../hooks/languageContext";
 
 const Header = () => {
+  const { geoplugin_city, updateGeoplugin_city } = useContext(LanguageContext);
+  const [city, setCity] = useState(geoplugin_city);
   const [checkUser, setCheckUser] = useState(false);
   const [user, setUser] = useState({ id_user: "", link_avatar: "" });
   useEffect(() => {
     setUser(JSON.parse(String(localStorage.getItem("user"))));
     if (localStorage.getItem("user")) setCheckUser(true);
   }, []);
+
   const logOut = () => {
     localStorage.clear();
     window.location.reload();
   };
   const [isOpen, setIsOpen] = useState(false);
+  const handleLanguage = (newLanguage: string) => {
+    updateGeoplugin_city(newLanguage);
+    setCity(newLanguage);
+  };
   return (
     <>
       <header className="bg-white md:w-[100%] z-12">
@@ -57,7 +65,7 @@ const Header = () => {
                         to={`/profile/${user.id_user}`}
                       >
                         {" "}
-                        My Profile{" "}
+                        {city === "Hanoi" ? "Hồ sơ" : "My Profile"}{" "}
                       </Link>
                     </li>
                   )}
@@ -67,7 +75,7 @@ const Header = () => {
                       to="/listvideotemplate"
                     >
                       {" "}
-                      Swap Video{" "}
+                      {city === "Hanoi" ? "Video đổi mặt" : "Swap Video"}{" "}
                     </Link>
                   </li>
                   <li>
@@ -76,7 +84,7 @@ const Header = () => {
                       to="/timeline"
                     >
                       {" "}
-                      Timeline{" "}
+                      {city === "Hanoi" ? "Dòng thời gian" : "Time line"}{" "}
                     </Link>
                   </li>
                   <li>
@@ -85,7 +93,7 @@ const Header = () => {
                       to="/funnyvideo"
                     >
                       {" "}
-                      Funny Video{" "}
+                      {city === "Hanoi" ? "Video vui nhộn" : "Funny video"}{" "}
                     </Link>
                   </li>
                   <li>
@@ -94,7 +102,7 @@ const Header = () => {
                       to="/aboutus"
                     >
                       {" "}
-                      About Us{" "}
+                      {city === "Hanoi" ? "Về chúng tôi" : "About us"}{" "}
                     </Link>
                   </li>
 
@@ -104,9 +112,23 @@ const Header = () => {
                       to="/policy"
                     >
                       {" "}
-                      Policy
+                      {city === "Hanoi" ? "Chính sách" : "Policy"}{" "}
                     </Link>
                   </li>
+                  <button onClick={() => handleLanguage("Hanoi")}>
+                    <img
+                      className="w-[30px] h-[18px]"
+                      src="https://images.baodantoc.vn/uploads/2022/Th%C3%A1ng%208/Ng%C3%A0y_31/Nga/quockyvietnam-copy-7814.jpg"
+                      alt="Co_viet_nam"
+                    />
+                  </button>
+                  <button onClick={() => handleLanguage("My")}>
+                    <img
+                      className="w-[30px] h-[18px]"
+                      src="https://cdn.haitrieu.com/wp-content/uploads/2023/04/co-quoc-gia-my.png"
+                      alt="Co_my"
+                    />
+                  </button>
                   {checkUser ? (
                     <li>
                       <Link to={`/profile/edit/${user?.id_user}`}>
@@ -189,14 +211,14 @@ const Header = () => {
                             to={`/profile/edit/${user?.id_user}`}
                             className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                           >
-                            Profile
+                            {city === "Hanoi" ? "Hồ sơ" : "My Profile"}{" "}
                           </Link>
                         ) : (
                           <Link
                             to={`/signin`}
                             className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                           >
-                            Sign In
+                            {city === "Hanoi" ? "Đăng nhập" : "Sign In"}{" "}
                           </Link>
                         )}
                       </li>
@@ -205,7 +227,7 @@ const Header = () => {
                           to={`/timeline`}
                           className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                         >
-                          Timeline
+                          {city === "Hanoi" ? "Dòng thời gian" : "Time line"}{" "}
                         </Link>
                       </li>
                       <li className="mt-3">
@@ -213,7 +235,7 @@ const Header = () => {
                           to={`/funnyvideo`}
                           className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                         >
-                          Funny Video
+                          {city === "Hanoi" ? "Video vui nhộn" : "Funny video"}{" "}
                         </Link>
                       </li>
                       <li className="mt-3">
@@ -221,7 +243,7 @@ const Header = () => {
                           to={`/listvideotemplate`}
                           className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                         >
-                          Swap Video
+                          {city === "Hanoi" ? "Video đổi mặt" : "Swap video"}{" "}
                         </Link>
                       </li>
                       {checkUser && (
@@ -230,7 +252,7 @@ const Header = () => {
                             to={`/profile/${user.id_user}`}
                             className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                           >
-                            My profile
+                            {city === "Hanoi" ? "Hồ sơ" : "My Profile"}{" "}
                           </Link>
                         </li>
                       )}
@@ -239,7 +261,7 @@ const Header = () => {
                           to={`/aboutus`}
                           className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                         >
-                          About Us
+                          {city === "Hanoi" ? "Về chúng tôi" : "About us"}{" "}
                         </Link>
                       </li>
                       <li className="mt-3">
@@ -247,9 +269,10 @@ const Header = () => {
                           to={`/policy`}
                           className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                         >
-                          Policy
+                          {city === "Hanoi" ? "Chính sách" : "Policy"}{" "}
                         </Link>
                       </li>
+
                       {checkUser ? (
                         <li>
                           <button
@@ -259,7 +282,7 @@ const Header = () => {
                             className="flex cursor-pointer items-center p-2 mt-2 text-slate-500 hover:text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group text-center mx-auto"
                           >
                             <span className="ms-2 flex rounded-lg  hover:bg-[#d6f1f6] text-sm font-medium text-gray-700 text-center mx-auto">
-                              Logout{" "}
+                              {city === "Hanoi" ? "Đăng xuất" : "Log out"}{" "}
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"

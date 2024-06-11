@@ -2,13 +2,15 @@ import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import { useToast } from "../../components/ui/use-toast";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { ToastAction } from "../../components/ui/toast";
 import axios from "axios";
 import { Button } from "../../components/ui/button";
 import ProgressForBaby from "./ProgressForBaby";
+import { LanguageContext } from "../../hooks/languageContext";
 
 function CreateBabyImage() {
+  const valueLocation = useContext(LanguageContext);
   const [original_Image_1, setOriginalImage1] = useState<File | null>(null);
   const [original_Image_2, setOriginalImage2] = useState<File | null>(null);
   const [chosenImage1, setChosenImage1] = useState("");
@@ -80,7 +82,11 @@ function CreateBabyImage() {
       toast({
         variant: "destructive",
         description: `Image 1 must not be empty!`,
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
       });
       return;
     }
@@ -88,7 +94,11 @@ function CreateBabyImage() {
       toast({
         variant: "destructive",
         description: `Image 2 must not be empty`,
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
       });
       return;
     }
@@ -147,9 +157,12 @@ function CreateBabyImage() {
       req_post_img_1,
       req_post_img_2,
     ]);
+    console.log(src_res_1, src_res_2);
+
     if (src_res_1 !== null && src_res_2 !== null) {
       try {
         setIsLoading(true);
+        const randomNumber = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
         const response = await axios.get(
           "https://thinkdiff.us/getdata/swap/listimage_baby_family",
           {
@@ -157,7 +170,7 @@ function CreateBabyImage() {
               device_them_su_kien: userData.device_register,
               ip_them_su_kien: userData.ip_register,
               id_user: userData.id_user,
-              list_folder: "baby_family1",
+              list_folder: `baby_family${randomNumber}`,
             },
             headers: {
               link1: src_res_1,
@@ -268,7 +281,11 @@ function CreateBabyImage() {
                     className="h-full w-full"
                   />
                   {isUploader1DragActive ? (
-                    <p className="text-red-500">Thả ảnh tại đây</p>
+                    <p className="text-red-500">
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Thả ảnh tại đây"
+                        : "Drop your image"}
+                    </p>
                   ) : (
                     <div className="flex gap-1 h-full">
                       {!checkChosen1 ? (
@@ -285,7 +302,11 @@ function CreateBabyImage() {
                               src="https://s3-alpha-sig.figma.com/img/1b6e/d52f/cea85f0662d115e0633c83e4fab45dac?Expires=1718582400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qvTQfIe7JeRbxPX6c3g2puGjWSmrGmn1IspheoDAdvw1vDnJMdAYeVLDMwZUU01ycnLKoYzTrhoNDIl-LwPyCG0T7O2MNci6w8IZdRn2U-JuJde--kQMRZPJ1qTgATDMCqOjioQAEBJRK42ZHiXdig~lzUgbcErNgkdvbmclhzSEb-w6neSRiBnfFYHS3YhPHz8eI0mtEEpPLNbIznehC4VSei-tKojmi98HLbnitep~sFAHyDcqjMEY0qPDmp-vkDn2hRVQ7e3E-LPps2PKT9QU56oqz5by8qLJIm8dGq1UyJdZhHY1ew41SMOWaY81nQQUpH2Wi60SONXSinSdbA__"
                               alt="boy"
                             />
-                            <span className="font-[500]">Father's photo</span>
+                            <span className="font-[500]">
+                              {valueLocation.geoplugin_city === "Hanoi"
+                                ? "Ảnh bố"
+                                : "Father's photo"}
+                            </span>
                             <div>
                               <svg
                                 width="40"
@@ -394,7 +415,11 @@ function CreateBabyImage() {
                     className="w-full h-full"
                   />
                   {isUploader2DragActive ? (
-                    <p className="text-red-500">Thả ảnh tại đây</p>
+                    <p className="text-red-500">
+                      {valueLocation.geoplugin_city === "Hanoi"
+                        ? "Thả ảnh tại đây"
+                        : "Drop your photo"}
+                    </p>
                   ) : (
                     <div className="flex gap-1 h-full">
                       {!checkChosen2 ? (
@@ -411,7 +436,11 @@ function CreateBabyImage() {
                               src="https://s3-alpha-sig.figma.com/img/17fb/26e3/d47bd452058e73bd02b7b60b4acc98ac?Expires=1718582400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=F2x~e8aBpK0JRb0RPq~wju30Ve-3UNBUfsRdvnmxgUkKcPO9UDtE809FQ5vqXynL9uTh-7w88aG1DY0QFP9ULRc5E1FbWAABaLMkBcqwesPMnMABHWMdmbwkuj6hrrvgit3Poc1ToEtXj-371yzgJjFotm8OhiSPfNzVj5lk40n5JinBqra0wi6jf7BzibKtLBZra0Hb-I9Q6yk~7OniQqoN9iZ3ouK5UR9tUigXkxux~epQoaTtq2tnihqk9gUlaNzOfNMzDb-P6vZYJJMTGnrjGRgKrEhuEZMrCPp5OLAKm4oQ2MPXYD8A8b1-XYF8k4IJG8jyZ4cpoTi4-MC7Hg__"
                               alt="boy"
                             />
-                            <span className="font-[500]">Mother's photo</span>
+                            <span className="font-[500]">
+                              {valueLocation.geoplugin_city === "Hanoi"
+                                ? "Ảnh mẹ"
+                                : "Mother's photo"}
+                            </span>
                             <div>
                               <svg
                                 width="40"
@@ -497,7 +526,11 @@ function CreateBabyImage() {
               className="w-[200px]"
               onClick={handleCreate}
             >
-              <span className="text-lg">Continue</span>
+              <span className="text-lg">
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Tiếp tục"
+                  : "Continue"}
+              </span>
               <svg
                 width="40"
                 height="40"
