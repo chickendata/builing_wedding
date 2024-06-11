@@ -50,7 +50,6 @@ function CreateBabyImage() {
   const {
     getRootProps: get_Uploader_1_RootProps,
     getInputProps: get_Uploader_1_InputProps,
-    open: openUploader1,
     isDragActive: isUploader1DragActive,
   } = useDropzone({
     onDrop: On_Uploader_1_Drop,
@@ -64,7 +63,6 @@ function CreateBabyImage() {
   const {
     getRootProps: get_Uploader_2_RootProps,
     getInputProps: get_Uploader_2_InputProps,
-    open: openUploader2,
     isDragActive: isUploader2DragActive,
   } = useDropzone({
     onDrop: On_Uploader_2_Drop,
