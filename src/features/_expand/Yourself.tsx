@@ -18,30 +18,14 @@ import { ScrollArea, ScrollBar } from "../../components/ui/scroll-area";
 
 function Yourself() {
   const valueLocation = useContext(LanguageContext);
-  const [original_Image_1, setOriginalImage1] = useState<File | null>(null);
   const [original_Image_2, setOriginalImage2] = useState<File | null>(null);
-  const [chosenImage1, setChosenImage1] = useState("");
-  const [checkChosen1, setCheckChosen1] = useState(false);
   const [chosenImage2, setChosenImage2] = useState("");
   const [checkChosen2, setCheckChosen2] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<string[] | []>([]);
+  const [uploadedImage] = useState<string[] | []>([]);
   const [isActive, setIsActive] = useState("girl");
   const [isLoading, setIsLoading] = useState(false);
 
   const navi = useNavigate();
-
-  const On_Uploader_1_Drop = useCallback((acceptedFiles: File[]) => {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const image = new Image();
-      //@ts-ignore
-      image.src = event.target!.result;
-      image.onload = () => {
-        setOriginalImage1(acceptedFiles[0]);
-      };
-    };
-    reader.readAsDataURL(acceptedFiles[0]);
-  }, []);
 
   const On_Uploader_2_Drop = useCallback((acceptedFiles: File[]) => {
     const reader = new FileReader();
@@ -69,12 +53,6 @@ function Yourself() {
     maxFiles: 1,
     multiple: false,
   });
-
-  const handleChoose1 = (src: string) => {
-    setOriginalImage1(null);
-    setCheckChosen1(true);
-    setChosenImage1(src);
-  };
 
   const handleChoose2 = (src: string) => {
     setOriginalImage2(null);
