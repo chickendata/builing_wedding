@@ -24,7 +24,7 @@ function CreateBabyImage() {
   const [checkChosen1, setCheckChosen1] = useState(false);
   const [chosenImage2, setChosenImage2] = useState("");
   const [checkChosen2, setCheckChosen2] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<string[] | []>([]);
+  const [uploadedImage] = useState<string[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const navi = useNavigate();
