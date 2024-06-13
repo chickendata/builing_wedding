@@ -28,6 +28,8 @@ import CardWedding from "../pages/client/CardWedding";
 import Expand from "../features/_expand/Expand";
 import CreateBabyImage from "../features/_expand/CreateBabyImage";
 import BabyImage from "../features/_expand/BabyImage";
+import Yourself from "../features/_expand/Yourself";
+import ImageYourself from "../features/_expand/ImageYourself";
 const Routers = () => {
   // const [, setPrivateId] = useState('')
   // const handleSetId = (id:string) => setPrivateId(id)
@@ -94,10 +96,12 @@ const Routers = () => {
         <Route path="invitation/:id" element={<Invitation />} />
         <Route path="expand/:id" element={<Expand />} />
         <Route path="expand/:id/create" element={<CreateBabyImage />} />
+        <Route path="expand/:id/yourself" element={<Yourself />} />
         <Route
           path="expand/:id/create/timeline/:id_all_sk"
           element={<BabyImage />}
         />
+        <Route path="/expand/:id/yourself/image/" element={<ImageYourself />} />
         <Route path="invitation/:id/cardwedding" element={<CardWedding />} />
         <Route path="funnyvideo" element={<FunnyVideo />}></Route>
         <Route

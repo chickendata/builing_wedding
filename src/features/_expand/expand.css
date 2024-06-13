@@ -1,0 +1,12 @@
+.animation-show {
+  animation: showContent 1s linear 1 forwards;
+}
+
+@keyframes showContent {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

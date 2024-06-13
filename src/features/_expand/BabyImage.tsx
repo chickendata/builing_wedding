@@ -6,6 +6,8 @@ import Header from "../../components/Header";
 function BabyImage() {
   const locate = useLocation();
   const { data } = locate.state || {};
+  console.log(data);
+
   const [dataBaby] = useState(data.link_anh_swap);
   const husband_image = data.sukien_2_image.link_src_goc.replace(
     "/var/www/build_futurelove",
