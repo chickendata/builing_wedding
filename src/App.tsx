@@ -37,7 +37,6 @@ function App() {
     geoplugin_city,
     updateGeoplugin_city,
   };
-
   const { toast } = useToast();
   const curent_date = new Date();
   const today = curent_date.toLocaleDateString("vi-VN", {

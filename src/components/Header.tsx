@@ -4,7 +4,6 @@ import { LanguageContext } from "../hooks/languageContext";
 
 const Header = () => {
   const { geoplugin_city, updateGeoplugin_city } = useContext(LanguageContext);
-  const [city, setCity] = useState(geoplugin_city);
   const [checkUser, setCheckUser] = useState(false);
   const [user, setUser] = useState({ id_user: "", link_avatar: "" });
   useEffect(() => {
@@ -19,7 +18,6 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const handleLanguage = (newLanguage: string) => {
     updateGeoplugin_city(newLanguage);
-    setCity(newLanguage);
   };
   return (
     <>
@@ -65,7 +63,9 @@ const Header = () => {
                         to={`/profile/${user.id_user}`}
                       >
                         {" "}
-                        {city === "Hanoi" ? "Hồ sơ" : "My Profile"}{" "}
+                        {geoplugin_city === "Hanoi"
+                          ? "Hồ sơ"
+                          : "My Profile"}{" "}
                       </Link>
                     </li>
                   )}
@@ -75,7 +75,9 @@ const Header = () => {
                       to="/listvideotemplate"
                     >
                       {" "}
-                      {city === "Hanoi" ? "Video đổi mặt" : "Swap Video"}{" "}
+                      {geoplugin_city === "Hanoi"
+                        ? "Video đổi mặt"
+                        : "Swap Video"}{" "}
                     </Link>
                   </li>
                   <li>
@@ -84,7 +86,9 @@ const Header = () => {
                       to="/timeline"
                     >
                       {" "}
-                      {city === "Hanoi" ? "Dòng thời gian" : "Time line"}{" "}
+                      {geoplugin_city === "Hanoi"
+                        ? "Dòng thời gian"
+                        : "Time line"}{" "}
                     </Link>
                   </li>
                   <li>
@@ -93,7 +97,9 @@ const Header = () => {
                       to="/funnyvideo"
                     >
                       {" "}
-                      {city === "Hanoi" ? "Video vui nhộn" : "Funny video"}{" "}
+                      {geoplugin_city === "Hanoi"
+                        ? "Video vui nhộn"
+                        : "Funny video"}{" "}
                     </Link>
                   </li>
                   <li>
@@ -102,7 +108,9 @@ const Header = () => {
                       to="/aboutus"
                     >
                       {" "}
-                      {city === "Hanoi" ? "Về chúng tôi" : "About us"}{" "}
+                      {geoplugin_city === "Hanoi"
+                        ? "Về chúng tôi"
+                        : "About us"}{" "}
                     </Link>
                   </li>
 
@@ -112,7 +120,9 @@ const Header = () => {
                       to="/policy"
                     >
                       {" "}
-                      {city === "Hanoi" ? "Chính sách" : "Policy"}{" "}
+                      {geoplugin_city === "Hanoi"
+                        ? "Chính sách"
+                        : "Policy"}{" "}
                     </Link>
                   </li>
                   <button onClick={() => handleLanguage("Hanoi")}>
@@ -211,14 +221,18 @@ const Header = () => {
                             to={`/profile/edit/${user?.id_user}`}
                             className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                           >
-                            {city === "Hanoi" ? "Hồ sơ" : "My Profile"}{" "}
+                            {geoplugin_city === "Hanoi"
+                              ? "Hồ sơ"
+                              : "My Profile"}{" "}
                           </Link>
                         ) : (
                           <Link
                             to={`/signin`}
                             className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                           >
-                            {city === "Hanoi" ? "Đăng nhập" : "Sign In"}{" "}
+                            {geoplugin_city === "Hanoi"
+                              ? "Đăng nhập"
+                              : "Sign In"}{" "}
                           </Link>
                         )}
                       </li>
@@ -227,7 +241,9 @@ const Header = () => {
                           to={`/timeline`}
                           className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                         >
-                          {city === "Hanoi" ? "Dòng thời gian" : "Time line"}{" "}
+                          {geoplugin_city === "Hanoi"
+                            ? "Dòng thời gian"
+                            : "Time line"}{" "}
                         </Link>
                       </li>
                       <li className="mt-3">
@@ -235,7 +251,9 @@ const Header = () => {
                           to={`/funnyvideo`}
                           className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                         >
-                          {city === "Hanoi" ? "Video vui nhộn" : "Funny video"}{" "}
+                          {geoplugin_city === "Hanoi"
+                            ? "Video vui nhộn"
+                            : "Funny video"}{" "}
                         </Link>
                       </li>
                       <li className="mt-3">
@@ -243,7 +261,9 @@ const Header = () => {
                           to={`/listvideotemplate`}
                           className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                         >
-                          {city === "Hanoi" ? "Video đổi mặt" : "Swap video"}{" "}
+                          {geoplugin_city === "Hanoi"
+                            ? "Video đổi mặt"
+                            : "Swap video"}{" "}
                         </Link>
                       </li>
                       {checkUser && (
@@ -252,7 +272,9 @@ const Header = () => {
                             to={`/profile/${user.id_user}`}
                             className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                           >
-                            {city === "Hanoi" ? "Hồ sơ" : "My Profile"}{" "}
+                            {geoplugin_city === "Hanoi"
+                              ? "Hồ sơ"
+                              : "My Profile"}{" "}
                           </Link>
                         </li>
                       )}
@@ -261,7 +283,9 @@ const Header = () => {
                           to={`/aboutus`}
                           className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                         >
-                          {city === "Hanoi" ? "Về chúng tôi" : "About us"}{" "}
+                          {geoplugin_city === "Hanoi"
+                            ? "Về chúng tôi"
+                            : "About us"}{" "}
                         </Link>
                       </li>
                       <li className="mt-3">
@@ -269,7 +293,7 @@ const Header = () => {
                           to={`/policy`}
                           className="block rounded-lg w-[300px] hover:bg-[#d6f1f6] px-4 py-2 text-sm font-medium text-gray-700 text-center mx-auto"
                         >
-                          {city === "Hanoi" ? "Chính sách" : "Policy"}{" "}
+                          {geoplugin_city === "Hanoi" ? "Chính sách" : "Policy"}{" "}
                         </Link>
                       </li>
 
@@ -282,7 +306,9 @@ const Header = () => {
                             className="flex cursor-pointer items-center p-2 mt-2 text-slate-500 hover:text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group text-center mx-auto"
                           >
                             <span className="ms-2 flex rounded-lg  hover:bg-[#d6f1f6] text-sm font-medium text-gray-700 text-center mx-auto">
-                              {city === "Hanoi" ? "Đăng xuất" : "Log out"}{" "}
+                              {geoplugin_city === "Hanoi"
+                                ? "Đăng xuất"
+                                : "Log out"}{" "}
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
