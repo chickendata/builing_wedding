@@ -97,7 +97,7 @@ const EditProfile = () => {
                       <span className="ms-3 flex">
                         {valueLocation.geoplugin_city === "Hanoi"
                           ? "Đăng xuất"
-                          : "Đăng xuất"}{" "}
+                          : "Log out"}{" "}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"

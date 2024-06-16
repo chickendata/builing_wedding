@@ -308,7 +308,7 @@ const Header = () => {
                             <span className="ms-2 flex rounded-lg  hover:bg-[#d6f1f6] text-sm font-medium text-gray-700 text-center mx-auto">
                               {geoplugin_city === "Hanoi"
                                 ? "Đăng xuất"
-                                : "Log out"}{" "}
+                                : "Log out"}
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"

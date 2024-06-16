@@ -9,6 +9,7 @@ import { useToast } from "./components/ui/use-toast";
 function App() {
   const [data, setData] = useState<listItemType[]>([]);
   const [geoplugin_city, setGeoplugin_city] = useState("");
+  const [isYourLocation, setIsYourLocation] = useState("");
   useEffect(() => {
     axios
       .get(
@@ -26,10 +27,20 @@ function App() {
       if (user) {
         axios
           .get(`http://www.geoplugin.net/json.gp?ip=${user.ip_register}`)
-          .then((res) => setGeoplugin_city(res.data.geoplugin_city));
+          .then((res) => {
+            setGeoplugin_city(res.data.geoplugin_city);
+            setIsYourLocation(res.data.geoplugin_city);
+          });
       }
     }
   }, []);
+  window.addEventListener("load", () => {
+    if (geoplugin_city !== isYourLocation) {
+      setGeoplugin_city(isYourLocation);
+    } else {
+      return;
+    }
+  });
   const updateGeoplugin_city = (newLocation: string) => {
     setGeoplugin_city(newLocation);
   };

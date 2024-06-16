@@ -59,6 +59,7 @@ const Profile = () => {
   const [currentUser, setCurrentUser] = useState({
     id_user: "",
     link_avatar: "",
+    ip_register: "",
   });
   useEffect(() => {
     if (localStorage.getItem("user")) {
