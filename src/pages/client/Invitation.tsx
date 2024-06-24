@@ -244,13 +244,12 @@ function Invitation() {
             },
           }
         );
-        let data;
-        if (response) {
-          data = response.data;
-        }
         setIsLoading(false);
-        localStorage.setItem("invitation", JSON.stringify(data));
-        navi(`/invitation/${id}/cardwedding`);
+        console.log(response.data);
+
+        navi(
+          `/cardwedding?groom=${response.data.groom_name}&bride=${response.data.bride_name}&date=${response.data.wedding_date}&location=${response.data.wedding_location}&link_location=${response.data.google_maps_link}&status=${response.data.attendance_status}&wedding_image=${response.data.wedding_image}&groom_image=${response.data.groom_image}&bride_image=${response.data.bride_image}`
+        );
         window.location.reload();
       } catch (err) {
         console.log(err);
@@ -301,27 +300,43 @@ function Invitation() {
             <input
               type="text"
               className="px-4 py-2 border rounded-md flex-1"
-              placeholder="Mời nhập tên chú rể..."
+              placeholder={
+                valueLocation.geoplugin_city === "Hanoi"
+                  ? "Mời nhập tên chú rể..."
+                  : "Enter groom name"
+              }
               onChange={(e) => setGroom(e.target.value)}
             />
             <input
               type="text"
               className="px-4 py-2 border rounded-md flex-1"
-              placeholder="Mời nhập tên cô dâu..."
+              placeholder={
+                valueLocation.geoplugin_city === "Hanoi"
+                  ? "Mời nhập tên cô dâu..."
+                  : "Enter bride name"
+              }
               onChange={(e) => setBride(e.target.value)}
             />
           </div>
           <input
             type="text"
             className="px-4 py-2 border mb-3 rounded-md flex-1 w-full"
-            placeholder="Mời nhập địa chỉ..."
+            placeholder={
+              valueLocation.geoplugin_city === "Hanoi"
+                ? "Mời nhập địa chỉ..."
+                : "Enter your location..."
+            }
             onChange={(e) => setLocation(e.target.value)}
           />
           <br />
           <input
             type="text"
             className="flex-grow px-4 py-2 w-[60%] border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Mời nhập link tổ chức..."
+            placeholder={
+              valueLocation.geoplugin_city === "Hanoi"
+                ? "Mời nhập link tổ chức..."
+                : "Enter link organize"
+            }
             value={linkLocation}
             onChange={(e) => setLinkLocation(e.target.value)}
           />

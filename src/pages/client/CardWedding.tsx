@@ -1,30 +1,36 @@
 import Header from "../../components/Header";
 import { Button } from "../../components/ui/button";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { LanguageContext } from "../../hooks/languageContext";
+import { useLocation } from "react-router-dom";
 
 interface IInvitation {
-  id: number;
   groom_name: string;
   bride_name: string;
   wedding_date: string;
   wedding_image: string;
   wedding_location: string;
   google_maps_link: string;
-  qr_code_image: string;
   attendance_status: string;
-  id_user: number;
   groom_image: string;
   bride_image: string;
 }
 function CardWedding() {
-  const [data] = useState<IInvitation>(() => {
-    // Lấy dữ liệu từ LocalStorage khi component được render lần đầu
-    const storedWeddingDate = localStorage.getItem("invitation");
-    return storedWeddingDate ? JSON.parse(storedWeddingDate) : null;
-  });
+  const valueLocation = useContext(LanguageContext);
+  const searchParams = new URLSearchParams(window.location.search);
+  const data: IInvitation = {
+    groom_name: searchParams.get("groom") || "",
+    bride_name: searchParams.get("bride") || "",
+    wedding_date: searchParams.get("date") || "",
+    wedding_image: searchParams.get("wedding_image") || "",
+    wedding_location: searchParams.get("location") || "",
+    google_maps_link: searchParams.get("link_location") || "",
+    attendance_status: searchParams.get("status") || "",
+    groom_image: searchParams.get("groom_image") || "",
+    bride_image: searchParams.get("bride_image") || "",
+  };
   const [currentDate] = useState(new Date(data.wedding_date));
-  console.log(currentDate);
   const [daysInMonth, setDaysInMonth] = useState(0);
   const [firstDayOfWeek, setFirstDayOfWeek] = useState(0);
   const [activeButton, setActiveButton] = useState(data.attendance_status);
@@ -67,8 +73,6 @@ function CardWedding() {
     };
     getImage();
   }, []);
-
-  console.log(listImage[0]);
 
   const time: string[] = data.wedding_date.split("-");
   const year = parseInt(time[0]);
@@ -139,9 +143,9 @@ function CardWedding() {
       <Header />
       <div className="flex flex-col px-4 sm:px-16 lg:px-40 h-[90%] w-full">
         <div className="font-[700] text-3xl text-[#009DC4] mb-[1.6rem] pointer-events-none">
-          <p>The</p>
-          <p>Wedding</p>
-          <p>Of</p>
+          <p>{valueLocation.geoplugin_city === "Hanoi" ? "Đám" : "The"}</p>
+          <p>{valueLocation.geoplugin_city === "Hanoi" ? "Cưới" : "Wedding"}</p>
+          <p>{valueLocation.geoplugin_city === "Hanoi" ? "Của" : "Of"}</p>
         </div>
         <div className={`w-[950px] h-[300px] relative`}>
           <img
@@ -177,30 +181,43 @@ function CardWedding() {
         <div className="flex w-[950px] justify-evenly items-center">
           <div className="flex flex-col items-center bg-[#FFFFFF] w-[300px] h-[330px] mt-10 shadow-md">
             <p className="text-[#2A5578] text-2xl font-[600] mt-8 pointer-events-none">
-              Save <span className="italic">the </span>
-              date
+              {valueLocation.geoplugin_city === "Hanoi" ? "Lưu lại" : "Save"}{" "}
+              <span className="italic">
+                {valueLocation.geoplugin_city === "Hanoi" ? "buổi" : "the"}{" "}
+              </span>
+              {valueLocation.geoplugin_city === "Hanoi" ? "hẹn" : "date"}
             </p>
             <p className="font-[200] my-2 pointer-events-none">
-              For the wedding of
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Cho ngày cưới của"
+                : "For the wedding of"}
             </p>
             <p className="text-[#2A5578] text-2xl font-[600] my-1 pointer-events-none">
               {data.bride_name} & {data.groom_name}
             </p>
             <p className=" text-[#2A5578] my-1 pointer-events-none">
-              Một lời chúc của bạn chắc chắn
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Một lời chúc của bạn chắc chắn"
+                : "A wish from you for sure"}
             </p>
             <p className=" text-[#2A5578] my-1 pointer-events-none">
-              Sẽ làm cho đám cưới của chúng tôi
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Sẽ làm cho đám cưới của chúng tôi"
+                : "Will make for my wedding"}
             </p>
             <p className=" text-[#2A5578] my-1 pointer-events-none">
-              Có thêm một niềm hạnh phúc!
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Có thêm một niềm hạnh phúc!"
+                : "Have more happiness!"}
             </p>
             <Button
               variant="cus3"
               className="my-1 mt-2"
               onClick={() => handleActive("going")}
             >
-              Gửi lời chúc{" "}
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Gửi lời chúc"
+                : "Send greetings"}{" "}
               <svg
                 width="18"
                 height="18"
@@ -231,13 +248,27 @@ function CardWedding() {
               <table className="w-[250px] h-[180px] text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                   <tr className="border-t-[0.25px] border-[#000000] border-b-[0.25px]">
-                    <th className="font-[200] text-center">Sun</th>
-                    <th className="font-[200] text-center">Mon</th>
-                    <th className="font-[200] text-center">Tue</th>
-                    <th className="font-[200] text-center">Wed</th>
-                    <th className="font-[200] text-center">Thu</th>
-                    <th className="font-[200] text-center">Fri</th>
-                    <th className="font-[200] text-center">Sat</th>
+                    <th className="font-[200] text-center">
+                      {valueLocation.geoplugin_city === "Hanoi" ? "CN" : "Sun"}
+                    </th>
+                    <th className="font-[200] text-center">
+                      {valueLocation.geoplugin_city === "Hanoi" ? "T2" : "Mon"}
+                    </th>
+                    <th className="font-[200] text-center">
+                      {valueLocation.geoplugin_city === "Hanoi" ? "T3" : "Tue"}
+                    </th>
+                    <th className="font-[200] text-center">
+                      {valueLocation.geoplugin_city === "Hanoi" ? "T4" : "Wed"}
+                    </th>
+                    <th className="font-[200] text-center">
+                      {valueLocation.geoplugin_city === "Hanoi" ? "T5" : "Thu"}
+                    </th>
+                    <th className="font-[200] text-center">
+                      {valueLocation.geoplugin_city === "Hanoi" ? "T6" : "Fri"}
+                    </th>
+                    <th className="font-[200] text-center">
+                      {valueLocation.geoplugin_city === "Hanoi" ? "T7" : "Sat"}
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="border-b-[0.25px] border-[#000000]">
@@ -277,22 +308,30 @@ function CardWedding() {
               <div className="text-[#009DC4] mx-5">
                 <span className="ml-2">{day}</span>
                 <br />
-                <span>ngày</span>
+                <span>
+                  {valueLocation.geoplugin_city === "Hanoi" ? "ngày" : "day"}
+                </span>
               </div>
               <div className="text-[#009DC4] mx-5">
                 <span className="ml-1">00</span>
                 <br />
-                <span>giờ</span>
+                <span>
+                  {valueLocation.geoplugin_city === "Hanoi" ? "giờ" : "hour"}
+                </span>
               </div>
               <div className="text-[#009DC4] mx-5">
                 <span className="ml-2">00</span>
                 <br />
-                <span>phút</span>
+                <span>
+                  {valueLocation.geoplugin_city === "Hanoi" ? "phút" : "minute"}
+                </span>
               </div>
               <div className="text-[#009DC4] mx-5">
                 <span className="ml-2">00</span>
                 <br />
-                <span>Giây</span>
+                <span>
+                  {valueLocation.geoplugin_city === "Hanoi" ? "Giây" : "Second"}
+                </span>
               </div>
             </div>
           </div>
@@ -323,7 +362,11 @@ function CardWedding() {
                 stroke-linecap="round"
               />
             </svg>
-            <span className="text-base mt-2">Tham dự lễ</span>
+            <span className="text-base mt-2">
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Tham dự lễ"
+                : "Attend the ceremony"}
+            </span>
           </button>
           <button
             className={`my-8 mx-5 w-[200px] flex justify-center h-[40px] rounded ${
@@ -359,7 +402,11 @@ function CardWedding() {
                 stroke-width="1.2"
               />
             </svg>
-            <span className="text-base mt-2">Không tham gia dự lễ</span>
+            <span className="text-base mt-2">
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Không tham dự lễ"
+                : "Can't go"}
+            </span>
           </button>
           <button
             className={`my-8 w-[200px] flex justify-center rounded  ${
@@ -398,7 +445,11 @@ function CardWedding() {
                 stroke-linejoin="round"
               />
             </svg>
-            <span className="text-base mt-2">Gửi tiền mừng cưới</span>
+            <span className="text-base mt-2">
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Gửi tiền mừng cưới"
+                : "Send wedding money"}
+            </span>
           </button>
         </div>
         <div className="w-[950px] bg-[#fff] h-[1250px] flex flex-col items-center">
@@ -409,27 +460,34 @@ function CardWedding() {
             />
           </div>
           <span className="text-[#009DC4] font-[400] italic">
-            Chuyện tình yêu
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Chuyện tình yêu"
+              : "Love story"}
           </span>
           <br />
           <span className="text-[#009DC4] text-center ">
-            Tình yêu là điều kiện trong đó hạnh phúc của người là điều cần thiết
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Tình yêu là điều kiện trong đó hạnh phúc của người là điều cần thiết"
+              : "Love is the condition in which the happiness of the person is essential"}
           </span>
           <div className="flex w-full">
             <div className="w-[400px] ml-12">
               <span className="flex justify-end rtl font-[500] mt-8">
-                Bạn có tin vào tình yêu không?
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Bạn có tin vào tình yêu không?"
+                  : "Do you believe in love?"}
               </span>
               <br />
-              <span className="flex justify-end rtl">December 12 2015</span>
+              <span className="flex justify-end rtl">
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "12 tháng 12 năm 2015"
+                  : "December 12 2015"}
+              </span>
               <br />
               <span>
-                Tôi đã từng không tin vào tình yêu online. Đã từng nghĩ làm sao
-                có thể thích một người chưa từng gặp mặt? Vậy mà giờ tôi lại
-                đang như vậy, bây giờ tôi đã hiểu: thế giới ảo tình yêu thật!!!
-                Ngày ấy vu vơ đăng một dòng status trên facebook than thở, vu vơ
-                đùa giỡn nói chuyện với một người xa lạ chưa từng quen. Mà nào
-                hay biết, 4 năm sau người ấy là chồng mình
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Tôi đã từng không tin vào tình yêu online. Đã từng nghĩ làm sao có thể thích một người chưa từng gặp mặt? Vậy mà giờ tôi lại đang như vậy, bây giờ tôi đã hiểu: thế giới ảo tình yêu thật!!! Ngày ấy vu vơ đăng một dòng status trên facebook than thở, vu vơ đùa giỡn nói chuyện với một người xa lạ chưa từng quen. Mà nào hay biết, 4 năm sau người ấy là chồng mình"
+                  : "I used to not believe in online love. Ever thought about what to do? Is it possible to like someone you've never met? But now I'm back It's like that, now I understand: the virtual world is real love!!! That day, I aimlessly posted a status line on Facebook complaining and aimlessly jokingly talking to a stranger I never knew. Whichever Little did I know, 4 years later that person was my husband"}
               </span>
               <img
                 className="w-[200px] h-[200px] object-cover object-center rounded-[10px] mx-auto mt-10"
@@ -437,17 +495,19 @@ function CardWedding() {
                 alt="Anh thiep cuoi"
               />
               <span className="flex justify-end rtl mt-8 font-[500] text-xl">
-                Phút giây cầu hôn
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Phút giây cầu hôn"
+                  : "Proposal moment"}
               </span>
-              <span className="flex justify-end rtl">December 12 2015</span>
+              <span className="flex justify-end rtl">
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "12 tháng 12 năm 2015"
+                  : "December 12 2015"}
+              </span>
               <span>
-                5 năm bên nhau không phải là quãng thời gian quá dài, nhưng đủ
-                cho chúng ta nhận ra được rất nhiều điều. Yêu nhau, vun vén hạnh
-                phúc và cùng nỗ lực vượt qua những khó khăn trong cuộc sống.
-                Chúng ta từ 2 con người xa lạ mà bước vào cuộc đời nhau. Và giờ
-                đây chúng ta tiếp tục cùng nhau sang trang mới. Giây phút anh
-                ngỏ lời “Làm vợ anh nhé!”, em đã nguyện ý đời này, đi đâu cũng
-                được, miễn là cùng anh.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "5 năm bên nhau không phải là quãng thời gian quá dài, nhưng đủ cho chúng ta nhận ra được rất nhiều điều. Yêu nhau, vun vén hạnh phúc và cùng nỗ lực vượt qua những khó khăn trong cuộc sống. Chúng ta từ 2 con người xa lạ mà bước vào cuộc đời nhau. Và giờ đây chúng ta tiếp tục cùng nhau sang trang mới. Giây phút anh ngỏ lời “Làm vợ anh nhé!”, em đã nguyện ý đời này, đi đâu cũng được, miễn là cùng anh."
+                  : "5 years together is not a long time, but enough Let us realize many things. Love each other, cultivate happiness happiness and work together to overcome difficulties in life. We went from two strangers into each other's lives. And now Here we continue to turn a new page together. Your moment I asked, \"Be my wife!\", I was willing to go anywhere in this life Okay, as long as it's with you."}
               </span>
               <img
                 className="w-[200px] h-[200px] object-cover object-center rounded-[10px] mx-auto mt-10"
@@ -467,18 +527,22 @@ function CardWedding() {
                 src={listImage[13]}
                 alt="anh3"
               />
-              <span className="font-[500] text-base">Lời tỏ tình</span>
-              <br />
-              <span>December 12 2015</span>
+              <span className="font-[500] text-base">
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Lời tỏ tình"
+                  : "Confession of love"}
+              </span>
               <br />
               <span>
-                Ngày ấy, tôi 21! Một mình giữa phố thị nấp tập. Mỗi chiều cuối
-                tuần thường chạy xe vòng quanh qua những con phố, len lỏi trong
-                từng dòng người tấp nập. Hay thậm chí là ghé vào một quán cà phê
-                ven đường để ngồi đó và cảm nhận về cuộc sống của riêng mình.
-                Đôi khi lạc lõng và hơi cô đơn. Nhưng rồi một ngày đẹp trời,
-                người con trai ấy xuất hiện, nắm tay rồi thủ thỉ vào tai: “Hy
-                vọng sau này anh được làm những điều ấy cùng em”.
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "12 tháng 12 năm 2015"
+                  : "December 12 2015"}
+              </span>
+              <br />
+              <span>
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Ngày ấy, tôi 21! Một mình giữa phố thị nấp tập. Mỗi chiều cuối tuần thường chạy xe vòng quanh qua những con phố, len lỏi trong từng dòng người tấp nập. Hay thậm chí là ghé vào một quán cà phê ven đường để ngồi đó và cảm nhận về cuộc sống của riêng mình. Đôi khi lạc lõng và hơi cô đơn. Nhưng rồi một ngày đẹp trời, người con trai ấy xuất hiện, nắm tay rồi thủ thỉ vào tai: “Hy vọng sau này anh được làm những điều ấy cùng em”."
+                  : "That day, I was 21! Alone in the middle of the city, hiding. Every last afternoon Every week I often drive around the streets, weaving in and out crowded lines of people. Or even stop by a coffee shop on the side of the road to sit there and feel about your own life. Sometimes lost and a bit lonely. But then one fine day, The boy appeared, held his hand and whispered in his ear: Hy I hope you can do those things with me in the future."}
               </span>
               <img
                 className="w-[200px] h-[200px] object-cover object-center rounded-[10px] mx-auto mt-10"
@@ -487,18 +551,21 @@ function CardWedding() {
               />
               <div className="mt-8">
                 <span className="font-[500] text-base mt-10">
-                  Ngày lễ đính hôn
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "Ngày lễ đính hôn"
+                    : "Engagement day"}
                 </span>
                 <br />
-                <span>December 12 2015</span>
+                <span>
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "12 tháng 12 năm 2015"
+                    : "December 12 2015"}
+                </span>
                 <br />
                 <span>
-                  “Tiếng trái tim đôi ta đập thật nhanh. Thì thầm lời yêu
-                  thương. Ngày tình về chung đôi...” Sau bao nhiêu chờ đợi, cuối
-                  cùng ngày vui của chúng ta cũng tới rồi. Cảm ơn vì mình đã
-                  luôn là một phần trong cuộc sống của nhau. Em và anh không chỉ
-                  là người yêu mà chúng ta còn là tri kỷ. Ngày hôm nay, em sẽ là
-                  cô dâu của anh và sau này sẽ là mẹ của các con anh.
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "“Tiếng trái tim đôi ta đập thật nhanh. Thì thầm lời yêu thương. Ngày tình về chung đôi...” Sau bao nhiêu chờ đợi, cuối cùng ngày vui của chúng ta cũng tới rồi. Cảm ơn vì mình đã luôn là một phần trong cuộc sống của nhau. Em và anh không chỉ là người yêu mà chúng ta còn là tri kỷ. Ngày hôm nay, em sẽ là cô dâu của anh và sau này sẽ là mẹ của các con anh."
+                    : "Confession of love"}
                 </span>
               </div>
             </div>
@@ -507,35 +574,59 @@ function CardWedding() {
         <div className="border-b-[1.2px] border-[#009DC4] mt-8"></div>
         <div className="flex items-center flex-col mt-4">
           <span className="text-xl font-[300] pointer-events-none">
-            Trân trọng kính mời
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Trân trọng kính mời"
+              : "Cordially invited"}
           </span>
           <span className="text-3xl font-[600] italic mt-4 pointer-events-none">
-            Quý khách
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Quý khách"
+              : "Customers"}
           </span>
           <span className="text-xl font-[300] mt-4 pointer-events-none">
-            Đến dự buổi tiệc chung vui cùng gia đình tại
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Đến dự buổi tiệc chung vui cùng gia đình tại"
+              : "Come to a fun party with your family at"}
           </span>
           <span className="text-3xl font-[600] italic mt-4 pointer-events-none">
-            Nhà Hàng...
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Nhà Hàng..."
+              : "Restaurant..."}
           </span>
           <span className="text-xl font-[300] mt-4 pointer-events-none">
-            Địa chỉ cụ thể nơi tổ chức đám cưới
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Địa chỉ cụ thể nơi tổ chức đám cưới"
+              : "The specific address of the wedding venue"}
           </span>
           <br />
           <div className="flex border-2 border-[#009DC4] rounded pointer-events-none">
             <span className="text-center w-[200px] bg-[#009DC4] text-[#fff] pointer-events-none">
-              Thời gian cụ thể
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Thời gian cụ thể"
+                : "Specific time"}
             </span>
             <span className="text-center w-[200px] pointer-events-none">
               {data.wedding_date}
             </span>
           </div>
-          <span className="mt-3 pointer-events-none font-[500]">{`Tức ngày ${lunarDate.day} tháng ${lunarDate.month} ${lunarDate.year} âm lịch`}</span>
+          <span className="mt-3 pointer-events-none font-[500]">{`${
+            valueLocation.geoplugin_city === "Hanoi" ? "Tức ngày" : "Mean day"
+          } ${lunarDate.day} ${
+            valueLocation.geoplugin_city === "Hanoi" ? "tháng" : "month"
+          } ${lunarDate.month} ${lunarDate.year} ${
+            valueLocation.geoplugin_city === "Hanoi"
+              ? "âm lịch"
+              : "lunar calendar"
+          }`}</span>
           <span className="font-[200] text-lg mt-4 pointer-events-none">
-            Sự hiện diện của bạn
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Sự hiện diện của bạn"
+              : "Your presence"}
           </span>
           <span className="font-[200] text-lg mt-4 pointer-events-none">
-            Là niềm vinh dự của chúng tôi
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Là niềm vinh dự của chúng tôi"
+              : "It's our honor"}
           </span>
           <button
             className="border-[1.5px] border-[#009DC4] text-[#16B6D4] bg-white rounded flex justify-center w-[15rem] mt-4 "
@@ -568,7 +659,11 @@ function CardWedding() {
                 stroke-linejoin="round"
               />
             </svg>
-            <span className="underline">Đường dẫn tới bản đồ</span>
+            <span className="underline">
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Đường dẫn tới bản đồ"
+                : "Link to map"}
+            </span>
           </button>
         </div>
         <div className="w-[950px] h-[72rem] bg-white mt-2 flex flex-col items-center">
@@ -577,10 +672,18 @@ function CardWedding() {
             src="https://s3-alpha-sig.figma.com/img/2248/445c/a9d8f43797708951afbfb590b7ec50d5?Expires=1718582400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ehWa8gf0o8Nr9W2G3bNdqzNPGSzxNIsViASxp~ydWlhpRAyxzJvOeleApG~5r4kRQQlblQE1iwdXwUdf2UNqkQaWGSq8PgCFNO7EDw~E7msVeLMOcvV8F0Qo36xQaT95~qWaGQt62pVqwCqK3vcrdphrGCw35YJVRAlfzGRwqVD5rlnxkkb6zckp2GKT4LRDBVVrpDySEygPdvgXW7MFsYNENOdUm0Ml~hVs6Fy7soBH4o~gSOAAROI4njwdrW6wPY7ya1GCoaYhnMDnYqQvLi4S9w6nwvJ0CLJ32OXSBfcTRQIVojmQzqzAtPpgGX22y68su~5IJzzXvMaTFCgx-Q__"
             alt="hoa_cuoi"
           />
-          <span className="text-[#009DC4] italic text-2xl">Album ảnh cưới</span>
+          <span className="text-[#009DC4] italic text-2xl">
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Album ảnh cưới"
+              : "Wedding photo album"}
+          </span>
           <span className="text-[#009DC4] text-base">
-            Được ai đó yêu sâu sắc sẽ mang lại cho bạn sức mạnh, trong khi yêu
-            ai đó sâu sắc sẽ cho bạn dũng khí.
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Được ai đó yêu sâu sắc sẽ mang lại cho bạn sức mạnh, trong khi yêu"
+              : "Being deeply loved by someone gives you strength, while loving"}
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "ai đó sâu sắc sẽ cho bạn dũng khí."
+              : "Someone thoughtful will give you courage."}
           </span>
           <div className="w-full h-full mt-3">
             <div className="w-full h-[40%] flex justify-around">
@@ -689,25 +792,39 @@ function CardWedding() {
             alt="18"
           />
           <span className="absolute top-[2%] left-[50%] w-[75%] -translate-x-1/2 text-[#f5f5f5] font-bold font-sans font-[500] text-3xl italic">
-            Cảm ơn bạn rất nhiều vì những lời tốt đẹp nhất
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Cảm ơn bạn rất nhiều vì những lời tốt đẹp nhất"
+              : "Thank you so much for your kind words"}
           </span>
           <span className="absolute top-[10%] left-[50%] -translate-x-1/2 text-[#f5f5f5] font-bold font-sans font-[500] text-3xl italic">
-            đến đám cưới của chúng tôi
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "đến đám cưới của chúng tôi"
+              : "to our wedding"}
           </span>
           <input
             className="absolute top-[25%] w-[500px] placeholder-[#009DC4] left-[50%] -translate-x-1/2 border-[1.5px] border-[#009DC4] rounded focus:outline-none"
             type="text"
-            placeholder="Nhập họ và tên khách mời"
+            placeholder={
+              valueLocation.geoplugin_city === "Hanoi"
+                ? "Nhập họ và tên khách mời"
+                : "Enter first and last name customer"
+            }
           />
           <textarea
-            placeholder="Viết lời chúc của bạn"
+            placeholder={
+              valueLocation.geoplugin_city === "Hanoi"
+                ? "Viết lời chúc của bạn"
+                : "Write your wish"
+            }
             className="absolute top-[35%] w-[500px] h-[200px] left-[50%] placeholder-[#009DC4] -translate-x-1/2 border-[1.5px] border-[#009DC4] rounded focus:border-[#009DC4] focus:outline-none"
           ></textarea>
           <Button
             variant={"cus3"}
             className="absolute top-[90%] left-[50%] -translate-x-1/2"
           >
-            Gửi lời chúc
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Gửi lời chúc"
+              : "Send greetings"}
           </Button>
         </div>
       </div>

@@ -93,7 +93,14 @@ const Routers = () => {
           <Route path="" element={<LineCard />} />
           <Route path="event/:id" element={<Event />} />
         </Route>
-        <Route path="invitation/:id" element={<Invitation />} />
+        <Route
+          path="invitation/:id"
+          element={
+            <PrivateRoute>
+              <Invitation />
+            </PrivateRoute>
+          }
+        />
         <Route path="expand/:id" element={<Expand />} />
         <Route path="expand/:id/create" element={<CreateBabyImage />} />
         <Route path="expand/:id/yourself" element={<Yourself />} />
@@ -102,7 +109,7 @@ const Routers = () => {
           element={<BabyImage />}
         />
         <Route path="/expand/:id/yourself/image/" element={<ImageYourself />} />
-        <Route path="invitation/:id/cardwedding" element={<CardWedding />} />
+        <Route path="/cardwedding" element={<CardWedding />} />
         <Route path="funnyvideo" element={<FunnyVideo />}></Route>
         <Route
           path="uploadvideo/:id"

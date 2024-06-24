@@ -67,7 +67,9 @@ const HomePage = () => {
               </svg>
             </button>
           </Link>
-          <Link to={`/invitation/${user.id_user}`}>
+          <Link
+            to={`${user.id_user ? `/invitation/${user.id_user}` : "/signin"}`}
+          >
             <button className="text-[#fff] bg-[#33C5E9] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
               <span className="mx-auto">
                 {valueLocation.geoplugin_city === "Hanoi"
