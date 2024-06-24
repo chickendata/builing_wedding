@@ -3,7 +3,6 @@ import { Button } from "../../components/ui/button";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { LanguageContext } from "../../hooks/languageContext";
-import { useLocation } from "react-router-dom";
 
 interface IInvitation {
   groom_name: string;
