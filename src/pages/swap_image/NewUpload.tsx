@@ -184,6 +184,8 @@ const NewUpload = () => {
       req_post_img_1,
       req_post_img_2,
     ]);
+    console.log(src_res_1, src_res_2);
+
     if (src_res_1 != null && src_res_2 != null) {
       try {
         setIsLoading(true);

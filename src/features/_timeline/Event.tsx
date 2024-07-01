@@ -34,6 +34,7 @@ const Event = () => {
   );
   if (album) {
     listTemp = album.list_sukien_image;
+    console.log(listTemp);
     id_user = listTemp[0].id_user;
     time = listTemp[0].thoigian_sukien;
     img_nam = listTemp[0].link_src_goc.replace(
@@ -75,12 +76,14 @@ const Event = () => {
     const partPaths: string[] = folderLuu.split("/");
     partPaths.pop();
     const newFolder: string = partPaths.join("/");
+    console.log(newFolder);
+
     const zipResponse = await axios.get(
       "https://thinkdiff.us/getdata/Download",
       {
         headers: {
           Authorization:
-            "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTg0MjEyMDMsInVzZXJuYW1lIjoiY2hlZmh1b25nMTk4OUBnbWFpbC5jb20ifQ.Z5FKdfia5BT_tGUm4zMZhrH62gO05_5JiBjn3WPeS0k",
+            "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjI0MTI0MzksInVzZXJuYW1lIjoibnZwLjEzMTIuMjAwMUBnbWFpbC5jb20ifQ.fd98yvgwaYc0Z9s17NPf4O5VVgqXGQzEp-3aHQ8_97A",
         },
         params: {
           device_them_su_kien: user.device_register,
