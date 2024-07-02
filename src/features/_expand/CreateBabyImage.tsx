@@ -318,7 +318,7 @@ function CreateBabyImage() {
                           <div className="w-full h-full flex flex-col relative">
                             <img
                               className="w-[100px] h-[100px] bg-[#EFF6FD] object-fit"
-                              src="https://s3-alpha-sig.figma.com/img/1b6e/d52f/cea85f0662d115e0633c83e4fab45dac?Expires=1718582400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qvTQfIe7JeRbxPX6c3g2puGjWSmrGmn1IspheoDAdvw1vDnJMdAYeVLDMwZUU01ycnLKoYzTrhoNDIl-LwPyCG0T7O2MNci6w8IZdRn2U-JuJde--kQMRZPJ1qTgATDMCqOjioQAEBJRK42ZHiXdig~lzUgbcErNgkdvbmclhzSEb-w6neSRiBnfFYHS3YhPHz8eI0mtEEpPLNbIznehC4VSei-tKojmi98HLbnitep~sFAHyDcqjMEY0qPDmp-vkDn2hRVQ7e3E-LPps2PKT9QU56oqz5by8qLJIm8dGq1UyJdZhHY1ew41SMOWaY81nQQUpH2Wi60SONXSinSdbA__"
+                              src="https://s3-alpha-sig.figma.com/img/1b6e/d52f/cea85f0662d115e0633c83e4fab45dac?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I2iggiIjkWs16OmzWTRq-aFLTSTloUcTy5x6~szPquaJpLfFowwGJX6B7R-tCFi-Iybixw43sJPBcLwIDQYcNCZEb4KZWu8qrArlrkkY-LqxI3qih8EIiPGyf99oq5N-UBjaiPrOIleVw78VPHnOgwwIe1EPHB-PIRJqe5cIQiK62OCI8ON~apuAT-Llf1q8U4QZiK1J6nQc105wCi6KWjQ5y8pT89hNUw1VNmoetqBPpKMMQQC1CPy8K7EoSUkGU4oJDqoqX3SJywUxY-MJiQN1jO2BW518-dYcAkn1yaGQ9fXtrOdeQ7BDH4jX~3kURn178UMighChrlydX0JTUA__"
                               alt="boy"
                             />
                             <span className="font-[500]">
@@ -593,8 +593,8 @@ function CreateBabyImage() {
                           <div className="w-full h-full flex flex-col relative">
                             <img
                               className="w-[100px] h-[100px] bg-[#EFF6FD] object-fit"
-                              src="https://s3-alpha-sig.figma.com/img/17fb/26e3/d47bd452058e73bd02b7b60b4acc98ac?Expires=1718582400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=F2x~e8aBpK0JRb0RPq~wju30Ve-3UNBUfsRdvnmxgUkKcPO9UDtE809FQ5vqXynL9uTh-7w88aG1DY0QFP9ULRc5E1FbWAABaLMkBcqwesPMnMABHWMdmbwkuj6hrrvgit3Poc1ToEtXj-371yzgJjFotm8OhiSPfNzVj5lk40n5JinBqra0wi6jf7BzibKtLBZra0Hb-I9Q6yk~7OniQqoN9iZ3ouK5UR9tUigXkxux~epQoaTtq2tnihqk9gUlaNzOfNMzDb-P6vZYJJMTGnrjGRgKrEhuEZMrCPp5OLAKm4oQ2MPXYD8A8b1-XYF8k4IJG8jyZ4cpoTi4-MC7Hg__"
-                              alt="boy"
+                              src="https://s3-alpha-sig.figma.com/img/17fb/26e3/d47bd452058e73bd02b7b60b4acc98ac?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=V7UFVpzoTGa0l0L8wRA0OmanMwLoU4GP3NYWMbWSUIp0seiKzryoUnEl4Uqs9Kxd1t-h-S8m0HM-qKelteG~3ND8rBUkTmWpSKelGZ5w2lAKC--CD6xBeWRCckvdA~f~qhhUb1tJm~2ZvAi4dbAGQuJAh4JlJAjQ8d0GhvH1c2jwF6r7QB8iRIbn2eBMnVdHEsC14yCGGwkeyudBZQbvvTkKxPaGeZKJaKoSRFsmsyI1uV94VVwhheiFx0p3jp1Edi5egxDR3QqBdLLp9cpkvSllr6nXJfM3NEmDkUUVGGI~c-IILjlnyvlZvDxtTErhncN4xFpMfXYADlVnm6~isQ__"
+                              alt="girl"
                             />
                             <span className="font-[500]">
                               {valueLocation.geoplugin_city === "Hanoi"

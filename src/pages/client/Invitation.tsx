@@ -16,6 +16,7 @@ import { ToastAction } from "../../components/ui/toast";
 import HashLoader from "react-spinners/HashLoader";
 import ProgressPercentage from "../../components/ProgressPercentage";
 import { LanguageContext } from "../../hooks/languageContext";
+import "./invitation.css";
 
 function Invitation() {
   const valueLocation = useContext(LanguageContext);
@@ -35,6 +36,13 @@ function Invitation() {
   const [isLoading, setIsLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const navi = useNavigate();
+  const defaultObjectInput = {
+    isValidValueGroom: true,
+    isValidValueBride: true,
+    isValidValueLocation: true,
+    isValidValueLinkLocation: true,
+  };
+  const [objectValidInput, setObjectValidInput] = useState(defaultObjectInput);
   useEffect(() => {
     axios
       .get(
@@ -140,6 +148,81 @@ function Invitation() {
 
   const { toast } = useToast();
   const handleCreate = async () => {
+    setObjectValidInput(defaultObjectInput);
+    if (!groom) {
+      setObjectValidInput({ ...defaultObjectInput, isValidValueGroom: false });
+      toast({
+        variant: "destructive",
+        description: `${
+          valueLocation.geoplugin_city === "Hanoi"
+            ? "Nhập tên chú rể"
+            : "Enter name groom"
+        }`,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
+      });
+      return;
+    }
+    if (!bride) {
+      setObjectValidInput({ ...defaultObjectInput, isValidValueBride: false });
+      toast({
+        variant: "destructive",
+        description: `${
+          valueLocation.geoplugin_city === "Hanoi"
+            ? "Nhập tên cô dâu"
+            : "Enter name bride"
+        }`,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
+      });
+      return;
+    }
+    if (!location) {
+      setObjectValidInput({
+        ...defaultObjectInput,
+        isValidValueLocation: false,
+      });
+      toast({
+        variant: "destructive",
+        description: `${
+          valueLocation.geoplugin_city === "Hanoi"
+            ? "Nhập địa chỉ"
+            : "Enter location"
+        }`,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
+      });
+      return;
+    }
+    if (!linkLocation) {
+      setObjectValidInput({
+        ...defaultObjectInput,
+        isValidValueLinkLocation: false,
+      });
+      toast({
+        variant: "destructive",
+        description: `${
+          valueLocation.geoplugin_city === "Hanoi"
+            ? "Nhập đường dẫn địa chỉ"
+            : "Enter link location"
+        }`,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
+      });
+      return;
+    }
     setIsLoading(true);
     if (!original_Image_1 && !chosenImage1) {
       toast({
@@ -299,7 +382,11 @@ function Invitation() {
           <div className="flex space-x-4 mb-6">
             <input
               type="text"
-              className="px-4 py-2 border rounded-md flex-1"
+              className={
+                objectValidInput.isValidValueGroom
+                  ? "px-4 py-2 border rounded-md flex-1"
+                  : "px-4 py-2 border rounded-md flex-1 invalid"
+              }
               placeholder={
                 valueLocation.geoplugin_city === "Hanoi"
                   ? "Mời nhập tên chú rể..."
@@ -309,7 +396,11 @@ function Invitation() {
             />
             <input
               type="text"
-              className="px-4 py-2 border rounded-md flex-1"
+              className={
+                objectValidInput.isValidValueBride
+                  ? "px-4 py-2 border rounded-md flex-1"
+                  : "px-4 py-2 border rounded-md flex-1 invalid"
+              }
               placeholder={
                 valueLocation.geoplugin_city === "Hanoi"
                   ? "Mời nhập tên cô dâu..."
@@ -320,7 +411,11 @@ function Invitation() {
           </div>
           <input
             type="text"
-            className="px-4 py-2 border mb-3 rounded-md flex-1 w-full"
+            className={
+              objectValidInput.isValidValueLocation
+                ? "px-4 py-2 border mb-3 rounded-md flex-1 w-full"
+                : "px-4 py-2 border mb-3 rounded-md flex-1 w-full invalid"
+            }
             placeholder={
               valueLocation.geoplugin_city === "Hanoi"
                 ? "Mời nhập địa chỉ..."
@@ -331,7 +426,11 @@ function Invitation() {
           <br />
           <input
             type="text"
-            className="flex-grow px-4 py-2 w-[60%] border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className={
+              objectValidInput.isValidValueLinkLocation
+                ? "flex-grow px-4 py-2 w-[60%] border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                : "flex-grow px-4 py-2 w-[60%] border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 invalid"
+            }
             placeholder={
               valueLocation.geoplugin_city === "Hanoi"
                 ? "Mời nhập link tổ chức..."

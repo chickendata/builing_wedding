@@ -149,7 +149,7 @@ function CardWedding() {
         <div className={`w-[950px] h-[300px] relative`}>
           <img
             className="w-full h-full object-cover "
-            src="https://s3-alpha-sig.figma.com/img/0667/e746/074021786539143cdab7dcbb1ddefea9?Expires=1718582400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DZTsyCaiUnNpSEhO8FyJelq3kMcTvWLj4I6MtoOh7yCfHMPGzOXytkvSpdr5cDlw1cxP3zob8w2yU-C8wggD95NFES5A28LK8AJ57vy5j2QbJMRyKPz8KOQ7fHdPX-CJ8kzfjUU-5de1kYwuJncEWAZooco380nmAJ5E7Ocri0SDeTNJPaSLzX8GoIBt1EsT61aFDu1eIugRpYoQ4FKoYn29t2hTS8lx~yhcE0ThZjqkxhJDuLmglNKLgHja~lxMl71PUgg2q-9mol1HQ~DW-e8SH0Yd7x-GD8zFEKv80~6ppHY2GjWu09K-W0f0HhNvLkBCvCc11d531F2lXqZMWA__"
+            src="https://s3-alpha-sig.figma.com/img/0667/e746/074021786539143cdab7dcbb1ddefea9?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GAyXp0Nn1FJFULrhcNgW~~sVYVzlS61mTB8oJuytm8~cP6BFDitJU7AfavYuyCF1avU-uJthyrP6ECk1zBU5v0euzKWvNh13ahayUZxi1NmXkzJkB3Ez1Vj3hKHNHRr5guSfuc9ocQOuERRLS53YXX3e5f0ejjbQ1BLVRWvH-NToiUW5lwrpYsGq-7aWIvE50Oz710UWNIQjkF3rUMRcTm7HVWoPDd2fckM-gX1uCQ3Ps0uZNu1nufuuqsMA59F9~DfDJPnxfi53ftFc~3Xr2J~crWVwwXo5rauRmybfeoxUemURVhw0cjCcNlARBzo08DnjZXVxmObLXcGrtbBvMQ__"
             alt="anh_nen_cuoi"
           />
           <div className="absolute z-10 text-[#fff] flex items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl font-open-raleway pointer-events-none">
@@ -454,7 +454,7 @@ function CardWedding() {
         <div className="w-[950px] bg-[#fff] h-[1250px] flex flex-col items-center">
           <div>
             <img
-              src="https://s3-alpha-sig.figma.com/img/2248/445c/a9d8f43797708951afbfb590b7ec50d5?Expires=1718582400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ehWa8gf0o8Nr9W2G3bNdqzNPGSzxNIsViASxp~ydWlhpRAyxzJvOeleApG~5r4kRQQlblQE1iwdXwUdf2UNqkQaWGSq8PgCFNO7EDw~E7msVeLMOcvV8F0Qo36xQaT95~qWaGQt62pVqwCqK3vcrdphrGCw35YJVRAlfzGRwqVD5rlnxkkb6zckp2GKT4LRDBVVrpDySEygPdvgXW7MFsYNENOdUm0Ml~hVs6Fy7soBH4o~gSOAAROI4njwdrW6wPY7ya1GCoaYhnMDnYqQvLi4S9w6nwvJ0CLJ32OXSBfcTRQIVojmQzqzAtPpgGX22y68su~5IJzzXvMaTFCgx-Q__"
+              src="https://s3-alpha-sig.figma.com/img/2248/445c/a9d8f43797708951afbfb590b7ec50d5?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=W18LTSwVsgKJ5CLtfDbjBHHuPniqWddJ3oD1BwC-oLjdFx0uTRw9h8H-lS-5nTepDVWcEyvXwen~z6m~rJmhTR-I1xMaf~xRjzXjtpfpWj-~NYDkBgD1skY1ifFGe9lQ8W3xAZpIDMBxK4PdFZH~pwSaGR1SDDAbZuKf2laZ3I4Yi74Fwnp8iYfVcfLAq1aQmdk~qbdPVdLrxQIjV3ZtMtjTkLz5vRCCED6B88Y6YREP~vdYMkNllQE-EE7MgiXW6PNhoOsZo-I2rb-WwKamL8wlJREFS2NOVZynMkL9tGv4Mqi4WgkV319fl48PKWcC8uRfigXU-JbFVoNiS-4vMg__"
               alt="hoa_cuoi"
             />
           </div>
