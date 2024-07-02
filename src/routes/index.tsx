@@ -25,7 +25,6 @@ import Policy from "../pages/Policy";
 import AboutUs from "../pages/AboutUs";
 import Invitation from "../pages/client/Invitation";
 import CardWedding from "../pages/client/CardWedding";
-import Expand from "../features/_expand/Expand";
 import CreateBabyImage from "../features/_expand/CreateBabyImage";
 import BabyImage from "../features/_expand/BabyImage";
 import Yourself from "../features/_expand/Yourself";
@@ -101,9 +100,8 @@ const Routers = () => {
             </PrivateRoute>
           }
         />
-        <Route path="expand/:id" element={<Expand />} />
-        <Route path="expand/:id/create" element={<CreateBabyImage />} />
-        <Route path="expand/:id/yourself" element={<Yourself />} />
+        <Route path="/:id/create" element={<CreateBabyImage />} />
+        <Route path="/:id/yourself" element={<Yourself />} />
         <Route
           path="expand/:id/create/timeline/:id_all_sk"
           element={<BabyImage />}

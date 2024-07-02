@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import {
   Carousel,
@@ -7,14 +7,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../components/ui/carousel";
-
 import Header from "../components/Header";
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../hooks/languageContext";
+import { Button } from "../components/ui/button";
 
 const HomePage = () => {
   const valueLocation = useContext(LanguageContext);
   const [user, setUser] = useState({ id_user: "" });
+  const navi = useNavigate();
   useEffect(() => {
     const data = JSON.parse(String(localStorage.getItem("user")));
     if (data) {
@@ -23,10 +24,120 @@ const HomePage = () => {
       return;
     }
   }, []);
+
+  const handleYourSelf = () => {
+    navi(`/${user.id_user}/yourself`);
+  };
+
+  const handleBaby = () => {
+    navi(`/${user.id_user}/create`);
+  };
   return (
-    <div className="text-center ">
+    <div className="text-center h-auto ">
       <Header />
-      <div className="bg-[#F2FDFF] md:w-[1440px] md:h-[790px] h-[620px] w-[360px] relative mx-auto z-0">
+      {/* baby image */}
+      <div className="bg-[#F2FDFF] text-center h-[600px] w-[80%] mx-auto flex flex-col justify-between mt-8 items-center">
+        <div>
+          {" "}
+          <span className="text-[#009DC4] text-4xl">
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Tạo những bức ảnh con cái sử dụng ảnh của cha mẹ"
+              : "Create simple baby photos using just photos of the parents"}
+          </span>
+        </div>
+        <div className="relative w-full h-[10%]">
+          <img
+            className="absolute right-[65%] bottom-[30%] w-[120px] rounded-[100%] h-[120px] object-cover"
+            src="https://s3-alpha-sig.figma.com/img/b8df/404b/00c9996943a0de9d05fd8bcde2989b2e?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=B4uKh0aT8dlFGn7TTP8Gm-oLYz3qEWTNzhTXUn~OezLLxNp4VIsHSCsz2jpQ7zaPPl9JhyughGKnnPrvV22XS5~hJ89uYSGbwdzP9kzyPEnmJqHyCn~qs3wLWbvTvGkUidtLOygQNeyadOUrlfaBrkT-vtryHJzJLwjj-eDHwNymwxzyTKR3O~o9nRIxagxVB-dIY6pHnbRTbdfmC9vR9GVPSHM-AxnvQvMCWOtXf6p~qPFWHiTY7S2iamsUJNQ9-F0Ju0oze0zzhmiL7NseHS3UjD0YGyxQOJFqlD5pXUtEHgjljCCiK6Ax3EOxu8puee-DMDzNg3swb6DB5AjtVw__"
+            alt="anh_trai"
+          />
+          <img
+            className="absolute right-[56%] bottom-[60%] w-[120px] rounded-[100%] h-[120px] object-cover"
+            src="https://s3-alpha-sig.figma.com/img/5fe2/36c9/21342718838a24ba29f890cbe23a15d0?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wj3nVdqKG10w8gB7FM-HHwcy99VJa--VIC1ijPbTkNuNhehSjdOTuJGYDctBB74EAImqwk5ejq2e2ne4hmx0iQcTvngRCFKqCDVLiCRj1l5GU3tavIFhcsGXUzEq2fycr6tENjBspAfLAASTkvi8QXRYWWh91x75iTrdOz-8lqgtW3JNN~o00lDOHSIB0tSpoHvqFlUIW9MHwrT4Mr6XHw2vbnbHYkDacW4TulCWrBf9YcgnGJntwTTyQ299d2CvBG7eNiIeuyC2roVcfI8mhfTq~fD-UyBAW-ACR~u3cMcYZcHY3w6E63c1LautJvkiha5Kvd4P0vkjbv3rybiX0g__"
+            alt="anh_gai"
+          />
+          {/* arrow parents to baby */}
+          <svg
+            width="178"
+            height="232"
+            viewBox="0 0 152 202"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute right-[59%] top-[35%] w-[80px] h-auto"
+          >
+            <path
+              d="M73.758 78.6765C60.1161 90.1044 24.6472 123.817 5.54667 101.342C-13.5516 69.8761 34.1096 60.0417 49.2025 76.6194C57.3869 85.6089 89.5834 150.788 98.3146 159.778C109.229 171.016 112.967 173.263 129.337 180.005"
+              stroke="#222222"
+              stroke-linecap="round"
+            />
+            <path
+              d="M69.4127 82.4249C73.6606 79.3588 77.6387 74.7255 80.9721 68.9619C84.3056 63.1983 86.8845 56.4941 88.4659 49.4812C90.0472 42.4683 90.579 35.3777 90.0109 28.8778C89.4428 22.3778 87.7937 16.6826 85.219 12.3289"
+              stroke="#222222"
+              stroke-linecap="round"
+            />
+            <path
+              d="M131.91 161.827L142.843 185.607L113.975 194.613"
+              stroke="#222222"
+            />
+          </svg>
+        </div>
+        <div className="flex justify-around h-[40%]  mb-8">
+          <div className="flex flex-col">
+            <span className="font-[500] text-[#009DC4] text-lg">
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Khám phá xem con của bạn trong tương lai trông như thế nào?"
+                : "Discover what your child will look like in the future?"}
+            </span>
+
+            <span>
+              {" "}
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Bắt đầu tạo hình em bé"
+                : "Start creating the baby's face."}
+            </span>
+
+            <Button
+              variant={"cus4"}
+              className="w-[200px] mx-auto"
+              onClick={handleBaby}
+            >
+              <span className="mr-2">
+                {valueLocation.geoplugin_city === "Hanoi"
+                  ? "Khám phá ngay"
+                  : "Explore now"}
+              </span>
+              {/* arrow go next */}
+              <svg
+                width="72"
+                height="72"
+                viewBox="0 0 72 72"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M51 36H9"
+                  stroke="white"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M65.6427 35.7856L52.2116 27.727C51.6784 27.407 51 27.7911 51 28.413V43.587C51 44.2089 51.6784 44.593 52.2116 44.273L65.6427 36.2144C65.8045 36.1173 65.8045 35.8827 65.6427 35.7856Z"
+                  fill="white"
+                />
+              </svg>
+            </Button>
+          </div>
+          <div className="w-[80%] h-full">
+            {" "}
+            <img
+              className="h-[100%] w-[100%] object-cover rounded-md"
+              alt="baby_img"
+              src="https://s3-alpha-sig.figma.com/img/26d9/ae09/ac949cc47d2bc96328c285de2577e4f4?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=IQMMkhN9FaUCeEMLxkBqg0ssGAGjge8MkjFNenZCTqUyBPeXXr20PNxXT1qtbQDzBe7RsrXAfYod8bekZY2NbLbHzPF8ok1Vsanoit48NWpq0C~sDFcKOyiIV8CyobR3mC7FdnjRJboGvEIcN-QU3LQqA~0xwLWVu1-gH4QfJOgZnBpnuZFurEo4im-49cO7IrpWSSgPCDNAM1bfbaHUh6UXIw27tp6sLgCMPpVKXwYWnNgwA0lHNnrtu6aJT3BBFhbhhNiCyoLHzO5ru-Nywe8Ub6Z7VeMNYlpuEez3ywJfKX6XpEm-eiO5Hyk~FG8dto~Uyq-V83yeTeihSeXcMA__"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="md:w-full md:h-[790px] h-[620px] w-[360px] relative mx-auto z-0">
         <div className=" md:right-2 md:pt-[154px] md:ml-[700px] w-[320px] md:w-fit pt-8 mx-auto items-center justify-center text-center z-0">
           <img src="img\ba-bpn.png " className="" alt="" />
         </div>
@@ -101,39 +212,109 @@ const HomePage = () => {
               </svg>
             </button>
           </Link>
-          <Link to={`/expand/${user.id_user}`}>
-            {" "}
-            <button className="text-[#fff] bg-[#33C5E9] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
-              <span className="mx-auto">
-                {valueLocation.geoplugin_city === "Hanoi"
-                  ? "Nhiều chức năng khác"
-                  : "Expand for you"}
-              </span>
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="ml-1"
+        </div>
+      </div>
+      <div className="h-[715px] w-[85%] mx-auto relative">
+        <img
+          className="w-full h-full object-cover"
+          src="https://s3-alpha-sig.figma.com/img/31e5/b331/0c8fb5391c221a6f5c8c3162b4240fb3?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=g2CglQwO0WDCYYVURB-Gq8y9lDmIngDCdqx3JT5ZornQkH6BuPoebc5RR9k4UV8XCGf4zDzF8u7td7aglqFXy6H9S6ZkllmmS6hOZNck08SY9g4LcrXPMnSlzP-~qvjz2dooYP2O-EhcyTmusk8ChAgAJCuDz7Qs3dDWC7dZxqNSGeLXmj6eo-yYPWDcCYuxWk~d9Hmi8x2QgoFA99h~N4RqQkHCi7zDAXgmOAS21Q2HZzufBbpHhYBZLDXmkQNMlSjA6QnXoITHywfM69N6ds7j0W64c~mrPx2eHaxpmrhGbrTTAee7Pqh2wGtaSVXyUcIEA5pd~gZ6CASm0XYfEQ__"
+          alt="cuoi"
+        />
+        <span className="absolute bottom-[52%] left-[10%] w-[55%] h-[10%] font-[900] leading-3 text-5xl text-[#009DC4]">
+          {valueLocation.geoplugin_city === "Hanoi"
+            ? "TẠO THIỆP MỜI CƯỚI"
+            : "WEDDING INVITATION"}
+        </span>
+        <span className="absolute bottom-[46%] left-[15%] w-[32%] h-[10%] font-[800] text-lg leading-10">
+          {valueLocation.geoplugin_city === "Hanoi"
+            ? "Tạo thiệp mời cưới chỉ với 1 nút ấn"
+            : "Create wedding invitations with just 1 click"}
+        </span>
+        <Link
+          to={`${user.id_user ? `/invitation/${user.id_user}` : "/signin"}`}
+          className="absolute bottom-[42%] left-[20%]"
+        >
+          <button className="text-[#fff] bg-[#33C5E9] mt-8 rounded-3xl px-[20px] py-[10px] text-center font-[800] text-[20px] leading-[20px] ml-3 flex">
+            <span className="mx-auto">
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Tạo thiệp mời cưới"
+                : "Wedding invitation"}
+            </span>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="ml-1"
+            >
+              <path
+                d="M10.6926 2.29004L18.4024 9.99989L10.6926 17.7097"
+                stroke="white"
+                stroke-width="3.08394"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18.4022 10L2 10"
+                stroke="white"
+                stroke-width="3.08394"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </Link>
+      </div>
+      <div className="w-[85%] h-[601px] mx-auto bg-[#F2FDFF] mt-10">
+        <span className="font-[900] w-full h-[8%] text-[#009DC4] text-4xl leading-10 text-center mt-6">
+          {valueLocation.geoplugin_city === "Hanoi"
+            ? "Hãy khám phá ngay để tạo cho mình những tấm ảnh đẹp"
+            : "Discover now to create yourself beautiful photo"}
+        </span>
+        <div className="flex justify-around h-[90%] w-full mt-6">
+          <div className="flex flex-col justify-around h-[50%] w-[30%] my-auto">
+            <span className="font-[600] text-md leading-5 ">
+              {valueLocation.geoplugin_city === "Hanoi"
+                ? "Chọn bộ ảnh phù hợp với bạn để bắt đầu tạo những danh mục này hình ảnh một lần trong đời"
+                : "Choose a Category that's right for you to start creating these once-in-a-lifetime images"}
+            </span>
+            <div>
+              {" "}
+              <Button
+                variant={"cus4"}
+                className="bottom-8 w-[200px] h-full"
+                onClick={handleYourSelf}
               >
-                <path
-                  d="M10.6926 2.29004L18.4024 9.99989L10.6926 17.7097"
-                  stroke="white"
-                  stroke-width="3.08394"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M18.4022 10L2 10"
-                  stroke="white"
-                  stroke-width="3.08394"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-          </Link>
+                <span className="mr-2">
+                  {valueLocation.geoplugin_city === "Hanoi"
+                    ? "TẠO ẢNH"
+                    : "CREATE PHOTO"}
+                </span>
+              </Button>
+            </div>
+          </div>
+          <div className="w-[65%] h-full flex justify-center">
+            <div className="w-[34%] h-full flex flex-col justify-center">
+              <img
+                className="w-[80%] h-[260px] object-cover rounded-md mb-2"
+                src="https://s3-alpha-sig.figma.com/img/eecc/1d4c/dd710b5d86f201b68e60ce74ce6f3e1b?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Moq7NQxmPxuYaPXOXEnJ0Xr4JIdeQT-w2Cb4dH1JJiE9S-WdYx-hNGspeIcm-se-fnfDEnz5d9JN~2Tdryb45eQ4aEuCXYCXJSI~3DQtwnYtAsBdIMnlVdLeBN9nd42OEzi9IWRadeM83P0kTWwwkKO6gloyvcQD2iVgyyTU20t43rMfChj8lO7JVpn5DeEKQG57dnmRDUhJVzrFehOakdctBygb1EIO2EO~iXnZLouCyXmWDuaxMO2iyY40ed0e3mqS3C7bUF~4vqHmCb1WXH486zwpXNz6cm2RkUzIYT~dKlrWh9h1pLW8aaQmN6oq-jXkp7BXaqfckSozaSi6fg__"
+                alt="anh 1"
+              />
+              <img
+                className="w-[80%] h-[200px] object-cover rounded-md"
+                src="https://s3-alpha-sig.figma.com/img/9fcb/6869/891d619c874cd4ee5862a91c35d002b7?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EvXxLJxHvQUTxe6r7pEqHvJ8F66xLV9poPda8~t8UkVtRVlkczoTVjJejmhlmKa4QngN4omCTO2UPY-8tlmWARz~rdAJVxeWZP39knP3zpZqkgyuC3~z~AzAXqIOHFRG8JX~xmAQc48lWiBV6EqHbT09mTGgA66L9HxtZO7z9ZUdM0Mb4zxLWBRRa5Mh1lTC9qtzQP8WC3TzD3x9AcP5xnb-zTVIqOAcGidKU~Elf6sQbNqS7-eCsSonmEYWDjDBXeMu1kyDefTOUrAG1jtg-rK~GbqtNMEhef4GxjFWglRWDd1eJaxh~rYz2PFgC4cPjSS565d33Ge8NtdvwlT2vA__"
+                alt="anh 2"
+              />
+            </div>
+            <div className="w-[50%] h-[87%] my-auto bg-white">
+              <img
+                className="w-full h-full object-cover rounded-md"
+                src="https://s3-alpha-sig.figma.com/img/37c3/8ff7/c811418ad438465e73518aa5389682bd?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=L7tpG9-ec7OGm3b7OIT1b5VOPWcJOHohBlzAEEbEs7B0r0fvfuJUbJcMKk~hQStvm4GyA3nfRvj6y3wPr4At~2QgQUS5pAuIA4~kHWj-iP2Ty7SlTrIDgWXc4EO7-kURGmrE3qOR5zY07QCnHAl6Eom3Q07jvhB3NxGzALf7AaNfJOnyHwCvpyzJQEjHgu~rhsV8yEJhzfcq9RBwmZN2gqeuimge0fOpDC-KuK~YOcs9izt-2ibkuUaltIzvbZt48i8JYb65timQ2GrG~OkHQ~PDY7Wdw~e42NNP2msrsZZw6ik2ZssssNX5mgh7W6a9MzkTHE0npsoXISVzSCCiug__"
+                alt=""
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div className="bg-[#FFF] md:w-[1440px] md:mx-auto md:mb-[100px] mt-5 md:mt-0 mx-auto justify-center">

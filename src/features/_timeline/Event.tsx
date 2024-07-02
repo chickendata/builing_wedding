@@ -70,9 +70,11 @@ const Event = () => {
     );
     const link: string = response.data.id_su_kien_swap_image[0].link_da_swap;
     const folderLuu: string = link.replace(
-      "https://photo.fakewedding.online",
+      "https://futurelove.online",
       "/var/www/build_futurelove"
     );
+    console.log(folderLuu);
+
     const partPaths: string[] = folderLuu.split("/");
     partPaths.pop();
     const newFolder: string = partPaths.join("/");
@@ -122,6 +124,7 @@ const Event = () => {
 
   const handleMakeVideo = async () => {
     nProgress.start();
+    setIsMakeVideo(true);
     const response = await axios.get(
       "https://databaseswap.mangasocial.online/get/list_2_image/id_image_swap_all_id_sk",
       {
@@ -132,8 +135,10 @@ const Event = () => {
       }
     );
     const link: string = response.data.id_su_kien_swap_image[0].link_da_swap;
+    console.log(link);
+
     const folderLuu: string = link.replace(
-      "https://photo.fakewedding.online",
+      "https://futurelove.online",
       "/var/www/build_futurelove"
     );
     console.log(folderLuu);
@@ -161,7 +166,6 @@ const Event = () => {
       "/var/www/build_futurelove",
       "photo.fakewedding.online"
     );
-    setIsMakeVideo(true);
     console.log(linkDataVideo);
 
     setPathVideo(linkDataVideo);
