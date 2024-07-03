@@ -3,6 +3,7 @@ import { Button } from "../../components/ui/button";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { LanguageContext } from "../../hooks/languageContext";
+import ModalImage from "./ModalImage";
 
 interface IInvitation {
   groom_name: string;
@@ -14,6 +15,7 @@ interface IInvitation {
   attendance_status: string;
   groom_image: string;
   bride_image: string;
+  timeInDay: string;
 }
 function CardWedding() {
   const valueLocation = useContext(LanguageContext);
@@ -28,12 +30,21 @@ function CardWedding() {
     attendance_status: searchParams.get("status") || "",
     groom_image: searchParams.get("groom_image") || "",
     bride_image: searchParams.get("bride_image") || "",
+    timeInDay: searchParams.get("time") || "",
   };
   const [currentDate] = useState(new Date(data.wedding_date));
   const [daysInMonth, setDaysInMonth] = useState(0);
   const [firstDayOfWeek, setFirstDayOfWeek] = useState(0);
   const [activeButton, setActiveButton] = useState(data.attendance_status);
   const [listImage, setListImage] = useState([]);
+  const [timeRemaining, setTimeRemaining] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+  const [detailImage, setDetailImage] = useState("");
+  const [isDetail, setIsDetail] = useState(false);
 
   useEffect(() => {
     // Tính toán số ngày trong tháng và ngày đầu tiên của tháng
@@ -73,6 +84,55 @@ function CardWedding() {
     getImage();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateTimeRemaining();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  function convertTime(time: string) {
+    const parts = time.split(" ");
+    const isAM = parts[1] === "am";
+    const [hourStr, minuteStr] = parts[0].split(":");
+    let hour = parseInt(hourStr);
+    if (isAM) {
+      return `${hourStr}:${minuteStr}:00`;
+    } else {
+      hour += 12;
+      return `${hour}:${minuteStr}:00`;
+    }
+  }
+
+  const updateTimeRemaining = () => {
+    const day = data.wedding_date;
+    const time = convertTime(data.timeInDay);
+    const now = new Date();
+    const targetTime = new Date(`${day} ${time}`);
+    if (now.getTime() >= targetTime.getTime()) {
+      setTimeRemaining({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      });
+      return;
+    }
+    const timeDiff = targetTime.getTime() - now.getTime();
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    setTimeRemaining({
+      days,
+      hours,
+      minutes,
+      seconds,
+    });
+  };
+
   const time: string[] = data.wedding_date.split("-");
   const year = parseInt(time[0]);
   const month = parseInt(time[1]);
@@ -80,7 +140,6 @@ function CardWedding() {
 
   const handleActive = (value: string) => {
     setActiveButton(value);
-    console.log(value);
   };
   const handleGoogleMap = () => {
     window.open(data.google_maps_link, "_blank");
@@ -137,8 +196,16 @@ function CardWedding() {
 
   const lunarDate = convertSolarToLunar(year, month, day);
 
+  const handleDetailImage = (value: string) => {
+    setIsDetail(true);
+    setDetailImage(value);
+  };
+
+  const toggleClose = () => {
+    setIsDetail(false);
+  };
   return (
-    <div className="bg-[#F2FDFF] h-[4220px] w-[100%]">
+    <div className="bg-[#F2FDFF] h-auto w-[100%]">
       <Header />
       <div className="flex flex-col px-4 sm:px-16 lg:px-40 h-[90%] w-full">
         <div className="font-[700] text-3xl text-[#009DC4] mb-[1.6rem] pointer-events-none">
@@ -146,11 +213,12 @@ function CardWedding() {
           <p>{valueLocation.geoplugin_city === "Hanoi" ? "Cưới" : "Wedding"}</p>
           <p>{valueLocation.geoplugin_city === "Hanoi" ? "Của" : "Of"}</p>
         </div>
-        <div className={`w-[950px] h-[300px] relative`}>
+        <div className={`w-[950px] h-[95vh] relative`}>
           <img
-            className="w-full h-full object-cover "
-            src="https://s3-alpha-sig.figma.com/img/0667/e746/074021786539143cdab7dcbb1ddefea9?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GAyXp0Nn1FJFULrhcNgW~~sVYVzlS61mTB8oJuytm8~cP6BFDitJU7AfavYuyCF1avU-uJthyrP6ECk1zBU5v0euzKWvNh13ahayUZxi1NmXkzJkB3Ez1Vj3hKHNHRr5guSfuc9ocQOuERRLS53YXX3e5f0ejjbQ1BLVRWvH-NToiUW5lwrpYsGq-7aWIvE50Oz710UWNIQjkF3rUMRcTm7HVWoPDd2fckM-gX1uCQ3Ps0uZNu1nufuuqsMA59F9~DfDJPnxfi53ftFc~3Xr2J~crWVwwXo5rauRmybfeoxUemURVhw0cjCcNlARBzo08DnjZXVxmObLXcGrtbBvMQ__"
+            className="w-full h-full cursor-pointer object-cover"
+            src={listImage[2]}
             alt="anh_nen_cuoi"
+            onClick={() => handleDetailImage(listImage[2])}
           />
           <div className="absolute z-10 text-[#fff] flex items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl font-open-raleway pointer-events-none">
             <span className="text-5xl italic">{data.bride_name}</span>
@@ -172,7 +240,9 @@ function CardWedding() {
           <div className="absolute flex top-[62%] left-[30%]">
             <div className="border-t-2 border-black w-[100px]  mt-3"></div>
             <span>
-              {day} tháng {month} {year}
+              {day}{" "}
+              {valueLocation.geoplugin_city === "Hanoi" ? "tháng" : "month"}{" "}
+              {month} {year}
             </span>
             <div className="border-t-2 border-black w-[100px] mt-3"></div>
           </div>
@@ -305,28 +375,28 @@ function CardWedding() {
             </div>
             <div className="flex">
               <div className="text-[#009DC4] mx-5">
-                <span className="ml-2">{day}</span>
+                <span className="ml-2">{timeRemaining.days}</span>
                 <br />
                 <span>
                   {valueLocation.geoplugin_city === "Hanoi" ? "ngày" : "day"}
                 </span>
               </div>
               <div className="text-[#009DC4] mx-5">
-                <span className="ml-1">00</span>
+                <span className="ml-1">{timeRemaining.hours}</span>
                 <br />
                 <span>
                   {valueLocation.geoplugin_city === "Hanoi" ? "giờ" : "hour"}
                 </span>
               </div>
               <div className="text-[#009DC4] mx-5">
-                <span className="ml-2">00</span>
+                <span className="ml-2">{timeRemaining.minutes}</span>
                 <br />
                 <span>
                   {valueLocation.geoplugin_city === "Hanoi" ? "phút" : "minute"}
                 </span>
               </div>
               <div className="text-[#009DC4] mx-5">
-                <span className="ml-2">00</span>
+                <span className="ml-2">{timeRemaining.seconds}</span>
                 <br />
                 <span>
                   {valueLocation.geoplugin_city === "Hanoi" ? "Giây" : "Second"}
@@ -489,9 +559,10 @@ function CardWedding() {
                   : "I used to not believe in online love. Ever thought about what to do? Is it possible to like someone you've never met? But now I'm back It's like that, now I understand: the virtual world is real love!!! That day, I aimlessly posted a status line on Facebook complaining and aimlessly jokingly talking to a stranger I never knew. Whichever Little did I know, 4 years later that person was my husband"}
               </span>
               <img
-                className="w-[200px] h-[200px] object-cover object-center rounded-[10px] mx-auto mt-10"
+                className="w-[200px] h-[200px] object-cover object-center rounded-[10px] mx-auto mt-10 cursor-pointer"
                 src={listImage[3]}
                 alt="Anh thiep cuoi"
+                onClick={() => handleDetailImage(listImage[3])}
               />
               <span className="flex justify-end rtl mt-8 font-[500] text-xl">
                 {valueLocation.geoplugin_city === "Hanoi"
@@ -509,9 +580,10 @@ function CardWedding() {
                   : "5 years together is not a long time, but enough Let us realize many things. Love each other, cultivate happiness happiness and work together to overcome difficulties in life. We went from two strangers into each other's lives. And now Here we continue to turn a new page together. Your moment I asked, \"Be my wife!\", I was willing to go anywhere in this life Okay, as long as it's with you."}
               </span>
               <img
-                className="w-[200px] h-[200px] object-cover object-center rounded-[10px] mx-auto mt-10"
+                className="w-[200px] h-[200px] cursor-pointer object-cover rounded-[10px] mx-auto mt-10"
                 src={listImage[9]}
                 alt="anh 2"
+                onClick={() => handleDetailImage(listImage[9])}
               />
             </div>
             <div className="w-[30px] text-center relative py-8 border-l-4 ml-8 border-[#009DC4]">
@@ -522,9 +594,10 @@ function CardWedding() {
             </div>
             <div className="w-[400px] mt-3">
               <img
-                className="w-[200px] h-[200px] object-cover object-center rounded-[10px] mx-auto mt-20"
+                className="w-[200px] h-[200px] cursor-pointer object-cover rounded-[10px] mx-auto mt-20"
                 src={listImage[13]}
                 alt="anh3"
+                onClick={() => handleDetailImage(listImage[13])}
               />
               <span className="font-[500] text-base">
                 {valueLocation.geoplugin_city === "Hanoi"
@@ -544,9 +617,10 @@ function CardWedding() {
                   : "That day, I was 21! Alone in the middle of the city, hiding. Every last afternoon Every week I often drive around the streets, weaving in and out crowded lines of people. Or even stop by a coffee shop on the side of the road to sit there and feel about your own life. Sometimes lost and a bit lonely. But then one fine day, The boy appeared, held his hand and whispered in his ear: Hy I hope you can do those things with me in the future."}
               </span>
               <img
-                className="w-[200px] h-[200px] object-cover object-center rounded-[10px] mx-auto mt-10"
+                className="w-[200px] h-[200px] cursor-pointer object-cover rounded-[10px] mx-auto mt-10"
                 src={listImage[21]}
                 alt="anh4"
+                onClick={() => handleDetailImage(listImage[21])}
               />
               <div className="mt-8">
                 <span className="font-[500] text-base mt-10">
@@ -687,96 +761,112 @@ function CardWedding() {
           <div className="w-full h-full mt-3">
             <div className="w-full h-[40%] flex justify-around">
               <img
-                className="w-[30%] h-[80%] object-cover rounded-[9%] object-contain"
+                className="w-[30%] h-[80%] cursor-pointer object-cover rounded-[9%]"
                 src={listImage[13]}
                 alt="13"
+                onClick={() => handleDetailImage(listImage[13])}
               />
               <img
-                className="w-[30%] h-[80%] object-cover rounded-[9%] object-contain"
+                className="w-[30%] h-[80%] cursor-pointer object-cover rounded-[9%]"
                 src={listImage[14]}
                 alt="14"
+                onClick={() => handleDetailImage(listImage[14])}
               />
               <img
-                className="object-cover rounded-[9%] w-[30%] h-[80%] object-contain"
+                className="object-cover cursor-pointer rounded-[9%] w-[30%] h-[80%]"
                 src={listImage[19]}
                 alt="19"
+                onClick={() => handleDetailImage(listImage[19])}
               />
             </div>
             <div className="w-full h-[60%] flex justify-around">
               <div className="w-[30%] h-full flex justify-around">
                 <div className="w-[40%] h-full flex flex-col justify-around">
                   <img
-                    className="rounded-[9%] h-[30%] w-full object-cover"
+                    className="rounded-[9%] cursor-pointer h-[30%] w-full object-cover"
                     src={listImage[27]}
                     alt="27"
+                    onClick={() => handleDetailImage(listImage[3])}
                   />
                   <img
-                    className="h-[35%] w-full rounded-[9%] object"
+                    className="h-[35%] w-full cursor-pointer rounded-[9%] object-cover"
                     src={listImage[29]}
                     alt="29"
+                    onClick={() => handleDetailImage(listImage[29])}
                   />
                   <img
-                    className="rounded-[9%] h-[30%] w-full object-cover"
+                    className="rounded-[9%] cursor-pointer h-[30%] w-full object-cover"
                     src={listImage[30]}
                     alt="30"
+                    onClick={() => handleDetailImage(listImage[30])}
                   />
                 </div>
                 <div className="w-[40%] h-full flex flex-col justify-around">
                   <img
-                    className="w-full h-[35%] rounded-[9%] object-cover"
+                    className="w-full h-[35%] cursor-pointer rounded-[9%] object-cover"
                     src={listImage[33]}
                     alt="33"
+                    onClick={() => handleDetailImage(listImage[33])}
                   />
                   <img
-                    className="w-full h-[22%] rounded-[9%] object-cover"
+                    className="w-full h-[22%] cursor-pointer rounded-[9%] object-cover"
                     src={listImage[34]}
                     alt="34"
+                    onClick={() => handleDetailImage(listImage[34])}
                   />
                   <img
-                    className="w-full h-[35%] rounded-[9%] object-cover"
+                    className="w-full h-[35%] cursor-pointer rounded-[9%] object-cover"
                     src={listImage[35]}
                     alt="35"
+                    onClick={() => handleDetailImage(listImage[35])}
                   />
                 </div>
               </div>
               <img
-                className="w-[30%] h-full rounded-[9%] object-cover"
+                className="w-[30%] h-full cursor-pointer rounded-[9%] object-cover"
                 src={listImage[36]}
                 alt="36"
+                onClick={() => handleDetailImage(listImage[36])}
               />
               <div className="w-[30%] h-full flex justify-around">
                 <div className="w-[40%] h-full flex flex-col justify-around">
                   <img
-                    className="w-full h-[35%] rounded-[9%] object-cover"
+                    className="w-full h-[35%] cursor-pointer rounded-[9%] object-cover"
                     src={listImage[37]}
                     alt="37"
+                    onClick={() => handleDetailImage(listImage[37])}
                   />
                   <img
-                    className="w-full h-[22%] rounded-[9%] object-cover"
+                    className="w-full h-[22%] cursor-pointer rounded-[9%] object-cover"
                     src={listImage[38]}
                     alt="38"
+                    onClick={() => handleDetailImage(listImage[38])}
                   />
                   <img
-                    className="w-full h-[35%] rounded-[9%] object-cover"
+                    className="w-full h-[35%] cursor-pointer rounded-[9%] object-cover"
                     src={listImage[39]}
                     alt="39"
+                    onClick={() => handleDetailImage(listImage[39])}
                   />
                 </div>
                 <div className="w-[40%] h-full flex flex-col justify-around">
                   <img
-                    className="rounded-[9%] h-[30%] w-full object-cover"
+                    className="rounded-[9%] cursor-pointer h-[30%] w-full object-cover"
                     src={listImage[23]}
                     alt="23"
+                    onClick={() => handleDetailImage(listImage[23])}
                   />
                   <img
-                    className="h-[35%] w-full rounded-[9%] object"
+                    className="h-[35%] cursor-pointer w-full rounded-[9%] object"
                     src={listImage[24]}
                     alt="24"
+                    onClick={() => handleDetailImage(listImage[24])}
                   />
                   <img
-                    className="rounded-[9%] h-[30%] w-full object-cover"
+                    className="rounded-[9%] cursor-pointer h-[30%] w-full object-cover"
                     src={listImage[25]}
                     alt="25"
+                    onClick={() => handleDetailImage(listImage[25])}
                   />
                 </div>
               </div>
@@ -827,6 +917,9 @@ function CardWedding() {
           </Button>
         </div>
       </div>
+      {isDetail && (
+        <ModalImage linkImage={detailImage} toggleClose={toggleClose} />
+      )}
     </div>
   );
 }

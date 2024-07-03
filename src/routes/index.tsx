@@ -106,7 +106,7 @@ const Routers = () => {
           path="expand/:id/create/timeline/:id_all_sk"
           element={<BabyImage />}
         />
-        <Route path="/expand/:id/yourself/image/" element={<ImageYourself />} />
+        <Route path="/expand/:id/yourself/" element={<ImageYourself />} />
         <Route path="/cardwedding" element={<CardWedding />} />
         <Route path="funnyvideo" element={<FunnyVideo />}></Route>
         <Route

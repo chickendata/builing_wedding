@@ -62,6 +62,7 @@ function Yourself() {
 
   const { toast } = useToast();
   const handleCreate = async () => {
+    setIsLoading(true);
     if (!original_Image_2 && !chosenImage2) {
       toast({
         variant: "destructive",
@@ -133,27 +134,8 @@ function Yourself() {
 
     if (src_res_2 && src_res_2 !== null) {
       try {
-        setIsLoading(true);
-        const response = await axios.get(
-          "https://thinkdiff.us/getdata/swap/listimage_alone",
-          {
-            params: {
-              device_them_su_kien: userData.device_register,
-              ip_them_su_kien: userData.ip_register,
-              id_user: userData.id_user,
-              list_folder: `ANH_ALONE_1`,
-            },
-            headers: {
-              link1: src_res_2,
-              Authorization: `bearer ${localStorage.getItem("accessToken")}`,
-            },
-          }
-        );
-        const data = response.data;
         setIsLoading(false);
-        navi(`/expand/${userData.id_user}/yourself/image/`, {
-          state: { data },
-        });
+        navi(`/expand/${userData.id_user}/yourself?image=${src_res_2}`);
       } catch (err) {
         console.log(err);
         setIsLoading(false);

@@ -33,6 +33,9 @@ function Invitation() {
   const [location, setLocation] = useState("");
   const [groom, setGroom] = useState("");
   const [bride, setBride] = useState("");
+  const [hour, setHour] = useState("");
+  const [minute, setMinute] = useState("");
+  const [timeInDay, setTimeInDay] = useState("am");
   const [isLoading, setIsLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const navi = useNavigate();
@@ -41,6 +44,8 @@ function Invitation() {
     isValidValueBride: true,
     isValidValueLocation: true,
     isValidValueLinkLocation: true,
+    isValidValueHour: true,
+    isValidValueMinute: true,
   };
   const [objectValidInput, setObjectValidInput] = useState(defaultObjectInput);
   useEffect(() => {
@@ -223,6 +228,46 @@ function Invitation() {
       });
       return;
     }
+    if (!hour) {
+      setObjectValidInput({
+        ...defaultObjectInput,
+        isValidValueHour: false,
+      });
+      toast({
+        variant: "destructive",
+        description: `${
+          valueLocation.geoplugin_city === "Hanoi"
+            ? "Điền giờ cưới"
+            : "Enter hours"
+        }`,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
+      });
+      return;
+    }
+    if (!minute) {
+      setObjectValidInput({
+        ...defaultObjectInput,
+        isValidValueMinute: false,
+      });
+      toast({
+        variant: "destructive",
+        description: `${
+          valueLocation.geoplugin_city === "Hanoi"
+            ? "Điền phút cưới"
+            : "Enter minute"
+        }`,
+        action: (
+          <ToastAction altText="Try again">
+            {valueLocation.geoplugin_city === "Hanoi" ? "Thử lại" : "Try again"}
+          </ToastAction>
+        ),
+      });
+      return;
+    }
     setIsLoading(true);
     if (!original_Image_1 && !chosenImage1) {
       toast({
@@ -303,8 +348,6 @@ function Invitation() {
       req_post_img_1,
       req_post_img_2,
     ]);
-    console.log(req_post_img_1, req_post_img_2);
-
     if (src_res_1 !== null && src_res_2 !== null) {
       try {
         const status = "going";
@@ -331,7 +374,7 @@ function Invitation() {
         console.log(response.data);
 
         navi(
-          `/cardwedding?groom=${response.data.groom_name}&bride=${response.data.bride_name}&date=${response.data.wedding_date}&location=${response.data.wedding_location}&link_location=${response.data.google_maps_link}&status=${response.data.attendance_status}&wedding_image=${response.data.wedding_image}&groom_image=${response.data.groom_image}&bride_image=${response.data.bride_image}`
+          `/cardwedding?groom=${response.data.groom_name}&bride=${response.data.bride_name}&date=${response.data.wedding_date}&location=${response.data.wedding_location}&link_location=${response.data.google_maps_link}&status=${response.data.attendance_status}&wedding_image=${response.data.wedding_image}&groom_image=${response.data.groom_image}&bride_image=${response.data.bride_image}&time=${hour}:${minute} ${timeInDay}`
         );
         window.location.reload();
       } catch (err) {
@@ -351,6 +394,7 @@ function Invitation() {
       );
     });
   };
+
   return (
     <div className="bg-[#F2FDFF] h-[900px] flex flex-col">
       {isLoading && (
@@ -461,6 +505,53 @@ function Invitation() {
             className="px-4 py-2 border rounded-md w-full"
             onChange={handleDateChange}
           />
+          <br />
+          <label htmlFor="date-hour text-left">
+            {valueLocation.geoplugin_city === "Hanoi"
+              ? "Điền thời gian cưới:"
+              : "Choose time:"}
+          </label>
+          <div className="flex">
+            <input
+              id="date-hour"
+              type="text"
+              value={hour}
+              className={
+                objectValidInput.isValidValueHour
+                  ? "w-[33%] px-4 py-2 border rounded-md w-full"
+                  : "w-[33%] px-4 py-2 border rounded-md w-full invalid"
+              }
+              onChange={(e) => setHour(e.target.value)}
+              placeholder={
+                valueLocation.geoplugin_city === "Hanoi" ? "Giờ" : "Hours"
+              }
+            />
+            <input
+              type="text"
+              value={minute}
+              className={
+                objectValidInput.isValidValueMinute
+                  ? "w-[33%] px-4 py-2 border rounded-md w-full"
+                  : "w-[33%] px-4 py-2 border rounded-md w-full invalid"
+              }
+              onChange={(e) => setMinute(e.target.value)}
+              placeholder={
+                valueLocation.geoplugin_city === "Hanoi" ? "Phút" : "Minute"
+              }
+            />
+            <select
+              className="w-[33%] text-center"
+              value={timeInDay}
+              onChange={(e) => setTimeInDay(e.target.value)}
+            >
+              <option value="am">
+                {valueLocation.geoplugin_city === "Hanoi" ? "Sáng" : "AM"}
+              </option>
+              <option value="pm">
+                {valueLocation.geoplugin_city === "Hanoi" ? "Tối" : "PM"}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
       <div
